@@ -5,8 +5,10 @@ services:
   # the api container
   api:
     container_name: api
+    build:
+      context: ./app
+      dockerfile: Dockerfile
     image: justingav/projekt-api:latest
-    build: ./app
     ports:
       # ports being listened on
       - "4000:4000"
@@ -17,3 +19,12 @@ services:
   #  build: ./app/static
   #  ports:
   #    - "8000:8000"
+  db:
+    container_name: db
+    image: postgres:latest
+    volumes:
+      - /home/upload/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
