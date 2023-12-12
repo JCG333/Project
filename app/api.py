@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from schema import User
+from db.schema import User
 
 api = Flask(__name__)
 api.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
