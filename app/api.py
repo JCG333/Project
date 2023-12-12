@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from databas import db, Regions, Parks, Images
+from db.databas import db, Regions, Parks, Images
 
 api = Flask(__name__)
 api.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_table.db'
@@ -9,7 +9,7 @@ db = SQLAlchemy(api)
 # API for search page
 # path for dev: localhost/search
 # path for deployment: /search
-@api.route('localhost/search', methods=['GET'])
+@api.route('/search', methods=['GET'])
 def search():
     # get filter parameters
     region = request.args.get('region', default=None, type=str)

@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+
+  # the api container
+  api:
+    container_name: api
+    image: justingav/projekt-api:latest
+    build: ./app
+    ports:
+      # ports being listened on
+      - "4000:4000"
+  # the web container
+  #web:
+  #  container_name: web
+  #  image: justingav/projekt-web:latest
+  #  build: ./app/static
+  #  ports:
+  #    - "8000:8000"
