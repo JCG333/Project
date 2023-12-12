@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from db.databas import db, Regions, Parks, Images
+from schema import User
 
 api = Flask(__name__)
-api.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_table.db'
+api.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
 db = SQLAlchemy(api)
 
 # API for search page
@@ -49,3 +49,6 @@ def search():
         return make_response(jsonify({'images': image.json() for image in _images}), 200)   
     except Exception as e:
         return make_response(jsonify({'message': 'error getting user'}), 500)
+    
+if __name__ == "__main__":
+    api.run(debug=True)
