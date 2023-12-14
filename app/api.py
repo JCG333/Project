@@ -1,24 +1,44 @@
+'''
+Filename: api.py
+
+This is the API for the application. It contains the routes that will be used to
+access the database. The routes are:
+    - /search (GET)
+    - /create (POST)
+    -
+'''
 import os
 from flask import Flask, request, jsonify, make_response
-from flask_sqlalchemy import SQLAlchemy
-from db.schema import User
+from os import environ
 
-api = Flask(__name__)
-api.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
-db = SQLAlchemy(api)
+# create an app instance
+api = Flask(__name__) 
 
-# API for search page
-# path for dev: localhost/search
-# path for deployment: /search
+# get the db url from the environment variable
+api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL') 
+
+from db.schema import images, db 
+
+# create tables if they don't exist
+def create_tables():
+    with api.app_context():
+        db.init_app(api)
+        db.create_all()
+
+create_tables() 
+
+
+'''================== ROUTES =================='''
+# Search page route
 @api.route('/search', methods=['GET'])
 def search():
-    # get filter parameters
-    region = request.args.get('region', default=None, type=str)
-    park = request.args.get('park', default=None, type=str)
-    turbine = request.args.get('turbine', default=None, type=str)
+    # get filter parameters body
+    filters = request.get_json()
+    region = filters['region']
+    park = filters['park']
 
-    # Query database for images
-    query = Images.query
+    # Query database for image
+    query = images.query
     try:
         # filter images by region and park
         if region is not None and park is not None:
@@ -29,7 +49,7 @@ def search():
                 _park = Parks.query.filter_by(park=park).first()
                 if _park:
                     # get images associated /w region and park
-                    query = query.filter_by(Images.region_id == _region.id, Images.park_id == _park.id)
+                    query = query.filter_by(images.region_id == _region.id, images.park_id == _park.id)
                 else:
                     return make_response(jsonify({'message': 'park not found'}), 404)
             else:
@@ -41,21 +61,21 @@ def search():
             _region = Regions.query.filter_by(region=region).first()
             if _region:
                 # get images associated /w region
-                query = query.filter_by(Images.region_id == _region.id)
+                query = query.filter_by(images.region_id == _region.id)
             else:
                 return make_response(jsonify({'message': 'region not found'}), 404)
 
         image_id = request.args.get('image_id', default=None, type=int)
         if image_id is not None:
             # Retrieve image by ID
-            image = Images.query.get(image_id)
+            image = images.query.get(image_id)
             if image:
                 return make_response(jsonify({'image': image.json()}), 200)
             else:
                 return make_response(jsonify({'message': 'image not found'}), 404)
         
         # Execute query
-        _images = Images.query.all() 
+        _images = images.query.all() 
         return make_response(jsonify({'images': image.json() for image in _images}), 200)   
     except Exception as e:
         return make_response(jsonify({'message': 'error getting user'}), 500)
@@ -103,6 +123,5 @@ def create():
         return make_response(jsonify({'message': 'Error uploading file'}), 500)
 
 
-    
-if __name__ == "__main__":
-    api.run(debug=True)
+if __name__ == '__main__':
+    api.run(host='0.0.0.0', port=4000)

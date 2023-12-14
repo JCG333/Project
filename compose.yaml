@@ -9,6 +9,8 @@ services:
       context: ./app
       dockerfile: Dockerfile
     image: justingav/projekt-api:latest
+    environment:
+      - DB_URL=postgresql://postgres:postgres@db:5432/postgres
     ports:
       # ports being listened on
       - "4000:4000"
@@ -22,9 +24,16 @@ services:
   db:
     container_name: db
     image: postgres:latest
-    volumes:
-      - /home/upload/data:/var/lib/postgresql/data
+    #volumes:
+    #  - /home/upload/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
