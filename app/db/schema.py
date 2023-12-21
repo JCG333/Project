@@ -9,26 +9,52 @@ The tables are:
     - turbines
     - images
 '''
-
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb'  # test
 # Initialize the database instance
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
-# Table for specific images
-class images(db.Model):
-    __tablename__ = 'image'
 
-    id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(120), nullable=False)
-    turbine = db.Column(db.String(50), nullable=False, foreign_key=True)
-    date = db.Column(db.DateTime, nullable=False)
+class WindTurbine(db.Model):
+    __tablename__ = 'turbine_data'
 
-    def __init__(self, url, turbine, date):
-        self.url = url
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    company = db.Column(db.String(120), nullable=False)
+    region = db.Column(db.String(120), nullable=False)
+    turbine = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, company, region, turbine):
+        self.company = company
+        self.region = region
         self.turbine = turbine
-        self.date = date
 
     def json(self):
-        return {'id': self.id, 'url': self.url, 'turbine': self.turbine, 'date': self.date}
+        return {'id': self.id, 'company': self.company, 'region': self.region, 'turbine': self.turbine}
 
+
+def addData(company, region, turbine):
+    with app.app_context():
+        new_data = WindTurbine(company=company, region=region, turbine=turbine)
+        db.session.add(new_data)
+        db.session.commit()
+
+
+with app.app_context():
+    # Create Table
+    db.create_all()
+
+    # test data
+    # test_image_1 = images(company='hej', region='hej', turbine='tja')
+    # test_image_2 = images(company='tja', region='hje', turbine='yes')
+
+    # db.session.add(test_image_1)
+    # db.session.add(test_image_2)
+
+    # db.session.commit()
+
+#  if __name__ == '__main__':  # testar
+    #  app.run(debug=True)
+    #  addData("company", "region", "turbine")  # testar lägga in i databasen
