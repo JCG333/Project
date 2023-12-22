@@ -25,19 +25,21 @@ class WindTurbine(db.Model):
     company = db.Column(db.String(120), nullable=False)
     region = db.Column(db.String(120), nullable=False)
     turbine = db.Column(db.String(120), nullable=False)
+    url = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, company, region, turbine):
+    def __init__(self, company, region, turbine, url):
         self.company = company
         self.region = region
         self.turbine = turbine
+        self.url = url
 
     def json(self):
         return {'id': self.id, 'company': self.company, 'region': self.region, 'turbine': self.turbine}
 
 
-def addData(company, region, turbine):
+def addData(company, region, turbine, url):
     with app.app_context():
-        new_data = WindTurbine(company=company, region=region, turbine=turbine)
+        new_data = WindTurbine(company=company, region=region, turbine=turbine, url=url)
         db.session.add(new_data)
         db.session.commit()
 
