@@ -15,6 +15,3 @@ COPY api_test.py .
 
 # Make the script executable
 RUN chmod +x api_test.py
-
-# Run the script
-ENTRYPOINT ["python"]
