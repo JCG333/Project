@@ -45,10 +45,10 @@ services:
   api-test-runner:
     container_name: api-test-runner
     build:
-      context: ./api-test-runner
+      context: ./api_test_runner
       dockerfile: Dockerfile
     volumes:
-      - ./api-test-runner:/api-test-runner
+      - ./api_test_runner:/api_test_runner
     depends_on:
       - db
   # ================================

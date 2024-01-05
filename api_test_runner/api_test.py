@@ -1,5 +1,5 @@
 '''
-Filename: api-test.py
+Filename: api_test.py
 
 This is the unit test script for the API. It contains the tests that will be run against the API. The tests are:
     - test_region: tests for the region filter
