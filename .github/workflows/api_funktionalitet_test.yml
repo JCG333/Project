@@ -6,8 +6,7 @@ name: API Test
 on:
   push:
     branches:
-     - main
-     - Dev
+     - "*"
   pull_request:
     branches:
       - "*"
