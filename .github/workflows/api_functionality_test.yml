@@ -24,6 +24,9 @@ jobs:
 
       - name: List directory contents
         run: ls -l
+      
+      - name: List api-test-runner directory contents
+        run: ls -l api-test-runner
 
       # Run the python test script in an isolated docker container
       - name: Run API tests
