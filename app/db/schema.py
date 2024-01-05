@@ -20,15 +20,32 @@ class images(db.Model):
     __tablename__ = 'image'
 
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(120), nullable=False)
-    turbine = db.Column(db.String(50), nullable=False, foreign_key=True)
     date = db.Column(db.DateTime, nullable=False)
+    url = db.Column(db.String(120), unique=True, nullable=False)
+    company = db.Column(db.String(120), nullable=False)
+    region = db.Column(db.String(120), nullable=False)
+    park = db.Column(db.String(120), nullable=False)
+    turbine = db.Column(db.String(120), nullable=False)
+    
 
-    def __init__(self, url, turbine, date):
+    def __init__(self, url, turbine, date, company, region, park):
         self.url = url
-        self.turbine = turbine
         self.date = date
+        self.company = company
+        self.region = region
+        self.park = park
+        self.turbine = turbine
+        
 
     def json(self):
-        return {'id': self.id, 'url': self.url, 'turbine': self.turbine, 'date': self.date}
+        return {
+                'id': self.id, 
+                'url': self.url,
+                'turbine': self.turbine,
+                'date': self.date,
+                'company': self.company,
+                'region': self.region,
+                'park': self.park
+                }
+
 

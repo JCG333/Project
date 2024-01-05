@@ -10,6 +10,7 @@ access the database. The routes are:
 import os
 from flask import Flask, request, jsonify, make_response
 from os import environ
+from datetime import datetime
 
 # create an app instance
 api = Flask(__name__) 
@@ -25,7 +26,28 @@ def create_tables():
         db.init_app(api)
         db.create_all()
 
+        #====== DEVELOPMENT ONLY ======#
+
+        # Add default entries
+        default_image1 = images(date=datetime.now(), url='http://example.com/image1.jpg', company='Company1', region='Region1', park='Park1', turbine='Turbine1')
+        default_image2 = images(date=datetime.now(), url='http://example.com/image2.jpg', company='Company2', region='Region2', park='Park2', turbine='Turbine2')
+        default_image3 = images(date=datetime.now(), url='http://example.com/image3.jpg', company='Company1', region='Region3', park='Park3', turbine='Turbine3')
+        default_image4 = images(date=datetime.now(), url='http://example.com/image4.jpg', company='Company2', region='Region1', park='Park1', turbine='Turbine4')
+
+        db.session.add(default_image1)
+        db.session.add(default_image2)
+        db.session.add(default_image3)
+        db.session.add(default_image4)
+
+        db.session.commit()
+
+        #==============================#
+
 create_tables() 
+
+@api.route('/test', methods=['GET'])
+def test():
+    return jsonify({'message': 'success'}), 200
 
 
 '''================== ROUTES =================='''
@@ -34,55 +56,31 @@ create_tables()
 def search():
     # get filter parameters body
     filters = request.get_json()
-    region = filters['region']
-    park = filters['park']
+    region = filters.get('region')
+    park = filters.get('park')
 
     # Query database for image
     query = images.query
     try:
-        # filter images by region and park
-        if region is not None and park is not None:
-            # get selected region
-            _region = Regions.query.filter_by(region=region).first()
-            if _region:
-                # get selected park
-                _park = Parks.query.filter_by(park=park).first()
-                if _park:
-                    # get images associated /w region and park
-                    query = query.filter_by(images.region_id == _region.id, images.park_id == _park.id)
-                else:
-                    return make_response(jsonify({'message': 'park not found'}), 404)
-            else:
-                return make_response(jsonify({'message': 'region not found'}), 404)
-            
         # filter images by region
-        if region is not None:
-            # get selected region
-            _region = Regions.query.filter_by(region=region).first()
-            if _region:
-                # get images associated /w region
-                query = query.filter_by(images.region_id == _region.id)
-            else:
-                return make_response(jsonify({'message': 'region not found'}), 404)
-
-        image_id = request.args.get('image_id', default=None, type=int)
-        if image_id is not None:
-            # Retrieve image by ID
-            image = images.query.get(image_id)
-            if image:
-                return make_response(jsonify({'image': image.json()}), 200)
-            else:
-                return make_response(jsonify({'message': 'image not found'}), 404)
+        if region is not None and park is None:
+            query = query.filter_by(region = region)
+        # filter images by park
+        elif region is None and park is not None:
+            query = query.filter_by(park = park)
+        # filter images by region and park
+        elif region is not None and park is not None:
+            query = query.filter_by(region = region, park = park)
+        # no filter
+        else:
+            pass
         
-        # Execute query
-        _images = images.query.all() 
-        return make_response(jsonify({'images': image.json() for image in _images}), 200)   
+        # get all images that match the specified critera
+        _images = query.all() 
+        return make_response(jsonify({'images': [image.json() for image in _images]}), 200)   
     except Exception as e:
-        return make_response(jsonify({'message': 'error getting user'}), 500)
-    
-
-UPLOAD_FOLDER = '/home/upload/data'
-api.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  
+        return make_response(jsonify({'message': 'error getting user', 'error': str(e)}), 500)
+     
 
 @api.route('/create', methods=['POST'])
 def create():
@@ -121,7 +119,7 @@ def create():
 
     except Exception as e:
         return make_response(jsonify({'message': 'Error uploading file'}), 500)
-
+    
 
 if __name__ == '__main__':
     api.run(host='0.0.0.0', port=4000)
