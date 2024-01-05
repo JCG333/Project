@@ -24,4 +24,4 @@ jobs:
 
       # Run the python test script in an isolated docker container
       - name: Run API tests
-        run: docker-compose run --rm api-test-runner python api-test-runner/api-tests.py
+        run: docker-compose run --rm api-test-runner python api-test-runner/api-test.py
