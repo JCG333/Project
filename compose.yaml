@@ -42,7 +42,7 @@ services:
   # ================================
 
   # <========= Test runner service =========>
-  api-test-runner:
+  api_test_runner:
     container_name: api_test_runner
     build:
       context: ./api_test_runner
