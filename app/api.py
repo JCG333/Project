@@ -22,6 +22,7 @@ from db.schema import images, db
 
 # create tables if they don't exist
 def create_tables():
+    print("create_tables function called")
     with api.app_context():
         db.init_app(api)
         db.create_all()
@@ -34,12 +35,17 @@ def create_tables():
         default_image3 = images(date=datetime.now(), url='http://example.com/image3.jpg', company='Company1', region='Region1', park='Park3', turbine='Turbine3')
         default_image4 = images(date=datetime.now(), url='http://example.com/image4.jpg', company='Company2', region='Region1', park='Park1', turbine='Turbine4')
 
-        db.session.add(default_image1)
-        db.session.add(default_image2)
-        db.session.add(default_image3)
-        db.session.add(default_image4)
+        try:
+            db.session.add(default_image1)
+            db.session.add(default_image2)
+            db.session.add(default_image3)
+            db.session.add(default_image4)
 
-        db.session.commit()
+            db.session.commit()
+
+            print('Default entries added successfully')
+        except Exception as e:
+            print('Failed to add default entries, error: ', e)
 
         #==============================#
 

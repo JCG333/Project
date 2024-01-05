@@ -1,8 +1,17 @@
+# Instructions for running the application
+
+# (Note: application services have to be running before running the tests)
+
+# 1. start application services: ´docker-compose up api db -d´
+# 2. run tests: ´docker-compose up api-test-runner´
+
 version: '3.9'
 
 services:
 
-  # the api container
+  # <======== Application services ========>
+
+  # ======== API container ========
   api:
     container_name: api
     build:
@@ -14,6 +23,9 @@ services:
     ports:
       # ports being listened on
       - "4000:4000"
+  # ================================
+
+  # ====== Database container ======
   db:
     container_name: db
     image: postgres:latest
@@ -27,16 +39,20 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  # ================================
 
-  #===== Development services =====
+  # <========= Test runner service =========>
   api-test-runner:
+    container_name: api-test-runner
     build:
       context: ./api-test-runner
       dockerfile: Dockerfile
+    restart: "no"
     volumes:
-      - ./api-test-runner:/app
+      - ./api-test-runner:/api-test-runner
     depends_on:
       - db
+  # ================================
 
 volumes:
   postgres_data: {}

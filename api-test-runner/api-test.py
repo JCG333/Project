@@ -1,11 +1,20 @@
+'''
+Filename: api-test.py
+
+This is the unit test script for the API. It contains the tests that will be run against the API. The tests are:
+    - test_region: tests for the region filter
+    - test_park: tests for the park filter
+    - test_parkAndRegion: tests for the park and region filters
+    - test_noFilters: tests for no filters
+'''
 import unittest
 import requests
 
-# Define test case
+# Define test case for the script
 class TestSearchEndpoint(unittest.TestCase):
 
     # Define the base URL for all API endpoints
-    BASE_URL = 'http://localhost:4000'  
+    BASE_URL = 'http://api:4000'  
 
     # Test 1: testing for region filter
     def test_region(self):
@@ -141,8 +150,6 @@ class TestSearchEndpoint(unittest.TestCase):
             self.assertIn('region', image)
             self.assertIn('park', image)
             self.assertIn('turbine', image)
-
-
 
 if __name__ == '__main__':
     unittest.main()
