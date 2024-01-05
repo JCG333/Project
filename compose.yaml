@@ -47,7 +47,6 @@ services:
     build:
       context: ./api-test-runner
       dockerfile: Dockerfile
-    restart: "no"
     volumes:
       - ./api-test-runner:/api-test-runner
     depends_on:
