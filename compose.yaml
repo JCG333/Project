@@ -14,13 +14,6 @@ services:
     ports:
       # ports being listened on
       - "4000:4000"
-  # the web container
-  #web:
-  #  container_name: web
-  #  image: justingav/projekt-web:latest
-  #  build: ./app/static
-  #  ports:
-  #    - "8000:8000"
   db:
     container_name: db
     image: postgres:latest
@@ -34,6 +27,16 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  #===== Development services =====
+  api-test-runner:
+    build:
+      context: ./api-test-runner
+      dockerfile: Dockerfile
+    volumes:
+      - ./api-test-runner:/app
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data: {}
