@@ -30,8 +30,8 @@ def create_tables():
 
         # Add default entries
         default_image1 = images(date=datetime.now(), url='http://example.com/image1.jpg', company='Company1', region='Region1', park='Park1', turbine='Turbine1')
-        default_image2 = images(date=datetime.now(), url='http://example.com/image2.jpg', company='Company2', region='Region2', park='Park2', turbine='Turbine2')
-        default_image3 = images(date=datetime.now(), url='http://example.com/image3.jpg', company='Company1', region='Region3', park='Park3', turbine='Turbine3')
+        default_image2 = images(date=datetime.now(), url='http://example.com/image2.jpg', company='Company1', region='Region2', park='Park2', turbine='Turbine2')
+        default_image3 = images(date=datetime.now(), url='http://example.com/image3.jpg', company='Company1', region='Region1', park='Park3', turbine='Turbine3')
         default_image4 = images(date=datetime.now(), url='http://example.com/image4.jpg', company='Company2', region='Region1', park='Park1', turbine='Turbine4')
 
         db.session.add(default_image1)
@@ -52,25 +52,26 @@ def test():
 
 '''================== ROUTES =================='''
 # Search page route
-@api.route('/search', methods=['GET'])
+@api.route('/search', methods=['POST'])
 def search():
     # get filter parameters body
     filters = request.get_json()
     region = filters.get('region')
     park = filters.get('park')
+    company = filters.get('company')
 
     # Query database for image
     query = images.query
     try:
         # filter images by region
         if region is not None and park is None:
-            query = query.filter_by(region = region)
+            query = query.filter_by(region = region, company = company)
         # filter images by park
         elif region is None and park is not None:
-            query = query.filter_by(park = park)
+            query = query.filter_by(park = park, company = company)
         # filter images by region and park
         elif region is not None and park is not None:
-            query = query.filter_by(region = region, park = park)
+            query = query.filter_by(region = region, park = park, company = company)
         # no filter
         else:
             pass
