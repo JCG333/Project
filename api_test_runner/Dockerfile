@@ -17,4 +17,4 @@ COPY api_test.py .
 RUN chmod +x api_test.py
 
 # Run the script
-ENTRYPOINT ["python", "api_test.py"]
+ENTRYPOINT ["python"]
