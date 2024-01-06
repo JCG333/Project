@@ -51,6 +51,7 @@ services:
       - ./api_test_runner:/api_test_runner
     depends_on:
       - db
+      - api
     # run tests on startup
     command: [ "python", "-m", "unittest", "api_test" ]
   # ================================
