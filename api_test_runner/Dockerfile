@@ -16,4 +16,4 @@ COPY api_test.py .
 # Make the script executable
 RUN chmod +x api_test.py
 
-CMD ["api_test.py"]
+CMD ["Python", "api_test.py"]
