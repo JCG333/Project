@@ -20,7 +20,7 @@ jobs:
         
       # Build the docker image
       - name: Build Docker images
-        run: docker-compose up --build api db
+        run: docker-compose up --build api db -d
 
       # Run the python test script in an isolated docker container
       - name: Run API tests
