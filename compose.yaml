@@ -1,7 +1,10 @@
 # Instructions for running the application
+# ======== Basic app startup ========
+# 1. start application services: ´docker-compose up api db -d´
 
+# ======== Running API test locally ========
 # (Note: application services have to be running before running the tests)
-
+#
 # 1. start application services: ´docker-compose up api db -d´
 # 2. run tests: ´docker-compose up api_test_runner´
 
