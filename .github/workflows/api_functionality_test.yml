@@ -20,14 +20,17 @@ jobs:
         
       # Build the docker image
       - name: Build Docker images
-        run: docker-compose build
-
-      - name: List directory contents
-        run: ls -l
-      
-      - name: List api_test_runner directory contents
-        run: ls -l api_test_runner
+        run: docker-compose up --build api db
 
       # Run the python test script in an isolated docker container
       - name: Run API tests
-        run: docker-compose run --rm api_test_runner python -m unittest api_test
+        run: docker-compose up api_test_runner
+      #  run: docker-compose run --rm api_test_runner python -m unittest api_test
+         
+
+
+# == bug tracking code ==
+#- name: List directory contents
+#run: ls -l     
+#- name: List api_test_runner directory contents
+#  run: ls -l api_test_runner
