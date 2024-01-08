@@ -25,3 +25,7 @@ jobs:
       # Run the python test script in an isolated docker container
       - name: Run API tests
         run: docker-compose run --rm api-test-runner python api-tests.py
+
+      # Make sure all tests passed, if not, throw error.
+      - name: Check test results
+        run: if [ $? -ne 0 ]; then exit 1; fi
