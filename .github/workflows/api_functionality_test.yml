@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: API Test
+
+# Define in which situiations and on what branches the workflow should be ran.
+on:
+  push:
+    branches:
+     - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      # Build the docker image
+      - name: Build Docker images
+        run: docker-compose up --build -d api db
+
+      # Run the python test script in an isolated docker container
+      - name: Run API tests
+        run: docker-compose up api_test_runner
+
+      # Checkes that results of tests passed, if not, throw error.
+      - name: Check test results
+        run: if [ $? -ne 0 ]; then exit 1; fi
