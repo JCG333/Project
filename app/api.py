@@ -158,6 +158,7 @@ def get_park_id():
     # get all images that match the specified critera
     return make_response(jsonify({'park_id': park_id}), 200)
 
+# Get turbine id
 @api.route('/create', methods=['POST'])
 def create():
     try:
