@@ -23,6 +23,8 @@ services:
     image: justingav/d0020e:latest
     environment:
       - DB_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
     ports:
       # ports being listened on
       - "4000:4000"

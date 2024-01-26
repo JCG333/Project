@@ -3,7 +3,7 @@ Filename: api.py
 
 This is the API for the application. It contains the routes that will be used to
 access the database. The routes are:
-    - /search (GET)
+    - /search (POST)
     - /create (POST)
     -
 '''
@@ -18,7 +18,7 @@ api = Flask(__name__)
 # get the db url from the environment variable
 api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL') 
 
-from db.schema import images, db 
+from db.schema import db, Companies, Regions, Parks, Turbines, ImageUrl 
 
 # create tables if they don't exist
 def create_tables():
@@ -29,19 +29,31 @@ def create_tables():
 
         #====== DEVELOPMENT ONLY ======#
 
-        # Add default entries
-        default_image1 = images(date=datetime.now(), url='http://example.com/image1.jpg', company='Company1', region='Region1', park='Park1', turbine='Turbine1')
-        default_image2 = images(date=datetime.now(), url='http://example.com/image2.jpg', company='Company1', region='Region2', park='Park2', turbine='Turbine2')
-        default_image3 = images(date=datetime.now(), url='http://example.com/image3.jpg', company='Company1', region='Region1', park='Park3', turbine='Turbine3')
-        default_image4 = images(date=datetime.now(), url='http://example.com/image4.jpg', company='Company2', region='Region1', park='Park1', turbine='Turbine4')
-
         try:
-            db.session.add(default_image1)
-            db.session.add(default_image2)
-            db.session.add(default_image3)
-            db.session.add(default_image4)
-
+            # Add default entries
+            '''
+            default_company = Companies(company = 'Company1')
+            db.session.add(default_company)
             db.session.commit()
+            default_region = Regions(region = 'Region1', company_id = default_company.id)
+            db.session.add(default_region)
+            db.session.commit()
+            default_park = Parks(park = 'Park1', region_id = default_region.id, company_id = default_company.id)
+            db.session.add(default_park)
+            default_park2 = Parks(park = 'Park2', region_id = default_region, company_id = default_company)
+            db.session.add(default_park2)
+            db.session.commit()
+            default_Turbine = Turbines(turbine = 'Turbine1', company_id = default_company.id, region_id = default_region.id, park_id = default_park.id)
+            db.session.add(default_Turbine)
+            default_Turbine2 = Turbines(turbine = 'Turbine2', company_id = default_company, region_id = default_region, park_id = default_park2.id)
+            db.session.add(default_Turbine2)
+            db.session.commit()
+            default_image = ImageUrl(image_url = 'https://www.google.com', weather_data = 'Sunny', date_time = datetime.now(), turbine_id = default_Turbine.id)
+            db.session.add(default_image)
+            default_image2 = ImageUrl(image_url = 'https://www.Microsoft.com', weather_data = 'Cloudy', date_time = datetime.now(), turbine_id = default_Turbine2.id)
+            db.session.add(default_image2)
+            db.session.commit()
+            '''
 
             print('Default entries added successfully')
         except Exception as e:
@@ -56,38 +68,95 @@ def test():
     return jsonify({'message': 'success'}), 200
 
 
-'''================== ROUTES =================='''
+'''================== ROUTES =================='''     
 # Search page route
 @api.route('/search', methods=['POST'])
 def search():
     # get filter parameters body
     filters = request.get_json()
-    region = filters.get('region')
-    park = filters.get('park')
-    company = filters.get('company')
+    region_name = filters.get('region')
+    park_name = filters.get('park')
+    company_name = filters.get('company')
 
-    # Query database for image
-    query = images.query
+    # get ids for each filter
     try:
-        # filter images by region
-        if region is not None and park is None:
-            query = query.filter_by(region = region, company = company)
-        # filter images by park
-        elif region is None and park is not None:
-            query = query.filter_by(park = park, company = company)
-        # filter images by region and park
-        elif region is not None and park is not None:
-            query = query.filter_by(region = region, park = park, company = company)
-        # no filter
-        else:
-            pass
-        
-        # get all images that match the specified critera
-        _images = query.all() 
-        return make_response(jsonify({'images': [image.json() for image in _images]}), 200)   
+        if region_name is not None:
+            region_id = Regions.query.filter_by(region = region_name).first().id
+        if park_name is not None:
+            park_id = Parks.query.filter_by(park = park_name).first().id
+        if company_name is not None:
+            company_id = Companies.query.filter_by(company = company_name).first().id
     except Exception as e:
-        return make_response(jsonify({'message': 'error getting user', 'error': str(e)}), 500)
-     
+        return make_response(jsonify({'message': 'error getting ids', 'error': str(e)}), 500)
+
+    try:
+        # Query database for image
+        if region_name is not None and park_name is not None:
+            # filter images by region and park
+            query = Turbines.query.filter_by(region_id = region_id, park_id = park_id, company_id = company_id)
+        elif region_name is not None and park_name is None:
+            # filter images by region
+            query = Turbines.query.filter_by(region_id = region_id, company_id = company_id)
+        elif region_name is None and park_name is not None:
+            # filter images by park
+            query = Turbines.query.filter_by(park_id = park_id, company_id = company_id)
+        else:   
+            # no filter
+            query = Turbines.query.filter_by(company_id = company_id)
+
+        # get all images that match the specified critera
+        query = query.all()
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting turbine(s)', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'turbines': [turbine.json() for turbine in query]}), 200)
+
+
+# Get company id 
+@api.route('/company', methods=['POST'])
+def get_company_id():
+    # get company name from body
+    company_name = request.get_json().get('company')
+
+    try:
+        # Query database for company id
+        company_id = Companies.query.filter_by(company = company_name).first().id
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting company id', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'company_id': company_id}), 200)
+
+# Get region id
+@api.route('/region', methods=['POST'])
+def get_region_id():
+    # get region name from body
+    region_name = request.get_json().get('region')
+
+    try:
+        # Query database for region id
+        region_id = Regions.query.filter_by(region = region_name).first().id
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting region id', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'region_id': region_id}), 200)
+
+# Get park id
+@api.route('/park', methods=['POST'])
+def get_park_id():
+    # get park name from body
+    park_name = request.get_json().get('park')
+
+    try:
+        # Query database for park id
+        park_id = Parks.query.filter_by(park = park_name).first().id
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting park id', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'park_id': park_id}), 200)
 
 @api.route('/create', methods=['POST'])
 def create():
