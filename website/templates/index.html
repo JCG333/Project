@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b4d4db;
+            color: #374d52;
+        }
+
+        header {
+            background-color: #6b8e96;
+            color: #e8fbff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #6b8e96;
+            color: #e8fbff;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>{{ header }}</h1>
+    </header>
+
+    <main>
+        <h2>{{ welcome_message }}</h2>
+        <p>{{ content }}</p>
+        <form onsubmit="return false;">
+            <label>Main Category</label>
+            <select id="cat1" onchange="loadcat(2)"></select>
+
+            <label>Sub Category</label>
+            <select id="cat2"></select>
+        </form>
+
+        <script>
+            // (A) LOAD CATEGORY SELECTOR
+            // level 1 = main category
+            // level 2 = sub category
+            function loadcat (level) {
+              // (A1) GET SELECTED PARENT ID
+              var data = new FormData();
+              data.append("id", (level==1 ? 0 : document.getElementById("cat1").value));
+
+              // (A2) AJAX FETCH CATEGORIES
+              fetch("/getcat", { method: "POST", body: data })
+              .then(res => res.json())
+              .then(cat => {
+                // (A2-1) UPDATE HTML SELECTOR
+                let selector = document.getElementById("cat" + level);
+                selector.innerHTML = "";
+                for (let c of cat) {
+                  let opt = document.createElement("option");
+                  opt.value = c[0];
+                  opt.innerHTML = c[1];
+                  selector.appendChild(opt);
+                }
+
+                // (A2-2) CASCADE LOAD SUB-CATEGORY
+                if (level==1) { loadcat(2); }
+              });
+            }
+
+            // (B) INIT LOAD
+            window.onload = () => loadcat(1);
+        </script>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 {{ footer_text }}</p>
+    </footer>
+
+</body>
+
+</html>
