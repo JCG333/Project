@@ -23,10 +23,8 @@ jobs:
         run: docker-compose up --build -d api db
 
       # Check the logs of the containers
-      - name: Display container logs
-        run: |
-          docker logs db
-          docker logs api
+      - name: Display API container logs
+        run: docker logs api
 
       # Health check to make sure the application is ready to accept requests
       - name: Wait for application to be ready
