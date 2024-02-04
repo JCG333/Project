@@ -24,6 +24,9 @@ import os
 from flask import Flask, render_template, request, jsonify, make_response
 from os import environ
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # define an app instance
 api = Flask(__name__) 
@@ -267,5 +270,9 @@ def account_page():
 def turbine_page(turbineId):
     return render_template('turbine.html', turbineId=turbineId)
 
-if __name__ == '__main__':
+try:
+    # Your existing code to start the Flask application
+    logging.info('Starting application...')
     api.run(host='0.0.0.0', port=4000)
+except Exception as e:
+    logging.exception('Failed to start application')
