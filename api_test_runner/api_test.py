@@ -23,6 +23,7 @@ class TestSearchEndpoint(unittest.TestCase):
         filters = {
             'company': 'Company1',
             'region': 'Region1',
+            'park': ' '
         }
 
         # Send a GET request to the /search endpoint
@@ -58,6 +59,7 @@ class TestSearchEndpoint(unittest.TestCase):
         # Define the parameters for the test request
         filters = {
             'company': 'Company1',
+            'region': ' ',
             'park': 'Park1',
         }
 
@@ -129,7 +131,9 @@ class TestSearchEndpoint(unittest.TestCase):
 
         # Define the parameters for the test request
         filters = {
-            'company': 'Company1'
+            'company': 'Company1',
+            'region': ' ',
+            'park': ' '
         }
 
         # Send a GET request to the /search endpoint

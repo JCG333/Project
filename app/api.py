@@ -1,33 +1,47 @@
 '''
 Filename: api.py
+Authors: Justin Gavrell, Fredrik Larsson 
 
-This is the API for the application. It contains the routes that will be used to
-access the database. The routes are:
-    - /search (POST)
-    - /create (POST)
-    -
+====== TABLE OF CONTENTS ======
+1. Import Statements
+2. Create Tables
+    - create_tables(): create tables if they don't exist
+2. Routes
+    - /search: search for images based on the filter parameters
+    - /company: get the company id
+    - /region: get the region id
+    - /park: get the park id
+    - /create: create a new entry in the database
+    - /regions: get all regions
+    - /parks: get all parks
+    - /search_turbine/<search_term>: search for turbines based on the search term
+    - /search_page: get the search page
+    - /account: get the account page
+    - /turbine/<turbineId>: get the turbine page
+
 '''
 import os
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify, make_response
 from os import environ
 from datetime import datetime
 
-# create an app instance
+# define an app instance
 api = Flask(__name__) 
 
 # get the db url from the environment variable
 api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL') 
 
+# import the db instance and the models
 from db.schema import db, Companies, Regions, Parks, Turbines, ImageUrl 
 
-# create tables if they don't exist
+'''----- create tables if they don't exist -----'''
 def create_tables():
     print("create_tables function called")
     with api.app_context():
         db.init_app(api)
         db.create_all()
 
-        #====== DEVELOPMENT ONLY ======#
+        # DEVELOPMENT ONLY
 
         try:
             # Add default entries
@@ -59,17 +73,13 @@ def create_tables():
         except Exception as e:
             print('Failed to add default entries, error: ', e)
 
-        #==============================#
-
 create_tables() 
 
-@api.route('/test', methods=['GET'])
-def test():
-    return jsonify({'message': 'success'}), 200
+'''
+================== ROUTES ==================
+'''
 
-
-'''================== ROUTES =================='''     
-# Search page route
+'''----- Search page route -----'''
 @api.route('/search', methods=['POST'])
 def search():
     # get filter parameters body
@@ -77,27 +87,30 @@ def search():
     region_name = filters.get('region')
     park_name = filters.get('park')
     company_name = filters.get('company')
+    print('region_name: ', region_name)
+    print('park_name: ', park_name)
+    print('company_name: ', company_name)
 
     # get ids for each filter
     try:
-        if region_name is not None:
+        if region_name != ' ':
             region_id = Regions.query.filter_by(region = region_name).first().id
-        if park_name is not None:
+        if park_name != ' ':
             park_id = Parks.query.filter_by(park = park_name).first().id
-        if company_name is not None:
+        if company_name != ' ':
             company_id = Companies.query.filter_by(company = company_name).first().id
     except Exception as e:
         return make_response(jsonify({'message': 'error getting ids', 'error': str(e)}), 500)
 
     try:
         # Query database for image
-        if region_name is not None and park_name is not None:
+        if region_name != ' ' and park_name != ' ':
             # filter images by region and park
             query = Turbines.query.filter_by(region_id = region_id, park_id = park_id, company_id = company_id)
-        elif region_name is not None and park_name is None:
+        elif region_name != ' ':
             # filter images by region
             query = Turbines.query.filter_by(region_id = region_id, company_id = company_id)
-        elif region_name is None and park_name is not None:
+        elif park_name != ' ':
             # filter images by park
             query = Turbines.query.filter_by(park_id = park_id, company_id = company_id)
         else:   
@@ -113,7 +126,7 @@ def search():
     return make_response(jsonify({'turbines': [turbine.json() for turbine in query]}), 200)
 
 
-# Get company id 
+'''----- Get company id -----''' 
 @api.route('/company', methods=['POST'])
 def get_company_id():
     # get company name from body
@@ -128,7 +141,7 @@ def get_company_id():
     # get all images that match the specified critera
     return make_response(jsonify({'company_id': company_id}), 200)
 
-# Get region id
+'''----- Get region id -----'''
 @api.route('/region', methods=['POST'])
 def get_region_id():
     # get region name from body
@@ -143,7 +156,7 @@ def get_region_id():
     # get all images that match the specified critera
     return make_response(jsonify({'region_id': region_id}), 200)
 
-# Get park id
+'''----- Get park id ----- '''
 @api.route('/park', methods=['POST'])
 def get_park_id():
     # get park name from body
@@ -158,7 +171,7 @@ def get_park_id():
     # get all images that match the specified critera
     return make_response(jsonify({'park_id': park_id}), 200)
 
-# Get turbine id
+'''----- Create a new turbine ----- '''
 @api.route('/create', methods=['POST'])
 def create():
     try:
@@ -196,7 +209,58 @@ def create():
 
     except Exception as e:
         return make_response(jsonify({'message': 'Error uploading file'}), 500)
-    
+
+'''----- Get regions -----'''
+@api.route('/regions', methods=['GET'])
+def regions():
+    try:
+        # Query database for regions
+        regions = Regions.query.all()
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting regions', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'regions': [region.json() for region in regions]}), 200)
+
+'''----- Get parks -----'''
+@api.route('/parks', methods=['GET'])
+def parks():
+    try:
+        # Query database for parks
+        parks = Parks.query.all()
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting parks', 'error': str(e)}), 500)  
+      
+    # get all images that match the specified critera
+    return make_response(jsonify({'parks': [park.json() for park in parks]}), 200)
+
+'''----- search using turbine name----- '''
+@api.route('/search_turbine/<search_term>', methods=['GET'])
+def search_turbine(search_term):
+    try:
+        turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%')).all()
+        return make_response(jsonify({'turbines': [turbine.json() for turbine in turbines]}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error searching for turbines', 'error': str(e)}), 500)
+
+'''
+=================== PAGES ===================
+'''
+
+'''----- Get Search page -----'''
+@api.route('/search_page', methods=['GET'])
+def search_page():
+    return render_template('search.html')
+
+'''----- Get Account page -----'''
+@api.route('/account', methods=['GET'])
+def account_page():
+    return render_template('account.html')
+
+'''----- Get turbine page -----'''
+@api.route('/turbine/<turbineId>', methods=['GET'])
+def turbine_page(turbineId):
+    return render_template('turbine.html', turbineId=turbineId)
 
 if __name__ == '__main__':
     api.run(host='0.0.0.0', port=4000)
