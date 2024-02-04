@@ -79,6 +79,11 @@ create_tables()
 ================== ROUTES ==================
 '''
 
+'''----- API Health check -----'''
+@api.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'OK'}), 200
+
 '''----- Search page route -----'''
 @api.route('/search', methods=['POST'])
 def search():
