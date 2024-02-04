@@ -22,14 +22,10 @@ jobs:
       - name: Build Docker images
         run: docker-compose up --build -d api db
 
-      # Check the logs of the containers
-      - name: Display API container logs
-        run: docker logs api
-
       # Health check to make sure the application is ready to accept requests
       - name: Wait for application to be ready
         run: |
-          until curl --silent --fail http://localhost:4000/health; do
+          until curl --silent --fail http://api:4000/health; do
             echo 'Waiting for application to be ready...'
             sleep 5
           done
