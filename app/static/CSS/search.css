@@ -49,7 +49,7 @@ body {
     margin-right: 10%;
     margin-bottom: 10%;
     background-color: var(--accent-color);
-    border-radius: 2%;
+    border-radius: 10px;
 }
 
 #list-container {
@@ -60,6 +60,7 @@ body {
     color: var(--secondary-text-color);
     padding: 2%;
     margin: 2%;
+    border-radius: 10px;
 }
 
 #content-container {
@@ -105,9 +106,11 @@ body {
     padding: 15px;
     background-color: var(--primary-color);
     border: none;
-    border-radius: 0%;
+    border-radius: 20px;
     color: var(--primary-text-color);
     padding-right: 40px;
+    font-size: 15px;
+    outline: none;
 }
 
 .search-button {
@@ -140,6 +143,10 @@ body {
     color: transparent;
 }
 
+#search:focus {
+    background-color: var(--search-focus-color);
+}
+
 /*============== HEADER ==============*/
 
 /*------- ACCOUNT -------*/
@@ -152,14 +159,37 @@ body {
     background-color: white;
     color: var(--secondary-text-color);
     border-radius: 50%;
-    margin-right: 3%;
+    margin-right: 1%;
     border: 0px;
     font-size: 15px;
     cursor: pointer;
 }
 
 #account-icon-button:hover {
-    background-color: #f5f5f5;
+    background-color: #f0fdff;
+}
+
+/*------- THREE DOT -------*/
+#three-dot-button .fa-ellipsis-v {
+    margin: 0;
+    color: var(--primary-text-color);
+    font-size: 22px;
+}
+
+#three-dot-button .fa-ellipsis-v:hover {
+    color: #f0fdff;
+}
+
+#three-dot-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    border: 0px;
+    cursor: pointer;
+    background: none;
 }
 
 /*============== SIDEBAR ==============*/
@@ -186,7 +216,32 @@ body {
     height: 10px;
     background-color: white;
     color: var(--secondary-text-color);
-    border: 1px solid #adacac;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+#filter-container select {
+    padding: 10px;
+    font-size: 15px;
+    height: 40px;
+    border: 0px solid black;
+    background-color: var(--primary-select-color);
+    color: white;
+    border-radius: 5px;
+}
+
+#filter-container select:hover {
+    background-color: var(--secondary-select-color);
+}
+
+#filter-container select:focus {
+    outline: none;
 }
 
 /*------- ACTIVITY -------*/
@@ -234,7 +289,6 @@ body {
 
 #turbine-list table tr {
     background-color: #f2f2f2;
-
 }
 
 #turbine-list table tr:hover {
