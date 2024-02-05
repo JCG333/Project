@@ -1,4 +1,4 @@
-<!-- Contributors: Justin Gavrell -->
+<!-- Contributors: Justin Gavrell Fredrik Larsson -->
 
 <!DOCTYPE html>
 <html>
@@ -48,7 +48,27 @@
                 <!---- RIGHT HEADER ---->
                 <div id="right-header-container">
                     <button id="account-icon-button">JG</button>
-                    <button id="three-dot-button"><i class="fas fa-ellipsis-v"></i></button>
+                    <div class="dropdown">
+                        <button onclick="toggleDropdown()" class="dropbtn" id="three-dot-button"><i class="fas fa-ellipsis-v"></i></button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a href="/account" class="dropdown-icon">
+                                 <img src="{{ url_for('static', filename='images/profile.png') }}" > 
+                                 <p> Account </p>
+                                 <span></span>
+                            </a>
+                            <a href="/help-support" class="dropdown-icon"> 
+                                <img src="{{ url_for('static', filename='images/help.png') }}">
+                                 <p> Help & Support </p>
+                                 <span></span>
+                            </a>
+                            
+                            <a href="#" class="dropdown-icon"> 
+                                <img src="{{ url_for('static', filename='images/logout.png') }}">
+                                <p> Logout </p>
+                                <span></span>
+                            </a>
+                        </div>
+                      </div>
                 </div>
             </div>
             <!---- TURBINE LIST ---->

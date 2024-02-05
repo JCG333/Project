@@ -48,7 +48,6 @@ def create_tables():
 
         try:
             # Add default entries
-            '''
             default_company = Companies(company = 'Company1')
             db.session.add(default_company)
             db.session.commit()
@@ -70,7 +69,6 @@ def create_tables():
             default_image2 = ImageUrl(image_url = 'https://www.Microsoft.com', weather_data = 'Cloudy', date_time = datetime.now(), turbine_id = default_Turbine2.id)
             db.session.add(default_image2)
             db.session.commit()
-            '''
 
             print('Default entries added successfully')
         except Exception as e:
@@ -79,7 +77,7 @@ def create_tables():
 create_tables() 
 
 '''
-================== ROUTES ==================
+================== öOUTES ==================
 '''
 
 '''----- API Health check -----'''
@@ -269,6 +267,11 @@ def account_page():
 @api.route('/turbine/<turbineId>', methods=['GET'])
 def turbine_page(turbineId):
     return render_template('turbine.html', turbineId=turbineId)
+
+
+@api.route('/help-support', methods=['GET'])
+def help_support():
+    return render_template('help-support.html')
 
 try:
     # Your existing code to start the Flask application

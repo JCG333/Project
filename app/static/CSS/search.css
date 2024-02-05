@@ -1,4 +1,4 @@
-/* Contributors: Justin Gavrell*/
+/* Contributors: Justin Gavrell Fredrik Larsson*/
 
 @import 'colors.css';
 /* Importing the colors */
@@ -190,6 +190,64 @@ body {
     border: 0px;
     cursor: pointer;
     background: none;
+}
+
+/*============== dropdown ==============*/
+
+/* Style the dropdown button */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 55px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 40px;
+    right: 0;
+}
+
+/* Style the dropdown links */
+.dropdown-content a {
+    color: black;
+    padding: 5px 15px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.dropdown-icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    columns: #525252;
+    margin: 12px 0;
+  }
+
+.dropdown-icon p{
+    width: 100px;
+  }
+
+  .dropdown-icon img {
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+
+
+
+
+/* Change color on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
 }
 
 /*============== SIDEBAR ==============*/

@@ -1,4 +1,4 @@
-/* Contributors: Justin Gavrell*/
+/* Contributors: Justin Gavrell Fredrik Larsson*/
 
 /*----- Get regions -----*/
 function getRegions() {
@@ -191,3 +191,36 @@ window.onload = function () {
     getTurbines();
 
 }
+
+
+/*----- dropdown -----*/
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("myDropdown");
+    dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block";
+  }
+  
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    var target = event.target;
+    while (target != null) {
+      if (target.matches('.dropbtn')) {
+        return;
+      }
+      target = target.parentElement;
+    }
+  
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+
+
+  /*----- account redirect dropdown -----*/
+function account() {
+    window.location = '/account';
+}
+document.getElementById('account-icon-button').addEventListener('click', account);
