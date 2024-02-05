@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
+
+body {
+    background-color: #fafbfe;
+    font-family: 'Jost', sans-serif;
+    color: #020204;
+}
+
+p {
+    margin: 0px;
+}
+
+.bodyBorder {
+    margin: 0px;
+    padding-bottom: 50px;
+}
+
+.basicBox {
+    background-color: #d5deef;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.basicButton {
+    cursor: pointer;
+    color: white;
+    padding: 2px 5px 2px 5px;
+    background-color: #357ebd;
+    border: 5px solid #357ebd;
+    border-radius: 5px;
+    line-height: 0;
+}
+.basicButton:focus, .basicButton:hover {
+    font-weight: bold;
+    color: white;
+    background-color: #12548e;
+    border: 5px solid #12548e;
+}
+
+.iconButton {
+    padding: 4px;
+}
+.iconINbutton {
+    font-size: 32px;
+}
+
+.centerDiv {
+    margin: auto;
+    width: fit-content;
+    padding: 0px;
+}
+/*--------------navbar---------------*/
+
+.navItemContainer {
+    padding: 10px 50px 10px 10px;
+}
+.navItemContainer:hover {
+    background-color: #12548e;
+    color: white;
+}
+
+/*-----------------------------------*/
+/*-----------turbinepage-------------*/
+.bodyBorderLine {
+    background: linear-gradient(90deg, #0000 calc(100% - 8px), #d5deef 0);
+    background-size: calc((100% - 1*8px)/2 + 8px) 100%;
+}
+
+.turbIMG {
+    height: 250px;
+    margin: 5px;
+}
+
+.triangleDown {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 50px solid #d5deef;
+}
+
+.graphArea {
+    background: rgba(213,222,239, 0.2);
+    padding: 8px 0px 8px 0px;
+    margin: 10px 0px 10px 0px;
+}
+
+.verticalGraphText{
+    transform: rotate(180deg);
+    writing-mode: vertical-lr;
+    text-align: center;
+    margin: 0px;
+    padding: 0px 20px 0px 20px;
+    font-size: 20px;
+}
+
+/*-----------------------------------*/
+/*------------historypage------------*/
+
+.FromTo {
+    float:left;
+}
+
+.iconInInput {
+    position: absolute;
+}
+
+/*-----------------------------------*/
