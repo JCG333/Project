@@ -17,8 +17,11 @@
 
     <main>
         <h2>{{ welcome_message }}</h2>
-        <li><a href="/login">Login</a></li>
+         <h1> Welcome {{user}}</h1>
         <li><a href="/register">Create account</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+
         <p>{{ content }}</p>
         <form onsubmit="return false;">
             <label>Main Category</label>
