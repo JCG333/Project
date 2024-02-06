@@ -18,9 +18,14 @@
     <main>
         <h2>{{ welcome_message }}</h2>
          <h1> Welcome {{user}}</h1>
-        <li><a href="/register">Create account</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/logout">Logout</a></li>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('turbine') }}">Turbine Page</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
 
         <p>{{ content }}</p>
         <form onsubmit="return false;">

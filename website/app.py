@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db.schema import db, Users
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb' #Test
-app.config["SECRET_KEY"] = urandom(20) # TEST
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb'  # Test
+app.config["SECRET_KEY"] = urandom(20)  # TEST
 db.init_app(app)
 
 login_manager = LoginManager()
@@ -25,9 +25,8 @@ def load_users():
         return "Guest"
 
 
-
 @app.route('/')
-#@login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
+# @login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
 def home():
     data = {
         'title': 'Service for snow and ice detection',
@@ -64,10 +63,16 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html")
 
+
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("home"))
+
+
+@app.route("/turbine")
+def turbine():
+    return render_template("turbinePage.html")
 
 
 if __name__ == '__main__':
