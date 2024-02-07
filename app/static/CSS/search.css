@@ -1,0 +1,369 @@
+/* Contributors: Justin Gavrell Fredrik Larsson*/
+
+@import 'colors.css';
+/* Importing the colors */
+
+/*============== LAYOUT ==============*/
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+#main-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: row;
+    background-color: #f2f2f2;
+}
+
+#sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+}
+
+#filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 10%;
+}
+
+#activity-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 50%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+#list-container {
+    display: flex;
+    max-width: 100%;
+    height: 100%;
+    background-color: white;
+    color: var(--secondary-text-color);
+    padding: 2%;
+    margin: 2%;
+    border-radius: 10px;
+}
+
+#content-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+
+}
+
+#header-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    height: 5%;
+    background-color: var(--secondary-color);
+    padding: 10px;
+
+}
+
+#left-header-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 100%;
+    align-items: left;
+}
+
+#right-header-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 100%;
+    justify-content: right;
+}
+
+/*============== SEARCH BAR ==============*/
+#search {
+    display: flex;
+    width: 51%;
+    max-height: 90%;
+    margin-left: 2%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    color: var(--primary-text-color);
+    padding-right: 40px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-button {
+    position: absolute;
+    left: 39%;
+    top: 1.3%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+.search-button .fa-search {
+    margin: 0;
+    color: var(--primary-text-color);
+    font-size: 15px;
+}
+
+.fa-search:hover {
+    font-size: 16px;
+}
+
+#search::placeholder {
+    color: var(--primary-text-color);
+    font-size: medium;
+}
+
+#search:focus::placeholder {
+    color: transparent;
+}
+
+#search:focus {
+    background-color: var(--search-focus-color);
+}
+
+/*============== HEADER ==============*/
+
+/*------- ACCOUNT -------*/
+#account-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    color: var(--secondary-text-color);
+    border-radius: 50%;
+    margin-right: 1%;
+    border: 0px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#account-icon-button:hover {
+    background-color: #f0fdff;
+}
+
+/*------- THREE DOT -------*/
+#three-dot-button .fa-ellipsis-v {
+    margin: 0;
+    color: var(--primary-text-color);
+    font-size: 22px;
+}
+
+#three-dot-button .fa-ellipsis-v:hover {
+    color: #f0fdff;
+}
+
+#three-dot-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    border: 0px;
+    cursor: pointer;
+    background: none;
+}
+
+/*============== dropdown ==============*/
+
+/* Style the dropdown button */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 55px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 40px;
+    right: 0;
+}
+
+/* Style the dropdown links */
+.dropdown-content a {
+    color: black;
+    padding: 5px 15px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.dropdown-icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    columns: #525252;
+    margin: 12px 0;
+  }
+
+.dropdown-icon p{
+    width: 100px;
+  }
+
+  .dropdown-icon img {
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 10px;
+  }
+
+
+
+
+
+/* Change color on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/*============== SIDEBAR ==============*/
+
+/*------- FILTER -------*/
+#filter-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-top: 20%;
+}
+
+#regions-filter {
+    margin-bottom: 20px;
+}
+
+#parks-filter,
+#regions-filter {
+    width: 80%;
+    height: 10px;
+    background-color: white;
+    color: var(--secondary-text-color);
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+#filter-container select {
+    padding: 10px;
+    font-size: 15px;
+    height: 40px;
+    border: 0px solid black;
+    background-color: var(--primary-select-color);
+    color: white;
+    border-radius: 5px;
+}
+
+#filter-container select:hover {
+    background-color: var(--secondary-select-color);
+}
+
+#filter-container select:focus {
+    outline: none;
+}
+
+/*------- ACTIVITY -------*/
+#activity-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+/*============== TURBINE LIST ==============*/
+#turbine-list {
+    width: 100%;
+    overflow-y: auto;
+    background-color: white;
+    color: var(--secondary-text-color);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+#turbine-list table {
+    width: 100%;
+    border-spacing: 0 10px;
+    border-collapse: separate;
+}
+
+#turbine-list table th,
+#turbine-list table td {
+    padding: 10px;
+    text-align: left;
+}
+
+#turbine-list table td {
+    padding: 10px;
+}
+
+#turbine-list table th {
+    color: var(--secondary-text-color);
+    background-color: white;
+    border-bottom: 2px solid #ddd;
+}
+
+#turbine-list table tr {
+    background-color: #f2f2f2;
+}
+
+#turbine-list table tr:hover {
+    background-color: #e9e9e9;
+}
+
+/*============== ERROR MESSAGE CONTAINER ==============*/
+.error-message {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #bc4f4f;
+    color: white;
+    padding: 5px;
+    height: 5%;
+    text-align: center;
+    z-index: 9999;
+    display: none;
+}

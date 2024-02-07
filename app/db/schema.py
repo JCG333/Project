@@ -1,78 +1,99 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/Userdb'
-
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
+# Table for companies
 class Companies(db.Model):
     __tablename__ = 'companies'
-    __table_args__ = {'schema': 'snowice'}
 
     id = db.Column(db.Integer, primary_key=True)
     company = db.Column(db.String(255), unique=True, nullable=False)
+
     regions = db.relationship('Regions', lazy=True)
     parks = db.relationship('Parks', lazy=True)
     turbines = db.relationship('Turbines', lazy=True)
 
+    def __init__(self, company):
+        self.company = company
+
     def json(self):
         return {'id': self.id, 'company': self.company}
 
-
+# Table for regions
 class Regions(db.Model):
     __tablename__ = 'regions'
-    __table_args__ = {'schema': 'snowice'}
 
     id = db.Column(db.Integer, primary_key=True)
     region = db.Column(db.String(255), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
+
     parks = db.relationship('Parks', lazy=True)
     turbines = db.relationship('Turbines', lazy=True)
+
+    def __init__(self, region, company_id):
+        self.region = region
+        self.company_id = company_id
+        
 
     def json(self):
         return {'id': self.id, 'region': self.region, 'company_id': self.company_id}
 
-
+# Table for parks
 class Parks(db.Model):
     __tablename__ = 'parks'
-    __table_args__ = {'schema': 'snowice'}
 
     id = db.Column(db.Integer, primary_key=True)
     park = db.Column(db.String(255), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey(Regions.id), nullable=False)
+
     turbines = db.relationship('Turbines', lazy=True)
+
+    def __init__(self, park, company_id, region_id):
+        self.park = park
+        self.company_id = company_id
+        self.region_id = region_id
 
     def json(self):
         return {'id': self.id, 'park': self.park, 'region_id': self.region_id, 'company_id': self.company_id}
 
-
+# Table for turbines
 class Turbines(db.Model):
     __tablename__ = 'turbines'
-    __table_args__ = {'schema': 'snowice'}
 
     id = db.Column(db.Integer, primary_key=True)
     turbine = db.Column(db.String(255), unique=True, nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey(Regions.id), nullable=False)
     park_id = db.Column(db.Integer, db.ForeignKey(Parks.id), nullable=False)
+    
     image_url = db.relationship('ImageUrl', lazy=True)
+
+    def __init__(self, turbine, company_id, region_id, park_id):
+        self.turbine = turbine
+        self.company_id = company_id
+        self.region_id = region_id
+        self.park_id = park_id
 
     def json(self):
         return {'id': self.id, 'turbine': self.turbine, 'park_id': self.park_id, 'region_id': self.region_id, 'company_id': self.company_id}
 
-
+# Table for image urls
 class ImageUrl(db.Model):
     __tablename__ = 'image_url'
-    __table_args__ = {'schema': 'snowice'}
 
     id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String(255), unique=True, nullable=False)
     weather_data = db.Column(db.String(255), nullable=False)
     date_time = db.Column(db.String(255), nullable=False)
     turbine_id = db.Column(db.Integer, db.ForeignKey(Turbines.id), nullable=False)
+
+    def __init__(self, image_url, weather_data, date_time, turbine_id):
+        self.image_url = image_url
+        self.weather_data = weather_data
+        self.date_time = date_time
+        self.turbine_id = turbine_id
 
     def json(self):
         return {'image_url': self.image_url, 'turbine_id': self.turbine_id}

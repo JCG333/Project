@@ -1,0 +1,14 @@
+:root {
+    /*----- Layout colors -----*/
+    --primary-color: #2d4046;
+    --secondary-color: #466066;
+    --accent-color: #415860;
+    /*----- Text colors -----*/
+    --primary-text-color: #ffffff;
+    --secondary-text-color: #000000;
+    /*----- Select colors -----*/
+    --primary-select-color: #223034;
+    --secondary-select-color: #1c282b;
+    /*----- Search colors -----*/
+    --search-focus-color: #243439;
+}

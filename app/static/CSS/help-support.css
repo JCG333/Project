@@ -1,0 +1,100 @@
+
+@import 'colors.css';
+/* Importing the colors */
+
+/* Reset some default styles */
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a box-sizing border-box model to all elements */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+header {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#header-image {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    color: white;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ol {
+    list-style-type: none;
+    width: fit-content;
+    margin: auto;
+  }
+  
+  .step-text {
+    margin-top: 10px;
+    text-align: left;
+  }
+  
+li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#placeholder-section {
+    background-color: #f0f0f0; 
+    padding: 20px;
+  }
+  
+
+#placeholder-text {
+    color: #333; 
+    font-size: 30px; 
+}
+#issue1 {
+    margin-top: 10px;
+}
+#issue2 {
+    margin-top: 10px;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}

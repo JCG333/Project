@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/help-support.css') }}">
+    <!-- Link to the JavaScript file -->
+    <script src="{{ url_for('static', filename='JS/help-support.js') }}" defer></script>
+    <title>Help and Support</title>
+</head>
+
+<body>
+
+    <header>
+        <a href="/search_page">
+            <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="return-arrow" id="header-image">
+          </a>
+        <h1>Help and Support</h1>
+    </header>
+
+    <nav>
+        <a href="#faqs" onclick="toggleSection('faqs')">FAQs</a>
+        <a href="#troubleshooting" onclick="toggleSection('troubleshooting')">Troubleshooting</a>
+        <a href="#contact" onclick="toggleSection('contact')">Contact</a>
+    </nav>
+
+    <section id="faqs" class="content-section">
+        <h2>Frequently Asked Questions (FAQs)</h2>
+        <ul>
+            <li>
+                <strong>Q: How do i add more turbines to the website?</strong>
+                <p>A: Contact us and we will solve it for you .</p>
+            </li>
+            <li>
+                <strong>Q: How do i create more users for my company?</strong>
+                <p>A: You can't, each company only has one user.</p>
+            </li>
+            <li>
+                <strong>Q: Question Question Question Question?</strong>
+                <p>A: Answer Answer Answer Answer .</p>
+            </li>
+        </ul>
+    </section>
+
+    <section id="troubleshooting" class="content-section">
+        <h2>Troubleshooting Guides</h2>
+        <p>Known issues</p>
+
+
+        <!-- Troubleshooting content -->
+        <div id="issue1">
+            <h3>Issue 1: The page wont start</h3>
+            <p>Step-by-step troubleshooting guide</p>
+            <ol>
+                <li><div class="step-text">Step 1: Close the website.</div></li>
+                <li><div class="step-text">Step 2: Start the website again.</div></li>
+                <li><div class="step-text">Step 3: Success.</div></li>
+              </ol>
+        </div>
+
+        <div id="issue2">
+            <h3>Issue 2: The parks turbines wont load</h3>
+            <p>Step-by-step troubleshooting guide</p>
+            <ol>
+                <li><div class="step-text">Step 1: Close the website.</div></li>
+                <li><div class="step-text">Step 2: Start the website again.</div></li>
+                <li><div class="step-text">Step 3: Success.</div></li>
+              </ol>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section">
+        <h2>Contact Information</h2>
+        <p>If you need further assistance, please contact us:</p>
+        <ul>
+            <li>Email: support@företaget.com</li>
+            <li>Phone: 070-1234567</li>
+        </ul>
+        <!-- Add a contact form if desired -->
+    </section>
+
+    <section id="placeholder-section" class="content-section">
+        <p id="placeholder-text">Pick a section to show its content</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Vad nu vårat företag heter?. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

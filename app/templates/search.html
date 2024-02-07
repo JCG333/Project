@@ -1,0 +1,89 @@
+<!-- Contributors: Justin Gavrell Fredrik Larsson -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search page</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/search.css') }}">
+    <!-- Link to the JavaScript file -->
+    <script src="{{ url_for('static', filename='JS/search.js') }}" defer></script>
+    <!-- Link to Font Awesome library(for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <!---- MAIN ---->
+    <div id="main-container">
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <!---- FILTERS ---->
+            <p id="filter-title">Filters</p>
+            <div id="filter-container">
+                <select id="regions-filter">
+                    <option value=" ">Select a region</option>
+                    <!-- Regions will be added here by JavaScript -->
+                </select>
+                <select id="parks-filter">
+                    <option value=" ">Select a park</option>
+                    <!-- Parks will be added here by JavaScript -->
+                </select>
+            </div>
+            <!---- ACTIVITY ---->
+            <p id="activity-title">Activity</p>
+            <div id="activity-container">
+                <!-- Turbines will be added here by JavaScript -->
+            </div>
+        </div>
+        <!---- CONTENT ---->
+        <div id="content-container">
+            <!---- HEADER ---->
+            <div id="header-container">
+                <!---- LEFT HEADER ---->
+                <div id="left-header-container">
+                    <input type="search" id="search" placeholder="Search">
+                    <button id="search-button" class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <!---- RIGHT HEADER ---->
+                <div id="right-header-container">
+                    <button id="account-icon-button">JG</button>
+                    <div class="dropdown">
+                        <button onclick="toggleDropdown()" class="dropbtn" id="three-dot-button"><i class="fas fa-ellipsis-v"></i></button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a href="/account" class="dropdown-icon">
+                                 <img src="{{ url_for('static', filename='images/profile.png') }}" > 
+                                 <p> Account </p>
+                                 <span></span>
+                            </a>
+                            <a href="/help-support" class="dropdown-icon"> 
+                                <img src="{{ url_for('static', filename='images/help.png') }}">
+                                 <p> Help & Support </p>
+                                 <span></span>
+                            </a>
+                            
+                            <a href="#" class="dropdown-icon"> 
+                                <img src="{{ url_for('static', filename='images/logout.png') }}">
+                                <p> Logout </p>
+                                <span></span>
+                            </a>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <!---- TURBINE LIST ---->
+            <div id="list-container">
+                <div id="turbine-list">
+                    <!-- Turbines will be added here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!---- ERROR CONTAINER ---->
+        <div id="error-message" class="error-message">
+            <p>Error: Something went wrong!</p>
+        </div>
+    </div>
+</body>
+
+</html>

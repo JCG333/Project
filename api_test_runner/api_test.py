@@ -23,6 +23,7 @@ class TestSearchEndpoint(unittest.TestCase):
         filters = {
             'company': 'Company1',
             'region': 'Region1',
+            'park': ' '
         }
 
         # Send a GET request to the /search endpoint
@@ -35,21 +36,22 @@ class TestSearchEndpoint(unittest.TestCase):
         data = response.json()
 
         # Check that the response contains the expected data
-        self.assertIn('images', data)
-        self.assertIsInstance(data['images'], list)
-        self.assertTrue(data['images'])
-        for image in data['images']:
+        self.assertIn('turbines', data)
+        self.assertIsInstance(data['turbines'], list)
+        self.assertTrue(data['turbines'])
+        for turbine in data['turbines']:
 
-            # Check that each image has the expected keys
-            self.assertIn('url', image)
-            self.assertIn('company', image)
-            self.assertIn('region', image)
-            self.assertIn('park', image)
-            self.assertIn('turbine', image)
+            # Check that each turbine has the expected keys
+            self.assertIn('turbine', turbine)
+            self.assertIn('company_id', turbine)
+            self.assertIn('region_id', turbine)
+            self.assertIn('park_id', turbine)
 
-            # Check that the image has the expected values
-            self.assertEqual(image['company'], 'Company1')
-            self.assertEqual(image['region'], 'Region1')
+            # Check that the turbine has the expected values
+            self.assertIn(turbine['turbine'], ['Turbine1', 'Turbine2'])
+            self.assertEqual(turbine['company_id'], 1) 
+            self.assertEqual(turbine['region_id'], 1) 
+            # could change if default entries are changed 
 
     # Test 2: testing for park filter
     def test_park(self):
@@ -57,6 +59,7 @@ class TestSearchEndpoint(unittest.TestCase):
         # Define the parameters for the test request
         filters = {
             'company': 'Company1',
+            'region': ' ',
             'park': 'Park1',
         }
 
@@ -70,21 +73,21 @@ class TestSearchEndpoint(unittest.TestCase):
         data = response.json()
 
         # Check that the response contains the expected data
-        self.assertIn('images', data)
-        self.assertIsInstance(data['images'], list)
-        self.assertTrue(data['images'])
-        for image in data['images']:
+        self.assertIn('turbines', data)
+        self.assertIsInstance(data['turbines'], list)
+        self.assertTrue(data['turbines'])
+        for turbine in data['turbines']:
 
             # Check that each image has the expected keys
-            self.assertIn('url', image)
-            self.assertIn('company', image)
-            self.assertIn('region', image)
-            self.assertIn('park', image)
-            self.assertIn('turbine', image)
+            self.assertIn('turbine', turbine)
+            self.assertIn('company_id', turbine)
+            self.assertIn('region_id', turbine)
+            self.assertIn('park_id', turbine)
 
             # Check that the image has the expected values
-            self.assertEqual(image['company'], 'Company1')
-            self.assertEqual(image['park'], 'Park1')
+            self.assertEqual(turbine['turbine'], 'Turbine1')
+            self.assertEqual(turbine['company_id'], 1)
+            self.assertEqual(turbine['park_id'], 1)
 
     # Test 3: testing for park and region filters
     def test_parkAndRegion(self):
@@ -93,7 +96,7 @@ class TestSearchEndpoint(unittest.TestCase):
         filters = {
             'company': 'Company1',
             'region': 'Region1',
-            'park': 'Park3'
+            'park': 'Park1'
         }
 
         # Send a GET request to the /search endpoint
@@ -106,28 +109,32 @@ class TestSearchEndpoint(unittest.TestCase):
         data = response.json()
 
         # Check that the response contains the expected data
-        self.assertIn('images', data)
-        self.assertIsInstance(data['images'], list)
-        self.assertTrue(data['images'])
-        for image in data['images']:
+        self.assertIn('turbines', data)
+        self.assertIsInstance(data['turbines'], list)
+        self.assertTrue(data['turbines'])
+        for turbine in data['turbines']:
 
             # Check that each image has the expected keys
-            self.assertIn('url', image)
-            self.assertIn('company', image)
-            self.assertIn('region', image)
-            self.assertIn('park', image)
-            self.assertIn('turbine', image)
+            self.assertIn('company_id', turbine)
+            self.assertIn('region_id', turbine)
+            self.assertIn('park_id', turbine)
+            self.assertIn('turbine', turbine)
 
             # Check that the image has the expected values
-            self.assertEqual(image['company'], 'Company1')
-            self.assertEqual(image['region'], 'Region1')
-            self.assertEqual(image['park'], 'Park3')
+            self.assertEqual(turbine['turbine'], 'Turbine1')
+            self.assertEqual(turbine['company_id'], 1)
+            self.assertEqual(turbine['park_id'], 1)
+            self.assertEqual(turbine['region_id'], 1) 
 
     # Test 4: testing for no filters
     def test_noFilters(self):
 
         # Define the parameters for the test request
-        filters = {}
+        filters = {
+            'company': 'Company1',
+            'region': ' ',
+            'park': ' '
+        }
 
         # Send a GET request to the /search endpoint
         response = requests.post(f'{self.BASE_URL}/search', json=filters)
@@ -139,17 +146,16 @@ class TestSearchEndpoint(unittest.TestCase):
         data = response.json()
 
         # Check that the response contains the expected data
-        self.assertIn('images', data)
-        self.assertIsInstance(data['images'], list)
-        self.assertTrue(data['images'])
-        for image in data['images']:
+        self.assertIn('turbines', data)
+        self.assertIsInstance(data['turbines'], list)
+        self.assertTrue(data['turbines'])
+        for turbine in data['turbines']:
 
             # Check that each image has the expected keys
-            self.assertIn('url', image)
-            self.assertIn('company', image)
-            self.assertIn('region', image)
-            self.assertIn('park', image)
-            self.assertIn('turbine', image)
+            self.assertIn('company_id', turbine)
+            self.assertIn('region_id', turbine)
+            self.assertIn('park_id', turbine)
+            self.assertIn('turbine', turbine)
 
 if __name__ == '__main__':
     unittest.main()
