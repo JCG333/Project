@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -20,6 +21,7 @@ class Companies(db.Model):
     def json(self):
         return {'id': self.id, 'company': self.company}
 
+
 # Table for regions
 class Regions(db.Model):
     __tablename__ = 'regions'
@@ -34,10 +36,10 @@ class Regions(db.Model):
     def __init__(self, region, company_id):
         self.region = region
         self.company_id = company_id
-        
 
     def json(self):
         return {'id': self.id, 'region': self.region, 'company_id': self.company_id}
+
 
 # Table for parks
 class Parks(db.Model):
@@ -58,6 +60,7 @@ class Parks(db.Model):
     def json(self):
         return {'id': self.id, 'park': self.park, 'region_id': self.region_id, 'company_id': self.company_id}
 
+
 # Table for turbines
 class Turbines(db.Model):
     __tablename__ = 'turbines'
@@ -67,7 +70,7 @@ class Turbines(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey(Regions.id), nullable=False)
     park_id = db.Column(db.Integer, db.ForeignKey(Parks.id), nullable=False)
-    
+
     image_url = db.relationship('ImageUrl', lazy=True)
 
     def __init__(self, turbine, company_id, region_id, park_id):
@@ -77,7 +80,9 @@ class Turbines(db.Model):
         self.park_id = park_id
 
     def json(self):
-        return {'id': self.id, 'turbine': self.turbine, 'park_id': self.park_id, 'region_id': self.region_id, 'company_id': self.company_id}
+        return {'id': self.id, 'turbine': self.turbine, 'park_id': self.park_id, 'region_id': self.region_id,
+                'company_id': self.company_id}
+
 
 # Table for image urls
 class ImageUrl(db.Model):
@@ -99,6 +104,14 @@ class ImageUrl(db.Model):
         return {'image_url': self.image_url, 'turbine_id': self.turbine_id}
 
 
+class Users(UserMixin, db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(250), unique=True, nullable=False)
+    password = db.Column(db.String(250), nullable=False)
+    privilege = db.Column(db.Integer, nullable=False)
+
 # If, and probably when we need weather data table:
 #
 # class WeatherData(db.Model):
@@ -106,7 +119,6 @@ class ImageUrl(db.Model):
 #     __table_args__ = {'schema': 'snowice'}
 
 #     id = db.Column(db.Integer, primary_key=True)
-
 
 
 # with app.app_context():

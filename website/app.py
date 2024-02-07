@@ -6,7 +6,7 @@ from db.schema import db, Users
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb'  # Test
-app.config["SECRET_KEY"] = urandom(20)  # TEST
+
 db.init_app(app)
 
 login_manager = LoginManager()
