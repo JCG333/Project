@@ -35,7 +35,7 @@ logging.basicConfig(level=logging.INFO)
 api = Flask(__name__)
 
 # get the db url from the environment variable
-api.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb'
+api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 api.config["SECRET_KEY"] = urandom(20)  # TEST
 
 # import the db instance and the models

@@ -1,0 +1,93 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 110%;
+}
+.icon-image {
+    border-radius: 90%;
+    width: 125px;
+    height: 125px;
+}
+
+.login-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.login-form {
+    flex: 2; /* Adjust this value to make the login section wider */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+
+}
+
+.inputs-login {
+    margin-right: -50px;
+}
+
+form {
+    width: 100%;
+    
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+input {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+button {
+    display: flex;
+    font-weight: bold;
+    background-color: #fa813a;
+    color: #000000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-content: center;
+    width: 85.5%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: large;
+}
+
+
+
+.background-image {
+    flex: 3; /* 3/4 of the page */
+    background-size: cover;
+    background-position: center;
+}
+
+body, html {
+    overflow: hidden;
+}
+
+#password-text, #username-text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #8b8b8b;
+    font-size: large;
+}
+
+#password, #username {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+}
