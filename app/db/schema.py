@@ -14,13 +14,13 @@ class Companies(db.Model):
     regions = db.relationship('Regions', lazy=True)
     parks = db.relationship('Parks', lazy=True)
     turbines = db.relationship('Turbines', lazy=True)
+    users = db.relationship('Users', lazy=True)
 
     def __init__(self, company):
         self.company = company
 
     def json(self):
         return {'id': self.id, 'company': self.company}
-
 
 # Table for regions
 class Regions(db.Model):
@@ -36,10 +36,10 @@ class Regions(db.Model):
     def __init__(self, region, company_id):
         self.region = region
         self.company_id = company_id
+        
 
     def json(self):
         return {'id': self.id, 'region': self.region, 'company_id': self.company_id}
-
 
 # Table for parks
 class Parks(db.Model):
@@ -60,7 +60,6 @@ class Parks(db.Model):
     def json(self):
         return {'id': self.id, 'park': self.park, 'region_id': self.region_id, 'company_id': self.company_id}
 
-
 # Table for turbines
 class Turbines(db.Model):
     __tablename__ = 'turbines'
@@ -70,7 +69,7 @@ class Turbines(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey(Regions.id), nullable=False)
     park_id = db.Column(db.Integer, db.ForeignKey(Parks.id), nullable=False)
-
+    
     image_url = db.relationship('ImageUrl', lazy=True)
 
     def __init__(self, turbine, company_id, region_id, park_id):
@@ -80,9 +79,7 @@ class Turbines(db.Model):
         self.park_id = park_id
 
     def json(self):
-        return {'id': self.id, 'turbine': self.turbine, 'park_id': self.park_id, 'region_id': self.region_id,
-                'company_id': self.company_id}
-
+        return {'id': self.id, 'turbine': self.turbine, 'park_id': self.park_id, 'region_id': self.region_id, 'company_id': self.company_id}
 
 # Table for image urls
 class ImageUrl(db.Model):
@@ -103,7 +100,22 @@ class ImageUrl(db.Model):
     def json(self):
         return {'image_url': self.image_url, 'turbine_id': self.turbine_id}
 
+# Table for pinned turbines
+class PinnedTurbines(db.Model):
+    __tablename__ = 'pinned_turbines'
 
+    id = db.Column(db.Integer, primary_key=True)
+    turbine_id = db.Column(db.Integer, db.ForeignKey(Turbines.id), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __init__(self, turbine_id, user_id):
+        self.turbine_id = turbine_id
+        self.user_id = user_id
+
+    def json(self):
+        return {'id': self.id,'turbine_id': self.turbine_id, 'user_id': self.user_id}
+    
+# Table for users
 class Users(UserMixin, db.Model):
     __tablename__ = 'users'
 
@@ -111,6 +123,9 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     privilege = db.Column(db.Integer, nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
+
+    PinnedTurbines = db.relationship('PinnedTurbines', lazy=True)
 
 # If, and probably when we need weather data table:
 #
@@ -119,6 +134,7 @@ class Users(UserMixin, db.Model):
 #     __table_args__ = {'schema': 'snowice'}
 
 #     id = db.Column(db.Integer, primary_key=True)
+
 
 
 # with app.app_context():

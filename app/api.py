@@ -39,7 +39,7 @@ api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 api.config["SECRET_KEY"] = urandom(20)  # TEST
 
 # import the db instance and the models
-from db.schema import db, Users, Companies, Regions, Parks, Turbines, ImageUrl
+from db.schema import db, Companies, Regions, Parks, Turbines, ImageUrl, PinnedTurbines, Users
 
 login_manager = LoginManager()
 login_manager.init_app(api)
@@ -70,46 +70,55 @@ def create_tables():
 
         try:
             # Add default entries
-            default_company = Companies(company='Company1')
+            
+            default_company = Companies(company = 'Company1')
             db.session.add(default_company)
             db.session.commit()
-            default_region = Regions(region='Region1', company_id=default_company.id)
+            default_region = Regions(region = 'Region1', company_id = default_company.id)
             db.session.add(default_region)
             db.session.commit()
-            default_park = Parks(park='Park1', region_id=default_region.id, company_id=default_company.id)
+            default_park = Parks(park = 'Park1', region_id = default_region.id, company_id = default_company.id)
             db.session.add(default_park)
-            default_park2 = Parks(park='Park2', region_id=default_region, company_id=default_company)
+            default_park2 = Parks(park = 'Park2', region_id = default_region.id, company_id = default_company.id)
             db.session.add(default_park2)
             db.session.commit()
-            default_Turbine = Turbines(turbine='Turbine1', company_id=default_company.id, region_id=default_region.id,
-                                       park_id=default_park.id)
+            default_Turbine = Turbines(turbine = 'Turbine1', company_id = default_company.id, region_id = default_region.id, park_id = default_park.id)
             db.session.add(default_Turbine)
-            default_Turbine2 = Turbines(turbine='Turbine2', company_id=default_company, region_id=default_region,
-                                        park_id=default_park2.id)
+            default_Turbine2 = Turbines(turbine = 'Turbine2', company_id = default_company.id, region_id = default_region.id, park_id = default_park2.id)
             db.session.add(default_Turbine2)
             db.session.commit()
-            default_image = ImageUrl(image_url='https://www.google.com', weather_data='Sunny', date_time=datetime.now(),
-                                     turbine_id=default_Turbine.id)
+            for i in range(3, 20):
+                default_turbine = Turbines(turbine=f'Turbine{i}', company_id=default_company.id, region_id=default_region.id, park_id=default_park.id)
+                db.session.add(default_turbine)
+                db.session.commit()
+            default_image = ImageUrl(image_url = 'https://www.google.com', weather_data = 'Sunny', date_time = datetime.now(), turbine_id = default_Turbine.id)
             db.session.add(default_image)
-            default_image2 = ImageUrl(image_url='https://www.Microsoft.com', weather_data='Cloudy',
-                                      date_time=datetime.now(), turbine_id=default_Turbine2.id)
+            default_image2 = ImageUrl(image_url = 'https://www.Microsoft.com', weather_data = 'Cloudy', date_time = datetime.now(), turbine_id = default_Turbine2.id)
             db.session.add(default_image2)
             db.session.commit()
+            password = generate_password_hash('password')
+            default_user = Users(username = 'user1', password = password, privilege = 1, company_id = default_company.id)
+            db.session.add(default_user)
+            db.session.commit()
+            default_pinned_turbine = PinnedTurbines(turbine_id = default_Turbine.id, user_id = 1)
+            db.session.add(default_pinned_turbine)
+            db.session.commit()
+            for i in range(2, 10):
+                default_pinned_turbine = PinnedTurbines(turbine_id=i, user_id=1)
+                db.session.add(default_pinned_turbine)
+                db.session.commit()
 
             print('Default entries added successfully')
         except Exception as e:
             print('Failed to add default entries, error: ', e)
 
-
-create_tables()
+create_tables() 
 
 '''
 ================== ROUTES ==================
 '''
 
 '''----- API Health check -----'''
-
-
 @api.route('/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'OK'}), 200
@@ -164,7 +173,7 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
         hashed_password = generate_password_hash(password)
-        user = Users(username=username, password=hashed_password, privilege="0")
+        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("login"))
@@ -177,14 +186,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-@api.route("/turbine")
-def turbine():
-    return render_template("turbinePage.html")
-
-
 '''----- Search page route -----'''
-
-
 @api.route('/search', methods=['POST'])
 def search():
     # get filter parameters body
@@ -199,11 +201,11 @@ def search():
     # get ids for each filter
     try:
         if region_name != ' ':
-            region_id = Regions.query.filter_by(region=region_name).first().id
+            region_id = Regions.query.filter_by(region = region_name).first().id
         if park_name != ' ':
-            park_id = Parks.query.filter_by(park=park_name).first().id
+            park_id = Parks.query.filter_by(park = park_name).first().id
         if company_name != ' ':
-            company_id = Companies.query.filter_by(company=company_name).first().id
+            company_id = Companies.query.filter_by(company = company_name).first().id
     except Exception as e:
         return make_response(jsonify({'message': 'error getting ids', 'error': str(e)}), 500)
 
@@ -211,29 +213,28 @@ def search():
         # Query database for image
         if region_name != ' ' and park_name != ' ':
             # filter images by region and park
-            query = Turbines.query.filter_by(region_id=region_id, park_id=park_id, company_id=company_id)
+            query = Turbines.query.filter_by(region_id = region_id, park_id = park_id, company_id = company_id)
         elif region_name != ' ':
             # filter images by region
-            query = Turbines.query.filter_by(region_id=region_id, company_id=company_id)
+            query = Turbines.query.filter_by(region_id = region_id, company_id = company_id)
         elif park_name != ' ':
             # filter images by park
-            query = Turbines.query.filter_by(park_id=park_id, company_id=company_id)
-        else:
+            query = Turbines.query.filter_by(park_id = park_id, company_id = company_id)
+        else:   
             # no filter
-            query = Turbines.query.filter_by(company_id=company_id)
+            query = Turbines.query.filter_by(company_id = company_id)
 
         # get all images that match the specified critera
         query = query.all()
     except Exception as e:
-        return make_response(jsonify({'message': 'error getting turbine(s)', 'error': str(e)}), 500)
+        return make_response(jsonify({'message': 'error getting turbine(s)', 'error': str(e)}), 500)  
+    
+    # get all images that match the specified critera
+    return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None} for turbine in query]}), 200)
 
-        # get all images that match the specified critera
-    return make_response(jsonify({'turbines': [turbine.json() for turbine in query]}), 200)
 
 
 '''----- Get company id -----'''
-
-
 @api.route('/company', methods=['POST'])
 def get_company_id():
     # get company name from body
@@ -250,8 +251,6 @@ def get_company_id():
 
 
 '''----- Get region id -----'''
-
-
 @api.route('/region', methods=['POST'])
 def get_region_id():
     # get region name from body
@@ -268,8 +267,6 @@ def get_region_id():
 
 
 '''----- Get park id ----- '''
-
-
 @api.route('/park', methods=['POST'])
 def get_park_id():
     # get park name from body
@@ -286,8 +283,6 @@ def get_park_id():
 
 
 '''----- Create a new turbine ----- '''
-
-
 @api.route('/create', methods=['POST'])
 def create():
     try:
@@ -373,6 +368,12 @@ def search_turbine(search_term):
 =================== PAGES ===================
 '''
 
+
+'''----- Get Turbine page -----'''
+@api.route("/turbine")
+def turbine():
+    return render_template("turbinePage.html")
+
 '''----- Get Search page -----'''
 
 
@@ -407,5 +408,51 @@ try:
     # Your existing code to start the Flask application
     logging.info('Starting application...')
     api.run(host='0.0.0.0', port=4000, debug=True)
+except Exception as e:
+    logging.exception('Failed to start application')
+
+@api.route('/get_pinned', methods=['GET'])
+def get_pinned():
+    try:
+        pinned_turbines = PinnedTurbines.query.all() #user_id is hardcoded for now
+        api.logger.info('Pinned turbines: %s', pinned_turbines)
+        if len(pinned_turbines) > 0:
+            return make_response(jsonify({'pinned_turbines': [{'turbine_id': pinned_turbine.turbine_id, 'name': get_turbine_name(pinned_turbine.turbine_id)} for pinned_turbine in pinned_turbines], 'empty':False}), 200)
+        return make_response(jsonify({'message': 'No pinned turbines', 'empty': True}), 200)
+    except Exception as e:
+        api.logger.error(e)
+        return make_response(jsonify({'message': 'error getting pinned turbines', 'error': str(e)}), 500)
+    
+get_turbine_name = lambda id: Turbines.query.filter_by(id=id).first().turbine
+
+'''pin turbine'''
+@api.route('/pin_turbine/<turbine_id>', methods=['GET'])
+def pin_turbine(turbine_id):
+    try:
+        present_turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
+        if present_turbine:
+            return make_response(jsonify({'message': 'Turbine already pinned', 'already_pinned': True}), 200)
+        turbine = PinnedTurbines(turbine_id=turbine_id, user_id=1) #user_id is hardcoded for now
+        db.session.add(turbine)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Turbine pinned successfully', 'already_pinned': False}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error pinning turbine', 'error': str(e)}), 500)
+    
+'''unpin turbine'''
+@api.route('/unpin_turbine/<turbine_id>', methods=['GET'])
+def unpin_turbine(turbine_id):
+    try:
+        turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
+        db.session.delete(turbine)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
+
+try:
+    # Your existing code to start the Flask application
+    logging.info('Starting application...')
+    api.run(host='0.0.0.0', port=4000)
 except Exception as e:
     logging.exception('Failed to start application')
