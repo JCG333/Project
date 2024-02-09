@@ -1,8 +1,9 @@
 :root {
     /*----- Layout colors -----*/
-    --primary-color: #2d4046;
-    --secondary-color: #466066;
-    --accent-color: #415860;
+    --primary-color: #5b7083;
+    --secondary-color: #69859b;
+    --accent-color: #69859b;
+    --third-color: #fa813a;
     /*----- Text colors -----*/
     --primary-text-color: #ffffff;
     --secondary-text-color: #000000;

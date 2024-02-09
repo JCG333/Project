@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{user}}</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/account.css') }}">
+    <!-- Link to the JavaScript file -->
+    <script src="{{ url_for('static', filename='JS/account.js') }}" defer></script>
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- other devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<!--- =========== HEADER =========== -->
+<!--- >>>>>>> PRODUCT SPECIFIC ELEMENTS <<<<<<< -->
+
+<body>
+    <!------ ACCOUNT CREDENTIALS ------>
+    <div class="container">
+        <div class="menu">
+            <a href="{{ url_for('search_page') }}" id="return-button">
+                <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
+            </a>
+            <div id="name-container">
+                <h1>{{user}}</h1>
+            </div>
+            <div id="parks">
+                <h1>Parks: You have X amount of parks</h1>    
+            </div>
+            <div id="turbines">
+                <h1>Turbines: You have X amount of turbines</h1>  
+            </div>
+        </div>
+
+        <div class="account-info">
+            <img class="background-image" src="{{ url_for('static', filename='images/background-account.jpg') }}" alt="background-image">
+            <div id="cred-container">
+                <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                    <h2>Change Password</h2>
+                    <input type="password" name="current_password" placeholder="Current password" required>
+                    <input type="password" name="new_password" placeholder="New password" required>
+                    <input type="submit" value="Change Password">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+    <!---- ERROR CONTAINER ---->
+    <div id="error-message">
+        <p> </p>
+    </div>
+</body>
+
+<!--- =========== FOOTER =========== -->
+
+</html>

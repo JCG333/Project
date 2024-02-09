@@ -1,0 +1,158 @@
+@import 'colors.css';
+/* Importing the colors */
+
+
+
+/* =========  right side menu =========  */
+.container {
+    display: flex;
+    height: 100vh;
+  }
+
+.account-info {
+    position: relative;
+    width: 79.68%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+  }
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+
+#cred-container {
+    width: 26%;
+    height: 26%;
+    border-radius: 30px;
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    } 
+
+#account-container {
+    width: 96%;
+    height: 66%;
+    border-radius: 30px;
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+#account-container h2 {
+    color: #ffffff;
+}
+
+input[type="password"] {
+    font-size: large;
+    width: 60%; 
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px; 
+    border: 1px solid #ccc;
+}
+    
+input[type="submit"] {
+    font-size: large;
+    background-color: var(--third-color); 
+    color: rgb(0, 0, 0); 
+    padding: 10px;
+    border-radius: 5px; 
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease; 
+}
+    
+input[type="submit"]:hover {
+    background-color: #fa6a21; 
+   }
+
+
+/* =========  return button =========  */     
+#return-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#return-button img {
+    width: 50px; 
+    height: 50px; 
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+#return-button img:hover {
+    transform: scale(1.1); /* Scale the image up to 110% */
+}
+/* ========= left side menu =========  */
+.menu {
+    width: 20.25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+    }
+    
+
+
+#name-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color:var(--primary-color);
+    font-size: 35px;
+    border-bottom: 1;
+    }
+
+#name-container h1 {
+    border-bottom: 1px solid white;
+    margin-bottom: 170%;
+    text-align: center;
+    flex: 2;
+    font-size: 2em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: var(--primary-text-color);
+
+    }
+
+#parks h1 {
+
+    width: 100%;
+    font-size: 15px;
+    border-bottom: 1;
+    margin-top: -75vh;
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: left;
+    }
+
+#turbines h1 {
+
+    width: 100%;
+    font-size: 15px;
+    border-bottom: 1;
+    margin-top: -72vh;
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: left;
+    }
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    }

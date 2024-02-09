@@ -115,7 +115,7 @@ def health_check():
     return jsonify({'status': 'OK'}), 200
 
 
-@api.route('/')
+@api.route('/', methods=['GET', 'POST'])
 # @login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
 def home():
     data = {
@@ -137,10 +137,27 @@ def login():
         user = Users.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for("home"))
+            return redirect(url_for("search_page"))
     return render_template("login.html")
 
+@api.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
 
+    # Check if the current password is correct
+    if check_password_hash(current_user.password, current_password):
+        # Update the user's password
+        current_user.password = generate_password_hash(new_password)
+        db.session.commit()
+        flash('Your password has been updated.')
+        return redirect(url_for('account_page'))
+    else:
+        flash('Current password is incorrect.')
+        return redirect(url_for('change_password'))
+    
+    
 @api.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
@@ -157,7 +174,7 @@ def register():
 @api.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("home"))
+    return redirect(url_for("login"))
 
 
 @api.route("/turbine")
@@ -369,7 +386,8 @@ def search_page():
 
 @api.route('/account', methods=['GET'])
 def account_page():
-    return render_template('account.html')
+    user = load_users()
+    return render_template('account.html', user=user)
 
 
 '''----- Get turbine page -----'''
