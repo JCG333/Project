@@ -5,8 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/login.css') }}">
+    <script src="{{ url_for('static', filename='JS/login.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
 </head>
 <body>
+    
+    <div id="forgot-password-section" style="display: none;">
+        <i class="fas fa-times" id="exit-icon"></i>
+        <div class="forgot-password-form">
+            <div class="forgot-password-title"> <h1>Forgot your password?</h1> </div>
+            <form action="#" method="post">
+                <div class="inputs-forgot-password">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                    <div class="button-container">
+                        <button type="submit" class="forgot-password-button">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+
     <div class="container">
         <div class="login-form">
           <img class="icon-image" src="{{ url_for('static', filename='images/icon.png') }}" alt="icon-image">
@@ -22,10 +42,16 @@
                     <div class="button-container">
                         <button type="submit" class="login-button">Login</button>
                     </div>
+
+                    <div class="register-container">
+                        <p> <a href="#" onclick="showForgotPasswordSection()">Forgot your password?</a></p>
+                    </div>
                 </div>
             </form>
+            
         </div>
         <img class="background-image" src="{{ url_for('static', filename='images/background-login.jpg') }}" alt="background-image">
     </div>
+    
 </body>
 </html>
