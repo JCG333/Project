@@ -33,7 +33,7 @@
 #cred-container {
     width: 26%;
     height: 26%;
-    border-radius: 30px;
+    border-radius: 20px;
     background-color: var(--secondary-color);
     display: flex;
     justify-content: center;
@@ -44,7 +44,7 @@
 #account-container {
     width: 96%;
     height: 66%;
-    border-radius: 30px;
+
     background-color: var(--secondary-color);
     display: flex;
     justify-content: center;
@@ -72,10 +72,12 @@ input[type="submit"] {
     border-radius: 5px; 
     margin-bottom: 10px;
     transition: background-color 0.3s ease; 
+    
 }
     
 input[type="submit"]:hover {
     background-color: #fa6a21; 
+    cursor: pointer;
    }
 
 
@@ -100,12 +102,8 @@ input[type="submit"]:hover {
     width: 20.25%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 
-    
     }
-    
-
 
 #name-container {
     display: flex;
@@ -138,6 +136,7 @@ input[type="submit"]:hover {
     color: white;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: left;
+    margin-left: 20px;
     }
 
 #turbines h1 {
@@ -149,6 +148,7 @@ input[type="submit"]:hover {
     color: white;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: left;
+    margin-left: 20px;
     }
 
 

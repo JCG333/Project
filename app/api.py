@@ -48,7 +48,7 @@ login_manager.init_app(api)
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
-
+login_manager.login_view = "login"
 
 def load_users():
     if current_user.is_authenticated:
@@ -124,6 +124,7 @@ def health_check():
     return jsonify({'status': 'OK'}), 200
 
 
+'''----- Index route -----'''
 @api.route('/', methods=['GET', 'POST'])
 # @login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
 def home():
@@ -138,6 +139,7 @@ def home():
     return render_template('index.html', **data)
 
 
+'''----- Login route -----'''
 @api.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
@@ -149,6 +151,8 @@ def login():
             return redirect(url_for("search_page"))
     return render_template("login.html")
 
+
+'''----- Change password -----'''
 @api.route('/change_password', methods=['POST'])
 @login_required
 def change_password():
@@ -166,20 +170,9 @@ def change_password():
         flash('Current password is incorrect.')
         return redirect(url_for('change_password'))
     
-    
-@api.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = generate_password_hash(password)
-        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
-    return render_template("register.html")
 
 
+'''----- Logout route -----'''
 @api.route("/logout")
 def logout():
     logout_user()
@@ -188,6 +181,7 @@ def logout():
 
 '''----- Search page route -----'''
 @api.route('/search', methods=['POST'])
+@login_required
 def search():
     # get filter parameters body
     filters = request.get_json()
@@ -322,9 +316,8 @@ def create():
         return make_response(jsonify({'message': 'Error uploading file'}), 500)
 
 
+
 '''----- Get regions -----'''
-
-
 @api.route('/regions', methods=['GET'])
 def regions():
     try:
@@ -337,9 +330,8 @@ def regions():
     return make_response(jsonify({'regions': [region.json() for region in regions]}), 200)
 
 
+
 '''----- Get parks -----'''
-
-
 @api.route('/parks', methods=['GET'])
 def parks():
     try:
@@ -352,9 +344,8 @@ def parks():
     return make_response(jsonify({'parks': [park.json() for park in parks]}), 200)
 
 
+
 '''----- search using turbine name----- '''
-
-
 @api.route('/search_turbine/<search_term>', methods=['GET'])
 def search_turbine(search_term):
     try:
@@ -363,54 +354,11 @@ def search_turbine(search_term):
     except Exception as e:
         return make_response(jsonify({'message': 'error searching for turbines', 'error': str(e)}), 500)
 
-
 '''
-=================== PAGES ===================
+=================== !PINNED TURBINES ===================
 '''
 
-
-'''----- Get Turbine page -----'''
-@api.route("/turbine")
-def turbine():
-    return render_template("turbinePage.html")
-
-'''----- Get Search page -----'''
-
-
-@api.route('/search_page', methods=['GET'])
-def search_page():
-    return render_template('search.html')
-
-
-'''----- Get Account page -----'''
-
-
-@api.route('/account', methods=['GET'])
-def account_page():
-    user = load_users()
-    return render_template('account.html', user=user)
-
-
-'''----- Get turbine page -----'''
-
-
-@api.route('/turbine/<turbineId>', methods=['GET'])
-def turbine_page(turbineId):
-    return render_template('turbine.html', turbineId=turbineId)
-
-
-@api.route('/help-support', methods=['GET'])
-def help_support():
-    return render_template('help-support.html')
-
-
-try:
-    # Your existing code to start the Flask application
-    logging.info('Starting application...')
-    api.run(host='0.0.0.0', port=4000, debug=True)
-except Exception as e:
-    logging.exception('Failed to start application')
-
+'''----- get pinned turbines -----'''
 @api.route('/get_pinned', methods=['GET'])
 def get_pinned():
     try:
@@ -425,7 +373,7 @@ def get_pinned():
     
 get_turbine_name = lambda id: Turbines.query.filter_by(id=id).first().turbine
 
-'''pin turbine'''
+'''----- pin turbine -----'''
 @api.route('/pin_turbine/<turbine_id>', methods=['GET'])
 def pin_turbine(turbine_id):
     try:
@@ -439,7 +387,7 @@ def pin_turbine(turbine_id):
     except Exception as e:
         return make_response(jsonify({'message': 'error pinning turbine', 'error': str(e)}), 500)
     
-'''unpin turbine'''
+'''----- unpin turbine -----'''
 @api.route('/unpin_turbine/<turbine_id>', methods=['GET'])
 def unpin_turbine(turbine_id):
     try:
@@ -449,6 +397,60 @@ def unpin_turbine(turbine_id):
         return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
     except Exception as e:
         return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
+    
+'''
+=================== PAGES ===================
+'''
+
+
+'''----- Get Turbine page -----'''
+@api.route("/turbine")
+@login_required
+def turbine():
+    return render_template("turbinePage.html")
+
+
+'''----- Get Search page -----'''
+@api.route('/search_page', methods=['GET'])
+@login_required
+def search_page():
+    return render_template('search.html')
+
+
+'''----- Get Account page -----'''
+@api.route('/account', methods=['GET'])
+@login_required
+def account_page():
+    user = load_users()
+    return render_template('account.html', user=user)
+
+
+'''----- Get turbine page -----'''
+@api.route('/turbine/<turbineId>', methods=['GET'])
+@login_required
+def turbine_page(turbineId):
+    return render_template('turbine.html', turbineId=turbineId)
+
+
+'''----- Get help and support page -----'''
+@api.route('/help-support', methods=['GET'])
+@login_required
+def help_support():
+    return render_template('help-support.html')
+
+
+'''----- Register page -----'''
+@api.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        hashed_password = generate_password_hash(password)
+        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("login"))
+    return render_template("register.html")
 
 try:
     # Your existing code to start the Flask application
