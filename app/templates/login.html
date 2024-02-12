@@ -52,6 +52,9 @@
         </div>
         <img class="background-image" src="{{ url_for('static', filename='images/background-login.jpg') }}" alt="background-image">
     </div>
-    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
 </body>
+
 </html>

@@ -142,16 +142,29 @@ def home():
 '''----- Login route -----'''
 @api.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         user = Users.query.filter_by(username=username).first()
+        print("============ TRYING TO LOGIN ============")
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("search_page"))
-    return render_template("login.html")
+        else:
+            print(" ================ Wrong username or password  ================ ")
+            error = 'Invalid username or password'
+    return render_template("login.html", error=error)
 
 
+def valid_login(username, password):
+    # Check if the username exists in the database
+    user = db.session.query(Users).filter_by(username=username).first()
+    if user is None:
+        return False
+    else:
+        return check_password_hash(user.password, password)
+    
 '''----- Change password -----'''
 @api.route('/change_password', methods=['POST'])
 @login_required
