@@ -4,21 +4,36 @@
 2. Create Tables
     - create_tables(): create tables if they don't exist
 2. Routes
-    - /: index:
-    - /login: login user
-    - /logout: logout user
-    - /register: register user
-    - /search: search for images based on the filter parameters
-    - /company: get the company id
-    - /region: get the region id
-    - /park: get the park id
-    - /create: create a new entry in the database
-    - /regions: get all regions
-    - /parks: get all parks
-    - /search_turbine/<search_term>: search for turbines based on the search term
-    - /search_page: get the search page
-    - /account: get the account page
-    - /turbine/<turbineId>: get the turbine page
+    - !MAINTENENCE
+        - /health: API Health check
+    - TURBINES
+        - /search: Search page route
+        - /create: Create a new turbine
+        - /search_turbine/<search_term>: search using turbine name
+        - /get_pinned: get pinned turbines
+        - /pin_turbine/<turbine_id>: pin turbine
+        - /unpin_turbine/<turbine_id>: unpin turbine
+    - LOCATIONS
+        - /company: Get company id
+        - /region: Get region id
+        - /park: Get park id
+        - /regions: Get regions
+        - /parks: Get parks
+    - USER
+        - /change_password: Change password
+        - /: Index/login route
+        - /logout: Logout route
+        - /register: Register page
+    - PAGES
+        - /turbine: Get Turbine page
+        - /search_page: Get Search page
+        - /account: Get Account page
+        - /turbine/<turbineId>: Get turbine page
+        - /help-support: Get help and support page
+3. Run the application
+    - try: Start the Flask application
+
+    Use (!) to find the different sections
 
 '''
 import os
@@ -115,7 +130,11 @@ def create_tables():
 create_tables() 
 
 '''
-================== ROUTES ==================
+================== !ROUTES ==================
+'''
+
+'''
+================== !MAINTENENCE ==================
 '''
 
 '''----- API Health check -----'''
@@ -123,74 +142,9 @@ create_tables()
 def health_check():
     return jsonify({'status': 'OK'}), 200
 
-
-'''----- Index route -----'''
-@api.route('/', methods=['GET', 'POST'])
-# @login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
-def home():
-    data = {
-        'title': 'Service for snow and ice detection',
-        'header': 'Service for snow and ice detection',
-        'welcome_message': 'Welcome to the service for snow and ice detection!',
-        'user': load_users(),
-        'content': 'Contents',
-        'footer_text': 'Service for snow and ice detection. All rights reserved.'
-    }
-    return render_template('index.html', **data)
-
-
-'''----- Login route -----'''
-@api.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        user = Users.query.filter_by(username=username).first()
-        print("============ TRYING TO LOGIN ============")
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for("search_page"))
-        else:
-            print(" ================ Wrong username or password  ================ ")
-            error = 'Invalid username or password'
-    return render_template("login.html", error=error)
-
-
-def valid_login(username, password):
-    # Check if the username exists in the database
-    user = db.session.query(Users).filter_by(username=username).first()
-    if user is None:
-        return False
-    else:
-        return check_password_hash(user.password, password)
-    
-'''----- Change password -----'''
-@api.route('/change_password', methods=['POST'])
-@login_required
-def change_password():
-    current_password = request.form.get('current_password')
-    new_password = request.form.get('new_password')
-
-    # Check if the current password is correct
-    if check_password_hash(current_user.password, current_password):
-        # Update the user's password
-        current_user.password = generate_password_hash(new_password)
-        db.session.commit()
-        flash('Your password has been updated.')
-        return redirect(url_for('account_page'))
-    else:
-        flash('Current password is incorrect.')
-        return redirect(url_for('change_password'))
-    
-
-
-'''----- Logout route -----'''
-@api.route("/logout")
-def logout():
-    logout_user()
-    return redirect(url_for("login"))
-
+'''
+================== !TURBINES ==================
+'''
 
 '''----- Search page route -----'''
 @api.route('/search', methods=['POST'])
@@ -239,7 +193,100 @@ def search():
     # get all images that match the specified critera
     return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None} for turbine in query]}), 200)
 
+'''----- Create a new turbine ----- '''
+@api.route('/create', methods=['POST'])
+def create():
+    try:
+        # Get parameters from the request
+        region = request.form.get('region')
+        company = request.form.get('company')
+        park = request.form.get('park')
+        turbine = request.form.get('turbine')
 
+        # Check if all parameters are provided
+        if None in (region, company, park, turbine):
+            return make_response(jsonify({'message': 'Missing parameters'}), 400)
+
+        # Check if the 'file' key is in the request.files dictionary
+        if 'file' not in request.files:
+            return make_response(jsonify({'message': 'No file part'}), 400)
+
+        # Get the file from the request
+        file = request.files['file']
+
+        # Check if the file is empty
+        if file.filename == '':
+            return make_response(jsonify({'message': 'No selected file'}), 400)
+
+        # Construct the folder structure
+        folder_path = os.path.join(api.config['UPLOAD_FOLDER'], company, region, park, turbine)
+
+        # Construct the file path
+        file_path = os.path.join(folder_path, file.filename)
+
+        # Save the file
+        file.save(file_path)
+
+        return make_response(jsonify({'message': 'File uploaded successfully'}), 200)
+
+    except Exception as e:
+        return make_response(jsonify({'message': 'Error uploading file'}), 500)
+
+'''----- search using turbine name----- '''
+@api.route('/search_turbine/<search_term>', methods=['GET'])
+def search_turbine(search_term):
+    try:
+        turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%')).all()
+        return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None} for turbine in turbines]}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error searching for turbines', 'error': str(e)}), 500)
+
+
+'''----- get pinned turbines -----'''
+@api.route('/get_pinned', methods=['GET'])
+def get_pinned():
+    try:
+        pinned_turbines = PinnedTurbines.query.all() #user_id is hardcoded for now
+        api.logger.info('Pinned turbines: %s', pinned_turbines)
+        if len(pinned_turbines) > 0:
+            return make_response(jsonify({'pinned_turbines': [{'turbine_id': pinned_turbine.turbine_id, 'name': get_turbine_name(pinned_turbine.turbine_id)} for pinned_turbine in pinned_turbines], 'empty':False}), 200)
+        return make_response(jsonify({'message': 'No pinned turbines', 'empty': True}), 200)
+    except Exception as e:
+        api.logger.error(e)
+        return make_response(jsonify({'message': 'error getting pinned turbines', 'error': str(e)}), 500)
+    
+get_turbine_name = lambda id: Turbines.query.filter_by(id=id).first().turbine
+
+'''----- pin turbine -----'''
+@api.route('/pin_turbine/<turbine_id>', methods=['GET'])
+def pin_turbine(turbine_id):
+    try:
+        present_turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
+        if present_turbine:
+            return make_response(jsonify({'message': 'Turbine already pinned', 'already_pinned': True}), 200)
+        turbine = PinnedTurbines(turbine_id=turbine_id, user_id=1) #user_id is hardcoded for now
+        db.session.add(turbine)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Turbine pinned successfully', 'already_pinned': False}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error pinning turbine', 'error': str(e)}), 500)
+    
+'''----- unpin turbine -----'''
+@api.route('/unpin_turbine/<turbine_id>', methods=['GET'])
+def unpin_turbine(turbine_id):
+    try:
+        turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
+        db.session.delete(turbine)
+        db.session.commit()
+        return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
+    
+
+
+'''
+================== !LOCATIONS ==================
+'''
 
 '''----- Get company id -----'''
 @api.route('/company', methods=['POST'])
@@ -288,48 +335,6 @@ def get_park_id():
         # get all images that match the specified critera
     return make_response(jsonify({'park_id': park_id}), 200)
 
-
-'''----- Create a new turbine ----- '''
-@api.route('/create', methods=['POST'])
-def create():
-    try:
-        # Get parameters from the request
-        region = request.form.get('region')
-        company = request.form.get('company')
-        park = request.form.get('park')
-        turbine = request.form.get('turbine')
-
-        # Check if all parameters are provided
-        if None in (region, company, park, turbine):
-            return make_response(jsonify({'message': 'Missing parameters'}), 400)
-
-        # Check if the 'file' key is in the request.files dictionary
-        if 'file' not in request.files:
-            return make_response(jsonify({'message': 'No file part'}), 400)
-
-        # Get the file from the request
-        file = request.files['file']
-
-        # Check if the file is empty
-        if file.filename == '':
-            return make_response(jsonify({'message': 'No selected file'}), 400)
-
-        # Construct the folder structure
-        folder_path = os.path.join(api.config['UPLOAD_FOLDER'], company, region, park, turbine)
-
-        # Construct the file path
-        file_path = os.path.join(folder_path, file.filename)
-
-        # Save the file
-        file.save(file_path)
-
-        return make_response(jsonify({'message': 'File uploaded successfully'}), 200)
-
-    except Exception as e:
-        return make_response(jsonify({'message': 'Error uploading file'}), 500)
-
-
-
 '''----- Get regions -----'''
 @api.route('/regions', methods=['GET'])
 def regions():
@@ -358,59 +363,74 @@ def parks():
 
 
 
-'''----- search using turbine name----- '''
-@api.route('/search_turbine/<search_term>', methods=['GET'])
-def search_turbine(search_term):
-    try:
-        turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%')).all()
-        return make_response(jsonify({'turbines': [turbine.json() for turbine in turbines]}), 200)
-    except Exception as e:
-        return make_response(jsonify({'message': 'error searching for turbines', 'error': str(e)}), 500)
-
 '''
-=================== !PINNED TURBINES ===================
+================== !USER ==================
 '''
 
-'''----- get pinned turbines -----'''
-@api.route('/get_pinned', methods=['GET'])
-def get_pinned():
-    try:
-        pinned_turbines = PinnedTurbines.query.all() #user_id is hardcoded for now
-        api.logger.info('Pinned turbines: %s', pinned_turbines)
-        if len(pinned_turbines) > 0:
-            return make_response(jsonify({'pinned_turbines': [{'turbine_id': pinned_turbine.turbine_id, 'name': get_turbine_name(pinned_turbine.turbine_id)} for pinned_turbine in pinned_turbines], 'empty':False}), 200)
-        return make_response(jsonify({'message': 'No pinned turbines', 'empty': True}), 200)
-    except Exception as e:
-        api.logger.error(e)
-        return make_response(jsonify({'message': 'error getting pinned turbines', 'error': str(e)}), 500)
+'''----- Validate user -----'''
+def valid_login(username, password):
+    # Check if the username exists in the database
+    user = db.session.query(Users).filter_by(username=username).first()
+    if user is None:
+        return False
+    else:
+        return check_password_hash(user.password, password)
     
-get_turbine_name = lambda id: Turbines.query.filter_by(id=id).first().turbine
+'''----- Change password -----'''
+@api.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
 
-'''----- pin turbine -----'''
-@api.route('/pin_turbine/<turbine_id>', methods=['GET'])
-def pin_turbine(turbine_id):
-    try:
-        present_turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
-        if present_turbine:
-            return make_response(jsonify({'message': 'Turbine already pinned', 'already_pinned': True}), 200)
-        turbine = PinnedTurbines(turbine_id=turbine_id, user_id=1) #user_id is hardcoded for now
-        db.session.add(turbine)
+    # Check if the current password is correct
+    if check_password_hash(current_user.password, current_password):
+        # Update the user's password
+        current_user.password = generate_password_hash(new_password)
         db.session.commit()
-        return make_response(jsonify({'message': 'Turbine pinned successfully', 'already_pinned': False}), 200)
-    except Exception as e:
-        return make_response(jsonify({'message': 'error pinning turbine', 'error': str(e)}), 500)
-    
-'''----- unpin turbine -----'''
-@api.route('/unpin_turbine/<turbine_id>', methods=['GET'])
-def unpin_turbine(turbine_id):
-    try:
-        turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
-        db.session.delete(turbine)
+        flash('Your password has been updated.')
+        return redirect(url_for('account_page'))
+    else:
+        flash('Current password is incorrect.')
+        return redirect(url_for('change_password'))
+
+'''----- Index/login route -----'''
+@api.route('/', methods=['GET', 'POST'])
+# @login_required OM MAN VILL GÖRA SÅ MAN INTE KOMMER IN UTAN INLOGGNING
+def home():
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = Users.query.filter_by(username=username).first()
+        print("============ TRYING TO LOGIN ============")
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for("search_page"))
+        else:
+            print(" ================ Wrong username or password  ================ ")
+            error = 'Invalid username or password'
+    return render_template("login.html", error=error)
+
+'''----- Logout route -----'''
+@api.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("login"))
+
+'''----- Register page -----'''
+@api.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        hashed_password = generate_password_hash(password)
+        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
+        db.session.add(user)
         db.session.commit()
-        return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
-    except Exception as e:
-        return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
-    
+        return redirect(url_for("login"))
+    return render_template("register.html")
+
 '''
 =================== PAGES ===================
 '''
@@ -427,7 +447,8 @@ def turbine():
 @api.route('/search_page', methods=['GET'])
 @login_required
 def search_page():
-    return render_template('search.html')
+    user = load_users()
+    return render_template('search.html', user=user)
 
 
 '''----- Get Account page -----'''
@@ -451,19 +472,6 @@ def turbine_page(turbineId):
 def help_support():
     return render_template('help-support.html')
 
-
-'''----- Register page -----'''
-@api.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = generate_password_hash(password)
-        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
-    return render_template("register.html")
 
 try:
     # Your existing code to start the Flask application

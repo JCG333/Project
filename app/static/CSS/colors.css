@@ -18,16 +18,18 @@
 :root {
     /*========== Header ==========*/
 
-    --header-primary-bg-color: #69859b;
+    --header-primary-bg-color: #ffffff;
 
     /*----- Searchbar -----*/
-    --search-bg-color: #5b7083;
-    --search-placeholder-color: #ffffff;
-    --search-focus-color: #516475;
+    --search-bg-color: #f5f5f5;
+    --search-placeholder-color: #cbcbcb;
+    --search-focus-color: #e4e4e4;
+    --search-button-color: #5b7083;
+    --search-text-color: #3d3e3f;
 
     /*----- Hamburger menu -----*/
-    --hamburger-menu-color: #ffffff;
-    --hamburger-hover-color: #f0f0f0;
+    --hamburger-menu-color: #5b7083;
+    --hamburger-hover-color: #526474;
 
     /*----- dropdown -----*/
     --dropdown-bg-color: #ffffff;
@@ -35,22 +37,26 @@
     --dropdown-icon-color: #3d3d3d;
     --dropdown-hover-color: #f4f4f4;
 
+    /*----- username -----*/
+    --username-color: #5b7083;
+
     /*========== Sidebar ==========*/
 
-    --sidebar-primary-bg-color: #5b7083;
-    --sidebar-primary-text-color: #ffffff;
+    --sidebar-primary-bg-color: #ffffff;
+    --sidebar-primary-text-color: #5b7083;
     --sidebar-text-border-color: #c0d7dc;
 
     /*----- Filters -----*/
 
-    --filter-bg-color: #516475;
-    --filter-hover-color: #485a69;
+    --filter-bg-color: #c0d7dc;
+    --filter-text-color: #5b7083;
+    --filter-hover-color: #b8ced3;
 
     /*----- Pinned -----*/
 
-    --pinned-bg-color: #5b7083;
-    --pinned-entry-bg-color: #69859b;
-    --pinned-hover-color: #627c90;
+    --pinned-bg-color: #ffffff;
+    --pinned-entry-bg-color: #c0d7dc;
+    --pinned-hover-color: #b8ced3;
 
     /*========== Main content ==========*/
 

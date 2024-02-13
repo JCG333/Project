@@ -27,6 +27,7 @@ body {
     height: 100%;
     background-color: var(--sidebar-primary-bg-color);
     color: var(--sidebar-primary-text-color);
+    border-right: 0.5px solid var(--main-content-bg-color);
 }
 
 #filter-container {
@@ -109,7 +110,7 @@ body {
     margin-left: 2%;
     padding: 15px;
     background-color: var(--search-bg-color);
-    color: var(--search-placeholder-color);
+    color: var(--search-text-color);
     border: none;
     border-radius: 20px;
     padding-right: 40px;
@@ -130,7 +131,7 @@ body {
 
 .search-button .fa-search {
     margin: 0;
-    color: var(--search-placeholder-color);
+    color: var(--search-button-color);
     font-size: 15px;
 }
 
@@ -147,11 +148,23 @@ body {
     color: transparent;
 }
 
+
 #search:focus {
-    background-color: var(--search-focus-color);
+    /*background-color: var(--search-focus-color);*/
+    outline: none;
 }
 
 /*============== !HEADER ==============*/
+
+/*------- !USERNAME -------*/
+#user-name {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    color: var(--username-color);
+    font-size: 15px;
+    font-weight: bold;
+}
 
 /*------- !HAMBURGER -------*/
 #ham-menu .fa-bars {
@@ -188,7 +201,7 @@ body {
     position: absolute;
     background-color: var(--dropdown-bg-color);
     min-width: 55px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 16px rgba(0, 0, 0, 0.2);
     z-index: 999;
     top: 58px;
     right: 0;
@@ -248,7 +261,7 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") no-repeat;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%235b7083' stroke='%235b7083' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") no-repeat;
     background-position: right 10px center;
     background-size: 12px;
 }
@@ -259,7 +272,7 @@ body {
     height: 40px;
     border: 0px solid black;
     background-color: var(--filter-bg-color);
-    color: white;
+    color: var(--filter-text-color);
     border-radius: 5px;
 }
 

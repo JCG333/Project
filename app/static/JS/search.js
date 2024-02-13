@@ -83,7 +83,7 @@ function getTurbines() {
                     <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
                         <td class="turbine-id"><strong>${turbine.id}</strong></td>
                         <td class="turbine-name">${turbine.turbine}</td>
-                        <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">Pin</button></td>
+                        <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
                     </tr>
                 `;
             });
@@ -96,10 +96,12 @@ function getTurbines() {
                     event.stopPropagation();
                     if (this.classList.contains('on')) {
                         unpinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
+                        this.textContent = 'Pin';
                         this.classList.remove('on');
                     } else {
                         pinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
                         this.classList.add('on');
+                        this.textContent = 'Pinned';
                     }
                 });
             });
@@ -153,6 +155,64 @@ function unpinTurbine(turbine_id) {
 function search_key(event) {
     if (event.key === 'Enter') {
         var searchQuery = document.getElementById('search').value;
+        if (searchQuery === '') {
+            getTurbines();
+        } else {
+            fetch('/search_turbine/' + searchQuery)
+                // check if response is OK
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => Promise.reject(error));
+                    }
+                    return response.json();
+                })
+                // if OK
+                .then(data => {
+                    // Create table entry for each turbine that matches the search query
+                    let turbines = '<table>';
+                    turbines += '<tr><th>ID</th><th>Turbine</th><th></th></tr>';
+                    data.turbines.forEach(turbineData => {
+                        let turbine = turbineData.turbine;
+                        let isPinned = turbineData.pinned;
+                        turbines += `
+                        <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
+                            <td class="turbine-id"><strong>${turbine.id}</strong></td>
+                            <td class="turbine-name">${turbine.turbine}</td>
+                            <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
+                        </tr>
+                    `;
+                    });
+                    turbines += '</table>';
+                    document.getElementById('turbine-list').innerHTML = turbines;
+
+                    document.querySelectorAll('.pinned-button').forEach(function (button) {
+                        button.addEventListener('click', function (event) {
+                            event.stopPropagation();
+                            if (this.classList.contains('on')) {
+                                unpinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
+                                this.textContent = 'Pin';
+                                this.classList.remove('on');
+                            } else {
+                                pinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
+                                this.classList.add('on');
+                                this.textContent = 'Pinned';
+                            }
+                        });
+                    });
+                })
+                // Error handling
+                .catch(error => {
+                    showError(error.message);
+                });
+        }
+    }
+}
+/*----- Search bar (button triggered) -----*/
+function search_button() {
+    var searchQuery = document.getElementById('search').value;
+    if (searchQuery === '') {
+        getTurbines();
+    } else {
         fetch('/search_turbine/' + searchQuery)
             // check if response is OK
             .then(response => {
@@ -170,56 +230,36 @@ function search_key(event) {
                     let turbine = turbineData.turbine;
                     let isPinned = turbineData.pinned;
                     turbines += `
-                        <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
-                            <td class="turbine-id"><strong>${turbine.id}</strong></td>
-                            <td class="turbine-name">${turbine.turbine}</td>
-                            <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">Pin</button></td>
-                        </tr>
-                    `;
+                    <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
+                        <td class="turbine-id"><strong>${turbine.id}</strong></td>
+                        <td class="turbine-name">${turbine.turbine}</td>
+                        <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
+                    </tr>
+                `;
                 });
                 turbines += '</table>';
                 document.getElementById('turbine-list').innerHTML = turbines;
+
+                document.querySelectorAll('.pinned-button').forEach(function (button) {
+                    button.addEventListener('click', function (event) {
+                        event.stopPropagation();
+                        if (this.classList.contains('on')) {
+                            unpinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
+                            this.classList.remove('on');
+                            this.textContent = 'Pin';
+                        } else {
+                            pinTurbine(this.parentElement.parentElement.querySelector('.turbine-id').textContent);
+                            this.classList.add('on');
+                            this.textContent = 'Pinned';
+                        }
+                    });
+                });
             })
             // Error handling
             .catch(error => {
                 showError(error.message);
             });
     }
-}
-/*----- Search bar (button triggered) -----*/
-function search_button() {
-    var searchQuery = document.getElementById('search').value;
-    fetch('/search_turbine/' + searchQuery)
-        // check if response is OK
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(error => Promise.reject(error));
-            }
-            return response.json();
-        })
-        // if OK
-        .then(data => {
-            // Create table entry for each turbine that matches the search query
-            let turbines = '<table>';
-            turbines += '<tr><th>ID</th><th>Turbine</th><th></th></tr>';
-            data.turbines.forEach(turbineData => {
-                let turbine = turbineData.turbine;
-                let isPinned = turbineData.pinned;
-                turbines += `
-                    <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
-                        <td class="turbine-id"><strong>${turbine.id}</strong></td>
-                        <td class="turbine-name">${turbine.turbine}</td>
-                        <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">Pin</button></td>
-                    </tr>
-                `;
-            });
-            turbines += '</table>';
-            document.getElementById('turbine-list').innerHTML = turbines;
-        })
-        // Error handling
-        .catch(error => {
-            showError(error.message);
-        });
 }
 /*----- Event listeners for Search bar -----*/
 document.getElementById('search').addEventListener('keypress', search_key);

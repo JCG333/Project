@@ -1,8 +1,8 @@
-
 @import 'colors.css';
 /* Importing the colors */
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -10,9 +10,11 @@ body, html {
 
 .container {
     display: flex;
+    flex-direction: row;
     height: 100vh;
     width: 110%;
 }
+
 .icon-image {
     border-radius: 90%;
     width: 125px;
@@ -27,12 +29,13 @@ body, html {
 }
 
 .login-form {
-    flex: 2; 
+    flex: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 50px;
+    min-width: 20%;
 
 }
 
@@ -42,8 +45,8 @@ body, html {
 
 form {
     width: 100%;
-    
-    
+
+
 }
 
 label {
@@ -76,37 +79,43 @@ button {
 
 
 .background-image {
-    flex: 3; 
+    flex: 3;
     background-size: cover;
     background-position: center;
 }
 
-body, html {
+body,
+html {
     overflow: hidden;
 }
 
-#password-text, #username-text {
+#password-text,
+#username-text {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: #8b8b8b;
     font-size: large;
 }
 
-#password, #username {
+#password,
+#username {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
 }
 
-
-.register-container a{
+.register-container a,
+.register-form-container a {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding-right: 15%;
 }
-.register-container a{
+
+.register-container a,
+.register-form-container a {
     color: #8b8b8b;
 }
+
 
 #forgot-password-section {
     display: none;
@@ -120,7 +129,7 @@ body, html {
     justify-content: center;
     align-items: center;
     /* Add other styles as needed */
-  }
+}
 
 .forgot-password-form form {
     display: flex;
@@ -137,20 +146,23 @@ body, html {
 
 .inputs-forgot-password {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  }
-
-.login-button, .forgot-password-button {
-    transition: background-color 0.3s ease; 
 }
 
-.login-button:hover, .forgot-password-button:hover {
-    background-color: #fa6a21; 
+.login-button,
+.forgot-password-button {
+    transition: background-color 0.3s ease;
 }
-  #exit-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
+
+.login-button:hover,
+.forgot-password-button:hover {
+    background-color: #fa6a21;
+}
+
+#exit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }
 
 /*============== !ERROR MESSAGE ==============*/
