@@ -428,8 +428,22 @@ def register():
         user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for("login"))
+        return redirect(url_for("home"))
     return render_template("register.html")
+
+'''----- Change language -----'''
+@api.route('/change_language', methods=['POST'])
+@login_required
+def change_language():
+    lang = request.form.get('lang')
+    user = Users.query.get(current_user.id)
+    old_lang = user.language
+    user.language = lang
+    db.session.commit()
+    if old_lang != lang:
+        return jsonify({'status': 'success', 'message': 'Language changed'})
+    else:
+        return jsonify({'status': 'success', 'message': 'Language not changed'})
 
 '''
 =================== PAGES ===================
@@ -447,7 +461,7 @@ def turbine():
 @api.route('/search_page', methods=['GET'])
 @login_required
 def search_page():
-    user = load_users()
+    user = Users.query.get(current_user.id)
     return render_template('search.html', user=user)
 
 
@@ -455,7 +469,7 @@ def search_page():
 @api.route('/account', methods=['GET'])
 @login_required
 def account_page():
-    user = load_users()
+    user = Users.query.get(current_user.id)
     return render_template('account.html', user=user)
 
 
@@ -465,13 +479,24 @@ def account_page():
 def turbine_page(turbineId):
     return render_template('turbine.html', turbineId=turbineId)
 
+'''----- Get settings page -----'''
+@api.route('/settings', methods=['GET'])
+@login_required
+def settings_page():
+    user = load_users()
+    return render_template('settings.html', user=user)
 
 '''----- Get help and support page -----'''
 @api.route('/help-support', methods=['GET'])
 @login_required
 def help_support():
-    return render_template('help-support.html')
+    user = Users.query.get(current_user.id)
+    return render_template('help-support.html', user=user)
 
+@api.errorhandler(500)
+def internal_error(exception):
+    app.logger.error(exception)
+    return "An internal server error occurred.", 500
 
 try:
     # Your existing code to start the Flask application

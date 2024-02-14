@@ -15,6 +15,7 @@ body, h1, h2, h3, p, ul {
 
 body {
     font-family: Arial, sans-serif;
+
 }
 
 header {
@@ -32,7 +33,10 @@ header {
     width: 40px;
     height: 40px;
   }
-
+  .hover-effect:hover #header-image {
+    transform: scale(1.1);
+    transition: transform .2s;
+}
 nav {
     display: flex;
     justify-content: space-around;

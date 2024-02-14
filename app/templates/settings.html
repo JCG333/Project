@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script> var userLanguage = "{{ user.language }}"; </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='JS/settings.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/settings.css') }}">
+    <title>Settings</title>
+</head>
+<body>
+    <a href="{{ url_for('search_page') }}" id="return-button">
+        <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
+    </a>
+    <div class="lang-buttons">
+        <button onclick="changeLanguage('eng')">English</button>
+        <button onclick="changeLanguage('swe')">Swedish</button>
+    </div>
+</body>
+</html>

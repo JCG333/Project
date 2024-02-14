@@ -124,6 +124,7 @@ class Users(UserMixin, db.Model):
     password = db.Column(db.String(250), nullable=False)
     privilege = db.Column(db.Integer, nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
+    language = db.Column(db.String(20), nullable=False, default='eng')
 
     PinnedTurbines = db.relationship('PinnedTurbines', lazy=True)
 

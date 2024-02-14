@@ -14,6 +14,80 @@
     --search-focus-color: #243439;
 }
 
+[data-theme="dark"] {
+ /*========== Header ==========*/
+
+ --header-primary-bg-color: #ffffff;
+
+ /*----- Searchbar -----*/
+ --search-bg-color: #f5f5f5;
+ --search-placeholder-color: #cbcbcb;
+ --search-focus-color: #e4e4e4;
+ --search-button-color: #5b7083;
+ --search-text-color: #3d3e3f;
+
+ /*----- Hamburger menu -----*/
+ --hamburger-menu-color: #5b7083;
+ --hamburger-hover-color: #526474;
+
+ /*----- dropdown -----*/
+ --dropdown-bg-color: #ffffff;
+ --dropdown-border-color: #69859b;
+ --dropdown-icon-color: #3d3d3d;
+ --dropdown-hover-color: #f4f4f4;
+
+ /*----- username -----*/
+ --username-color: #5b7083;
+
+ /*========== Sidebar ==========*/
+
+ --sidebar-primary-bg-color: #ffffff;
+ --sidebar-primary-text-color: #5b7083;
+ --sidebar-text-border-color: #c0d7dc;
+
+ /*----- Filters -----*/
+
+ --filter-bg-color: #c0d7dc;
+ --filter-text-color: #5b7083;
+ --filter-hover-color: #b8ced3;
+
+ /*----- Pinned -----*/
+
+ --pinned-bg-color: #ffffff;
+ --pinned-entry-bg-color: #c0d7dc;
+ --pinned-hover-color: #b8ced3;
+
+ /*========== Main content ==========*/
+
+ --list-bg-color: #ffffff;
+ --main-content-bg-color: #f2f2f2;
+ --list-text-color: #000000;
+
+ /*----- Entries -----*/
+ --list-header-bg-color: #ffffff;
+ --list-entry-bg-color: #f2f2f2;
+ --list-entry-hover-color: #e9e9e9;
+
+
+ /*----- Pinned button -----*/
+ --pinned-button-hover-color: #115ec3;
+ --pinned-buttun-hover-border-color: #115ec3;
+ --pinned-button-text-color: #ffffff;
+ --pinnedOn-button-text-color: #c3c3c3;
+
+ /*----- On -----*/
+ --pinnedOn-button-bg-color: #f2f2f2;
+ --pinnedOn-button-border-color: #c3c3c3;
+
+ /*----- Off -----*/
+ --pinned-button-bg-color: #2783fc;
+ --pinned-button-border-color: #2783fc;
+
+ /*========== Misc ==========*/
+
+ /*----- Error message -----*/
+ --error-bg-color: #d23030;
+}
 
 :root {
     /*========== Header ==========*/
@@ -89,4 +163,9 @@
     /*----- Error message -----*/
     --error-bg-color: #d23030;
 
+}
+
+[data-theme="dark"] {
+    --background-color: black;
+    --text-color: white;
 }

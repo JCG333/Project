@@ -18,16 +18,17 @@
 
 <body>
     <!------ ACCOUNT CREDENTIALS ------>
+    {% if user.language == 'eng' %}
     <div class="container">
         <div class="menu">
             <a href="{{ url_for('search_page') }}" id="return-button">
                 <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
             </a>
             <div id="name-container">
-                <h1>{{user}}</h1>
+                <h1>{{user.username}}</h1>
             </div>
             <div id="parks">
-                <h1>Parks: You have X amount of parks</h1>    
+                <h1>Parks: X amount of parks</h1>    
             </div>
             <div id="turbines">
                 <h1>Turbines: You have X amount of turbines</h1>  
@@ -48,7 +49,39 @@
             
         </div>
     </div>
+    {% endif %}
+    {% if user.language == 'swe' %}
+    <div class="container">
+        <div class="menu">
+            <a href="{{ url_for('search_page') }}" id="return-button">
+                <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
+            </a>
+            <div id="name-container">
+                <h1>{{user.username}}</h1>
+            </div>
+            <div id="parks">
+                <h1>Parker: Du har X antal parker</h1>    
+            </div>
+            <div id="turbines">
+                <h1>Turbiner: Du har X antal turbiner</h1>  
+            </div>
+        </div>
 
+        <div class="account-info">
+            <img class="background-image" src="{{ url_for('static', filename='images/background-account.jpg') }}" alt="background-image">
+            <div id="cred-container">
+                <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                    <h2>Ändra lösenord</h2>
+                    <input type="password" name="current_password" placeholder="Nuvarande lösenord" required>
+                    <input type="password" name="new_password" placeholder="Nytt lösenord" required>
+                    <input type="submit" value="Ändra lösenord">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    {% endif %}
     <!---- ERROR CONTAINER ---->
     <div id="error-message">
         <p> </p>

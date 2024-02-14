@@ -12,11 +12,11 @@
 </head>
 
 <body>
-
+    {% if user.language == 'eng' %}
     <header>
-        <a href="/search_page">
+        <a href="/search_page" class="hover-effect">
             <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="return-arrow" id="header-image">
-          </a>
+        </a>
         <h1>Help and Support</h1>
     </header>
 
@@ -57,7 +57,7 @@
                 <li><div class="step-text">Step 1: Close the website.</div></li>
                 <li><div class="step-text">Step 2: Start the website again.</div></li>
                 <li><div class="step-text">Step 3: Success.</div></li>
-              </ol>
+            </ol>
         </div>
 
         <div id="issue2">
@@ -67,7 +67,7 @@
                 <li><div class="step-text">Step 1: Close the website.</div></li>
                 <li><div class="step-text">Step 2: Start the website again.</div></li>
                 <li><div class="step-text">Step 3: Success.</div></li>
-              </ol>
+            </ol>
         </div>
     </section>
 
@@ -88,6 +88,83 @@
     <footer>
         <p>&copy; 2024 Vad nu vårat företag heter?. All rights reserved.</p>
     </footer>
+    {% endif %}
+    {% if user.language == 'swe' %}
+    <header>
+        <a href="/search_page" class="hover-effect">
+            <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="return-arrow" id="header-image">
+        </a>
+        <h1>Hjälp och Stöd</h1>
+    </header>
+
+    <nav>
+        <a href="#faqs" onclick="toggleSection('faqs')">FAQs</a>
+        <a href="#troubleshooting" onclick="toggleSection('troubleshooting')">Felsökning</a>
+        <a href="#contact" onclick="toggleSection('contact')">Kontakt</a>
+    </nav>
+
+    <section id="faqs" class="content-section">
+        <h2>Vanliga frågor(FAQs)</h2>
+        <ul>
+            <li>
+                <strong>Q:Hur lägger jag till fler turbiner på hemsidan?</strong>
+                <p>A: Kontakta oss så löser vi det åt dig .</p>
+            </li>
+            <li>
+                <strong>Q: Hur skapar jag fler användare för mitt företag?</strong>
+                <p>A: Det kan du inte, varje företag har bara en användare.</p>
+            </li>
+            <li>
+                <strong>Q: Fråga Fråga Fråga Fråga?</strong>
+                <p>A: Svar Svar Svar Svar .</p>
+            </li>
+        </ul>
+    </section>
+
+    <section id="troubleshooting" class="content-section">
+        <h2>Felsökningsguider</h2>
+        <p>Kända problem</p>
+
+
+        <!-- Felsökningsinnehåll -->
+        <div id="issue1">
+            <h3>Problem 1: Sidan startar inte</h3>
+            <p>Steg-för-steg felsökningsguide</p>
+            <ol>
+                <li><div class="step-text">Steg 1: Stäng webbplatsen.</div></li>
+                <li><div class="step-text">Steg 2: Starta webbplatsen igen.</div></li>
+                <li><div class="step-text">Steg 3: Framgång.</div></li>
+            </ol>
+        </div>
+
+        <div id="issue2">
+            <h3>Problem 2: Parkens turbiner laddar inte</h3>
+            <p>Steg-för-steg felsökningsguide</p>
+            <ol>
+                <li><div class="step-text">Steg 1: Stäng webbplatsen.</div></li>
+                <li><div class="step-text">Steg 2: Starta webbplatsen igen.</div></li>
+                <li><div class="step-text">Steg 3: Framgång.</div></li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section">
+        <h2>Kontaktinformation</h2>
+        <p>Om du behöver ytterligare hjälp, vänligen kontakta oss:</p>
+        <ul>
+            <li>E-post: support@företaget.com</li>
+            <li>Telefon: 070-1234567</li>
+        </ul>
+        <!-- Lägg till ett kontaktformulär om så önskas -->
+    </section>
+
+    <section id="placeholder-section" class="content-section">
+        <p id="placeholder-text">Välj en sektion för att visa dess innehåll</p>
+    </section>
+    <footer>
+        <p>&copy; 2024 Vad nu vårat företag heter?. All rights reserved.</p>
+    </footer>
+    {% endif %}
 
 </body>
 
