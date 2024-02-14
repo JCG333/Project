@@ -416,7 +416,7 @@ def home():
 @api.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("home"))
 
 '''----- Register page -----'''
 @api.route('/register', methods=['GET', 'POST'])
