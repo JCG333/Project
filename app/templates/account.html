@@ -24,14 +24,18 @@
             <a href="{{ url_for('search_page') }}" id="return-button">
                 <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
             </a>
+
+            
             <div id="name-container">
                 <h1>{{user.username}}</h1>
             </div>
-            <div id="parks">
-                <h1>Parks: X amount of parks</h1>    
-            </div>
-            <div id="turbines">
-                <h1>Turbines: You have X amount of turbines</h1>  
+            <div id="account-content">
+                <div id="parks">
+                    <h1>Parks: X amount of parks</h1>    
+                </div>
+                <div id="turbines">
+                    <h1>Turbines: You have X amount of turbines</h1>  
+                </div>
             </div>
         </div>
 
@@ -59,11 +63,13 @@
             <div id="name-container">
                 <h1>{{user.username}}</h1>
             </div>
-            <div id="parks">
-                <h1>Parker: Du har X antal parker</h1>    
-            </div>
-            <div id="turbines">
-                <h1>Turbiner: Du har X antal turbiner</h1>  
+            <div id="account-content">
+                <div id="parks">
+                    <h1>Parker: Du har X antal parker</h1>    
+                </div>
+                <div id="turbines">
+                    <h1>Turbiner: Du har X antal turbiner</h1>  
+                </div>
             </div>
         </div>
 

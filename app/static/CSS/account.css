@@ -108,20 +108,32 @@ input[type="submit"]:hover {
 
     }
 
+#account-content {
+    background-color: var(  --list-entry-bg-color);
+    width: 80%; 
+    margin: auto; 
+    padding-top: 10px; 
+    box-sizing: border-box; 
+    position: relative; 
+    height: 75vh; 
+    margin-top: -20px;
+    border-radius: 10px;
+
+}
+
 #name-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
     background-color:var(--header-primary-bg-color);
     font-size: 5vw;
     border-bottom: 1;
+    margin-top: 40px;
     }
 
 #name-container h1 {
     border-bottom: 2px solid var(--username-color);
-    margin-bottom: 70vh;
     text-align: center;
     flex: 2;
     font-size: 4vw;
@@ -132,9 +144,8 @@ input[type="submit"]:hover {
 
 #parks h1 {
     width: 100%;
-    font-size: 1vw;
+    font-size: 0.9vw;
     border-bottom: 1;
-    margin-top: -75vh;
     color: var( --list-text-color);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: left;
@@ -143,9 +154,8 @@ input[type="submit"]:hover {
 
 #turbines h1 {
     width: 100%;
-    font-size: 1vw;
+    font-size: 0.9vw;
     border-bottom: 1;
-    margin-top: -72vh;
     color: var( --list-text-color);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: left;
@@ -156,6 +166,7 @@ input[type="submit"]:hover {
 html, body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
     }
 
 
