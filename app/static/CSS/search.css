@@ -43,7 +43,6 @@ header {
     height: 20%;
     margin-left: 10%;
     margin-right: 10%;
-    margin-bottom: 10%;
 }
 
 #pinned-container {
@@ -104,58 +103,6 @@ header {
     width: 50%;
     height: 100%;
     justify-content: right;
-}
-
-/*============== !SEARCH BAR ==============*/
-
-#search {
-    display: flex;
-    width: 35%;
-    max-height: 75%;
-    margin-left: 2%;
-    padding: 15px;
-    background-color: var(--search-bg-color);
-    color: var(--search-text-color);
-    border: none;
-    padding-right: 40px;
-    font-size: 15px;
-    outline: none;
-}
-
-.search-button {
-    position: absolute;
-    left: 16.5%;
-    top: 0.9%;
-    border: none;
-    background: none;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-}
-
-.search-button .fa-search {
-    margin: 0;
-    color: var(--search-button-color);
-    font-size: 15px;
-}
-
-.fa-search:hover {
-    font-size: 16px;
-}
-
-#search::placeholder {
-    color: var(--search-placeholder-color);
-    font-size: medium;
-}
-
-#search:focus::placeholder {
-    color: transparent;
-}
-
-
-#search:focus {
-    /*background-color: var(--search-focus-color);*/
-    outline: none;
 }
 
 /*============== !HEADER ==============*/
@@ -240,9 +187,62 @@ header {
 
 /*============== !SIDEBAR ==============*/
 
+/*------- !SEARCH BAR -------*/
+
+#search {
+    display: flex;
+    width: 80%;
+    height: 30px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 15px;
+    color: var(--search-text-color);
+    border: 1px solid var(--search-border-color);
+    padding-right: 40px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-button {
+    position: absolute;
+    left: 15.7%;
+    top: 16.1%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+.search-button .fa-search {
+    margin: 0;
+    color: var(--search-button-color);
+    font-size: 15px;
+}
+
+.fa-search:hover {
+    font-size: 16px;
+}
+
+#search::placeholder {
+    color: var(--search-placeholder-color);
+    font-size: medium;
+}
+
+#search:focus::placeholder {
+    color: transparent;
+}
+
+
+#search:focus {
+    /*background-color: var(--search-focus-color);*/
+    outline: none;
+}
+
 /*------- !FILTER -------*/
 
-#filter-title {
+#filter-title,
+#search-title {
     font-size: 16px;
     margin-bottom: 20px;
     margin-left: 10%;
@@ -301,6 +301,7 @@ header {
     border-bottom: 2px solid var(--sidebar-text-border-color);
     padding-bottom: 10px;
     font-weight: bold;
+    margin-top: 0px;
 }
 
 .turbine-div {

@@ -95,8 +95,9 @@
     --header-primary-bg-color: #1f80e8;
 
     /*----- Searchbar -----*/
-    --search-bg-color: #f5f5f5;
+    --search-bg-color: #e0efff;
     --search-placeholder-color: #cbcbcb;
+    --search-border-color: #dedede;
     --search-focus-color: #e4e4e4;
     --search-button-color: #cbcbcb;
     --search-text-color: #3d3e3f;
