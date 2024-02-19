@@ -13,6 +13,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
+<header>
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+            <input type="search" id="search" placeholder="Search for turbine(s)">
+            <button id="search-button" class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Logged in as: {{user.username}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Account</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Help & Support</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
 <body>
     {% if user.language == 'eng' %}
     <!---- MAIN ---->
@@ -39,46 +82,6 @@
         </div>
         <!---- CONTENT ---->
         <div id="content-container">
-            <!---- HEADER ---->
-            <div id="header-container">
-                <!---- LEFT HEADER ---->
-                <div id="left-header-container">
-                    <input type="search" id="search" placeholder="Search for turbine(s)">
-                    <button id="search-button" class="search-button"><i class="fas fa-search"></i></button>
-                </div>
-                <!---- RIGHT HEADER ---->
-                <div id="right-header-container">
-
-                    <span id="user-name">Logged in as: {{user.username}}</span>
-
-                    <!---- DROPDOWN ---->
-                    <div class="dropdown">
-                        <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
-                        <div id="myDropdown" class="dropdown-content">
-                            <a href="/account" class="dropdown-icon">
-                                <i class="fas fa-user-circle"></i>
-                                <p>Account</p>
-                                <span></span>
-                            </a>
-                            <a href="/settings" class="dropdown-icon">
-                                <i class="fas fa-cog"></i>
-                                <p>Settings</p>
-                                <span></span>
-                            </a>
-                            <a href="/help-support" class="dropdown-icon">
-                                <i class="fas fa-question-circle"></i>
-                                <p>Help & Support</p>
-                                <span></span>
-                            </a>
-                            <a href="/logout" class="dropdown-icon">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <p>Logout</p>
-                                <span></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!---- TURBINE LIST ---->
             <div id="list-container">
                 <div id="turbine-list">
@@ -88,7 +91,7 @@
         </div>
         {% endif %}
         {% if user.language == "swe" %}
-                <!---- MAIN ---->
+        <!---- MAIN ---->
         <div id="main-container">
             <!---- SIDEBAR ---->
             <div id="sidebar-container">
@@ -159,13 +162,13 @@
                     </div>
                 </div>
             </div>
-        {% endif %}
+            {% endif %}
 
-        <!---- ERROR CONTAINER ---->
-        <div id="error-message" class="error-message">
-            <p>Error: Something went wrong!</p>
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Something went wrong!</p>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
