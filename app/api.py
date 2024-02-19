@@ -191,7 +191,7 @@ def search():
         return make_response(jsonify({'message': 'error getting turbine(s)', 'error': str(e)}), 500)  
     
     # get all images that match the specified critera
-    return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None} for turbine in query]}), 200)
+    return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None, 'region': Regions.query.filter_by(id=turbine.region_id).first().region, 'park': Parks.query.filter_by(id=turbine.park_id).first().park} for turbine in query]}), 200)
 
 '''----- Create a new turbine ----- '''
 @api.route('/create', methods=['POST'])
@@ -237,7 +237,7 @@ def create():
 def search_turbine(search_term):
     try:
         turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%')).all()
-        return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None} for turbine in turbines]}), 200)
+        return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None, 'region': Regions.query.filter_by(id=turbine.region_id).first().region, 'park': Parks.query.filter_by(id=turbine.park_id).first().park} for turbine in turbines]}), 200)
     except Exception as e:
         return make_response(jsonify({'message': 'error searching for turbines', 'error': str(e)}), 500)
 

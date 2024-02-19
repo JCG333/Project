@@ -322,6 +322,7 @@ body {
     color: var(--list-text-color);
     font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
+
 }
 
 #turbine-list table {
@@ -332,18 +333,13 @@ body {
 
 #turbine-list table th,
 #turbine-list table td {
-    padding: 10px;
-}
-
-#turbine-list table td {
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
 }
 
 #turbine-list table th {
     color: var(--list-text-color);
     background-color: var(--list-header-bg-color);
     border-bottom: 2px solid #ddd;
-    position: sticky;
     text-align: left;
 }
 
@@ -355,6 +351,24 @@ body {
     background-color: var(--list-entry-hover-color);
 }
 
+
+.turbine-id {
+    width: 100px;
+    text-align: left;
+}
+
+.tubrine-name {
+    text-align: left;
+}
+
+
+/*
+.turbine-list-div {
+    border: 2px solid var(--list-header-bg-color);
+    border-radius: 10px;
+    display: flex;
+}
+*/
 /*------- !PINNED(LIST) -------*/
 
 .pinned-button {
@@ -384,9 +398,10 @@ body {
 }
 
 .pinned-button.on:hover {
-    background-color: var(--pinned-button-hover-color);
-    border: 2px solid var(--pinned-buttun-hover-border-color);
+    background-color: var(--pinnedOn-button-hover-color);
+    border: 2px solid var(--pinnedOn-button-border-color);
     cursor: pointer;
+    color: var(--pinnedOn-button-text-color);
 }
 
 .pinned-button:hover {
@@ -401,15 +416,6 @@ body {
     justify-content: right;
     align-items: center;
     text-align: right;
-}
-
-.turbine-id {
-    width: 100px;
-    text-align: left;
-}
-
-.tubrine-name {
-    text-align: left;
 }
 
 /*============== !ERROR MESSAGE ==============*/

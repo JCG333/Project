@@ -153,6 +153,7 @@
     /*----- On -----*/
     --pinnedOn-button-bg-color: #f2f2f2;
     --pinnedOn-button-border-color: #c3c3c3;
+    --pinnedOn-button-hover-color: #e7e7e7;
 
     /*----- Off -----*/
     --pinned-button-bg-color: #2783fc;

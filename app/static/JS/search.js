@@ -75,14 +75,17 @@ function getTurbines() {
         .then(data => {
             // Create table entry for each turbine in the database
             let turbines = '<table>';
-            turbines += '<tr><th>ID</th><th>Turbine</th><th></th></tr>';
+            turbines += '<tr><th>ID</th><th>Turbine</th><th>Location</th><th></th></tr>';
             data.turbines.forEach(turbineData => {
                 let turbine = turbineData.turbine;
                 let isPinned = turbineData.pinned;
+                let park = turbineData.park;
+                let region = turbineData.region;
                 turbines += `
-                    <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
+                    <tr class="turbine-list-div" style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
                         <td class="turbine-id"><strong>${turbine.id}</strong></td>
                         <td class="turbine-name">${turbine.turbine}</td>
+                        <td class="turbine-location"><i class="fas fa-map-marker-alt"></i> ${park}, ${region}</td>
                         <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
                     </tr>
                 `;
@@ -170,17 +173,20 @@ function search_key(event) {
                 .then(data => {
                     // Create table entry for each turbine that matches the search query
                     let turbines = '<table>';
-                    turbines += '<tr><th>ID</th><th>Turbine</th><th></th></tr>';
+                    turbines += '<tr><th>ID</th><th>Turbine</th><th>Location</th><th></th></tr>';
                     data.turbines.forEach(turbineData => {
                         let turbine = turbineData.turbine;
                         let isPinned = turbineData.pinned;
+                        let park = turbineData.park;
+                        let region = turbineData.region;
                         turbines += `
-                        <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
-                            <td class="turbine-id"><strong>${turbine.id}</strong></td>
-                            <td class="turbine-name">${turbine.turbine}</td>
-                            <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
-                        </tr>
-                    `;
+                            <tr class="turbine-list-div" style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
+                                <td class="turbine-id"><strong>${turbine.id}</strong></td>
+                                <td class="turbine-name">${turbine.turbine}</td>
+                                <td class="turbine-location"><i class="fas fa-map-marker-alt"></i> ${park}, ${region}</td>
+                                <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
+                            </tr>
+                        `;
                     });
                     turbines += '</table>';
                     document.getElementById('turbine-list').innerHTML = turbines;
@@ -225,17 +231,20 @@ function search_button() {
             .then(data => {
                 // Create table entry for each turbine that matches the search query
                 let turbines = '<table>';
-                turbines += '<tr><th>ID</th><th>Turbine</th><th></th></tr>';
+                turbines += '<tr><th>ID</th><th>Turbine</th><th>Location</th><th></th></tr>';
                 data.turbines.forEach(turbineData => {
                     let turbine = turbineData.turbine;
                     let isPinned = turbineData.pinned;
+                    let park = turbineData.park;
+                    let region = turbineData.region;
                     turbines += `
-                    <tr style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
-                        <td class="turbine-id"><strong>${turbine.id}</strong></td>
-                        <td class="turbine-name">${turbine.turbine}</td>
-                        <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
-                    </tr>
-                `;
+                        <tr class="turbine-list-div" style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
+                            <td class="turbine-id"><strong>${turbine.id}</strong></td>
+                            <td class="turbine-name">${turbine.turbine}</td>
+                            <td class="turbine-location"><i class="fas fa-map-marker-alt"></i> ${park}, ${region}</td>
+                            <td class="turbine-pin"><button class="pinned-button ${isPinned ? 'on' : ''}">${isPinned ? 'Pinned' : 'Pin'}</button></td>
+                        </tr>
+                    `;
                 });
                 turbines += '</table>';
                 document.getElementById('turbine-list').innerHTML = turbines;
