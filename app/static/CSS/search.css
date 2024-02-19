@@ -156,7 +156,7 @@ header {
     min-width: 235px;
     box-shadow: 0 15px 16px rgba(0, 0, 0, 0.2);
     z-index: 999;
-    top: 45px;
+    top: 47px;
     right: -10px;
     border-bottom: 6px solid var(--dropdown-border-color);
 }
