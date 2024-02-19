@@ -136,7 +136,7 @@ function pinTurbine(turbine_id) {
 }
 /*----- unpin turbine ------*/
 function unpinTurbine(turbine_id) {
-    fetch('/unpin_turbine/' + turbine_id)
+    return fetch('/unpin_turbine/' + turbine_id)
         // check if response is OK
         .then(response => {
             if (!response.ok) {
@@ -237,6 +237,7 @@ function search_button() {
                     let isPinned = turbineData.pinned;
                     let park = turbineData.park;
                     let region = turbineData.region;
+                    console.log("Turbine:" + turbine.id + ", pin: " + isPinned);
                     turbines += `
                         <tr class="turbine-list-div" style="cursor: pointer;" onclick="window.location='turbine/${turbine.id}';">
                             <td class="turbine-id"><strong>${turbine.id}</strong></td>
@@ -330,12 +331,26 @@ function getPinnedTurbines() {
                 data.pinned_turbines.forEach(turbine => {
                     pinned_turbines += `
                 <div class="turbine-div" style="cursor: pointer;" onclick="window.location='turbine/${turbine.turbine_id}';">
-                    <p><strong>${turbine.turbine_id}</strong></p>
-                    <p>${turbine.name}</p>
+                    <p class="pinned-turbine-id"><strong>${turbine.turbine_id}</strong></p>    
+                    <p class="pinned-turbine-name">${turbine.name}</p>
+                    <button class="unpin-button"><i class="far fa-times unpin-icon"></i></button>
                 </div>
                 `;
                 });
                 document.getElementById('pinned-container').innerHTML = pinned_turbines;
+
+                document.querySelectorAll('.unpin-button').forEach(function (unpinButton) {
+                    unpinButton.addEventListener('click', function (event) {
+                        event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
+
+                        var turbineId = this.parentElement.querySelector('.pinned-turbine-id').textContent;
+                        unpinTurbine(turbineId).then(function () {
+                            // After unpinTurbine has completed, call search_button
+                            console.log('Unpinned turbine ' + turbineId);
+                            search_button();
+                        });
+                    });
+                });
             }
         })
         // Error handling

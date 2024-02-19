@@ -310,15 +310,39 @@ header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
-    padding: 0 10% 0 10%;
+    width: 88%;
+    min-width: 80%;
+    padding: 0 2% 0 10%;
     height: 50px;
     margin-bottom: 10px;
     background-color: var(--pinned-entry-bg-color);
 }
 
+.pinned-turbine-name {
+    margin-right: 10px;
+}
+
 .turbine-div:hover {
     background-color: var(--pinned-hover-color);
+}
+
+.unpin-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+.unpin-button,
+.fa-times {
+    margin: 0;
+    color: var(--unpin-icon-color);
+    font-size: 20px;
+}
+
+.fa-times:hover {
+    color: var(--unpin-icon-hover-color);
 }
 
 /*============== !TURBINE LIST ==============*/
