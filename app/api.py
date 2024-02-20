@@ -89,6 +89,9 @@ def create_tables():
             default_company = Companies(company = 'Company1')
             db.session.add(default_company)
             db.session.commit()
+            default_company2 = Companies(company = 'Company2')
+            db.session.add(default_company2)
+            db.session.commit()
             default_region = Regions(region = 'Region1', company_id = default_company.id)
             db.session.add(default_region)
             db.session.commit()
@@ -154,10 +157,9 @@ def search():
     filters = request.get_json()
     region_name = filters.get('region')
     park_name = filters.get('park')
-    company_name = filters.get('company')
-    print('region_name: ', region_name)
-    print('park_name: ', park_name)
-    print('company_name: ', company_name)
+    if current_user.company_id == None:
+        return make_response(jsonify({'message': 'not assigned to a company'}), 500)
+    company_name = Companies.query.filter_by(id=current_user.company_id).first().company
 
     # get ids for each filter
     try:
@@ -236,7 +238,10 @@ def create():
 @api.route('/search_turbine/<search_term>', methods=['GET'])
 def search_turbine(search_term):
     try:
-        turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%')).all()
+        if current_user.company_id == None:
+            return make_response(jsonify({'message': 'not assigned to a company'}), 500)
+        company_id = Companies.query.filter_by(id=current_user.company_id).first().id
+        turbines = Turbines.query.filter(Turbines.turbine.ilike('%' + search_term + '%'), Turbines.company_id == company_id).all()
         api.logger.info('Turbines: %s', turbines)
         return make_response(jsonify({'turbines': [{'turbine': turbine.json(), 'pinned': PinnedTurbines.query.filter_by(turbine_id=turbine.id).first() is not None, 'region': Regions.query.filter_by(id=turbine.region_id).first().region, 'park': Parks.query.filter_by(id=turbine.park_id).first().park} for turbine in turbines]}), 200)
     except Exception as e:
@@ -247,7 +252,10 @@ def search_turbine(search_term):
 @api.route('/get_pinned', methods=['GET'])
 def get_pinned():
     try:
-        pinned_turbines = PinnedTurbines.query.all() #user_id is hardcoded for now
+        if current_user.company_id == None:
+            return make_response(jsonify({'message': 'not assigned to a company'}), 500)
+        company_id = Companies.query.filter_by(id=current_user.company_id).first().id
+        pinned_turbines = PinnedTurbines.query.filter_by(user_id=current_user.id, company_id = company_id).all()
         api.logger.info('Pinned turbines: %s', pinned_turbines)
         if len(pinned_turbines) > 0:
             return make_response(jsonify({'pinned_turbines': [{'turbine_id': pinned_turbine.turbine_id, 'name': get_turbine_name(pinned_turbine.turbine_id)} for pinned_turbine in pinned_turbines], 'empty':False}), 200)
@@ -265,7 +273,7 @@ def pin_turbine(turbine_id):
         present_turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
         if present_turbine:
             return make_response(jsonify({'message': 'Turbine already pinned', 'already_pinned': True}), 200)
-        turbine = PinnedTurbines(turbine_id=turbine_id, user_id=1) #user_id is hardcoded for now
+        turbine = PinnedTurbines(turbine_id=turbine_id, user_id=current_user.id, company_id = current_user.company_id)
         db.session.add(turbine)
         db.session.commit()
         return make_response(jsonify({'message': 'Turbine pinned successfully', 'already_pinned': False}), 200)
@@ -276,14 +284,12 @@ def pin_turbine(turbine_id):
 @api.route('/unpin_turbine/<turbine_id>', methods=['GET'])
 def unpin_turbine(turbine_id):
     try:
-        turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id).first()
+        turbine = PinnedTurbines.query.filter_by(turbine_id=turbine_id, user_id=current_user.id, company_id = current_user.company_id).first()
         db.session.delete(turbine)
         db.session.commit()
         return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
     except Exception as e:
         return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
-    
-
 
 '''
 ================== !LOCATIONS ==================

@@ -59,7 +59,6 @@ function getTurbines() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            company: 'Company1',
             region: document.getElementById('regions-filter').value,
             park: document.getElementById('parks-filter').value
         })

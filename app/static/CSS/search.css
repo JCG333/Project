@@ -338,7 +338,7 @@ header {
 .fa-times {
     margin: 0;
     color: var(--unpin-icon-color);
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .fa-times:hover {

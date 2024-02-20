@@ -15,6 +15,7 @@ class Companies(db.Model):
     parks = db.relationship('Parks', lazy=True)
     turbines = db.relationship('Turbines', lazy=True)
     users = db.relationship('Users', lazy=True)
+    pinned_turbines = db.relationship('PinnedTurbines', lazy=True)
 
     def __init__(self, company):
         self.company = company
@@ -107,10 +108,12 @@ class PinnedTurbines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     turbine_id = db.Column(db.Integer, db.ForeignKey(Turbines.id), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
 
-    def __init__(self, turbine_id, user_id):
+    def __init__(self, turbine_id, user_id, company_id):
         self.turbine_id = turbine_id
         self.user_id = user_id
+        self.company_id = company_id
 
     def json(self):
         return {'id': self.id,'turbine_id': self.turbine_id, 'user_id': self.user_id}
@@ -123,7 +126,7 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     privilege = db.Column(db.Integer, nullable=False)
-    company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=True)
     language = db.Column(db.String(20), nullable=False, default='eng')
 
     PinnedTurbines = db.relationship('PinnedTurbines', lazy=True)
