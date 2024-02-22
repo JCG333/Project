@@ -456,14 +456,6 @@ def change_language():
 =================== PAGES ===================
 '''
 
-
-'''----- Get Turbine page -----'''
-@api.route("/turbine")
-@login_required
-def turbine():
-    return render_template("turbinePage.html")
-
-
 '''----- Get Search page -----'''
 @api.route('/search_page', methods=['GET'])
 @login_required
@@ -484,7 +476,13 @@ def account_page():
 @api.route('/turbine/<turbineId>', methods=['GET'])
 @login_required
 def turbine_page(turbineId):
-    return render_template('turbine.html', turbineId=turbineId)
+    turbine = Turbines.query.get(turbineId)
+    api.logger.info('Turbine ID: %s', turbine.id)
+    region = Regions.query.get(turbine.region_id).region
+    park = Parks.query.get(turbine.park_id).park
+    latest_image = ImageUrl.query.filter_by(turbine_id=turbineId).order_by(ImageUrl.date_time.desc()).first()
+    isPinned = PinnedTurbines.query.filter_by(turbine_id=turbineId, user_id=current_user.id, company_id = current_user.company_id).first() is not None
+    return render_template('turbine.html', turbineId=turbine.id, turbineRegion=region, turbinePark=park, turbineName=turbine.turbine, isPinned = isPinned, turbineImage=latest_image, user=current_user)
 
 '''----- Get settings page -----'''
 @api.route('/settings', methods=['GET'])

@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
+@import 'colors.css';
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+header {
+    height: 55px;
+}
+
+#main-container {
+    display: flex;
+    height: 93.7vh;
+    width: 100vw;
+    flex-direction: row;
+    background-color: var(--main-content-bg-color);
+}
+
+#sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    max-height: 93.7vh;
+    background-color: var(--sidebar-primary-bg-color);
+    color: var(--sidebar-primary-text-color);
+    border-right: 0.5px solid var(--main-content-bg-color);
+}
+
+#content-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+
+}
+
+#dashboard-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    max-height: 85%;
+    min-height: 85%;
+    background-color: var(--list-bg-color);
+    color: var(--list-text-color);
+    padding: 2%;
+    margin: 2%;
+    border-radius: 10px;
+}
+
+#header-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    background-color: var(--header-primary-bg-color);
+
+}
+
+#left-header-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 100%;
+    max-height: 100%;
+    align-items: left;
+}
+
+#right-header-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 100%;
+    max-height: 100%;
+    justify-content: right;
+    align-items: center;
+}
+
+#summary-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 40%;
+    border-radius: 10px;
+    background-color: var(--list-bg-color);
+    color: var(--list-text-color);
+
+}
+
+#turbine-info-container {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    padding: 20px;
+}
+
+#camera-container {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    height: 100%;
+    padding: 20px;
+}
+
+#chart-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 60%;
+    padding: 20px;
+    background-color: var(--list-bg-color);
+    color: var(--list-text-color);
+    border-radius: 10px;
+}
+
+/*============== !HEADER ==============*/
+
+/*------- !USERNAME -------*/
+#user-name {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    color: var(--username-color);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/*------- !HAMBURGER -------*/
+#ham-menu .fa-bars {
+    color: var(--hamburger-menu-color);
+    font-size: 35px;
+}
+
+#ham-menu .fa-bars:hover {
+    color: var(--hamburger-hover-color);
+}
+
+#ham-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 0px;
+    border: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+    background: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: var(--dropdown-bg-color);
+    min-width: 235px;
+    box-shadow: 0 15px 16px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    top: 53px;
+    right: -10px;
+    border-bottom: 6px solid var(--dropdown-border-color);
+}
+
+.dropdown-icon {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none;
+    padding: 8px 20px 8px 20px;
+}
+
+.dropdown-icon p {
+    width: 100px;
+    color: #3d3d3d;
+    font-weight: bold;
+}
+
+.dropdown-icon i {
+    color: #3d3d3d;
+    font-size: 30px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--dropdown-hover-color);
+}
+
+/*============== !CONTENT ==============*/
+
+/*------- !TURBINE SUMMARY -------*/
+#turbine-name {
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+#turbine-title {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+#turbine-location {
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*------- !PIN BUTTON -------*/
+
+.pin-button {
+    width: 80px;
+    background-color: var(--pinned-button-bg-color);
+    border: 2px solid var(--pinned-button-border-color);
+    color: #ffffff;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 1em;
+    height: 30px;
+    margin-left: 40px;
+    margin-top: 5px;
+}
+
+.pin-button.on {
+    width: 80px;
+    background-color: var(--pinnedOn-button-bg-color);
+    border: 2px solid var(--pinnedOn-button-border-color);
+    color: var(--pinnedOn-button-text-color);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 1em;
+    height: 30px;
+    margin-right: 20px;
+}
+
+.pin-button.on:hover {
+    background-color: var(--pinnedOn-button-hover-color);
+    border: 2px solid var(--pinnedOn-button-border-color);
+    cursor: pointer;
+    color: var(--pinnedOn-button-text-color);
+}
+
+.pin-button:hover {
+    background-color: var(--pinned-button-hover-color);
+    border: 2px solid var(--pinned-buttun-hover-border-color);
+    cursor: pointer;
+    color: #ffffff;
+}
+
+
+/*------- !CHARTS -------*/
+
+#chart-navigation {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border-bottom: 3px solid var(--sidebar-text-border-color);
+}
+
+.chart-nav-button {
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    background: none;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.chart-nav-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    font-weight: bold;
+    border-bottom: 3px solid #1f80e8;
+}
+
+.chart-nav-button:hover::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    border-bottom: 3px solid #1f80e8;
+}
+
+#turbine-image {
+    border: 1px solid #000000;
+}
+
+/*============== !ERROR MESSAGE ==============*/
+
+.error-message {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--error-bg-color);
+    color: white;
+    padding: 5px;
+    height: 5%;
+    text-align: center;
+    z-index: 9999;
+    display: none;
+}
+
+/*
+body {
+    background-color: #fafbfe;
+    font-family: 'Jost', sans-serif;
+    color: #020204;
+}
+
+
+p {
+    margin: 0px;
+}
+
+.bodyBorder {
+    margin: 0px;
+    padding-bottom: 50px;
+}
+
+.basicBox {
+    background-color: #d5deef;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.basicButton {
+    cursor: pointer;
+    color: white;
+    padding: 2px 5px 2px 5px;
+    background-color: #357ebd;
+    border: 5px solid #357ebd;
+    border-radius: 5px;
+    line-height: 0;
+}
+.basicButton:focus, .basicButton:hover {
+    font-weight: bold;
+    color: white;
+    background-color: #12548e;
+    border: 5px solid #12548e;
+}
+
+.iconButton {
+    padding: 4px;
+}
+.iconINbutton {
+    font-size: 32px;
+}
+
+.centerDiv {
+    margin: auto;
+    width: fit-content;
+    padding: 0px;
+}
+/*--------------navbar---------------*/
+/*
+.navItemContainer {
+    padding: 10px 50px 10px 10px;
+}
+.navItemContainer:hover {
+    background-color: #12548e;
+    color: white;
+}
+
+/*-----------------------------------*/
+/*-----------turbinepage-------------*/
+/*
+.bodyBorderLine {
+    background: linear-gradient(90deg, #0000 calc(100% - 8px), #d5deef 0);
+    background-size: calc((100% - 1*8px)/2 + 8px) 100%;
+}
+
+.turbIMG {
+    height: 250px;
+    margin: 5px;
+}
+
+.triangleDown {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 50px solid #d5deef;
+}
+
+.graphArea {
+    background: rgba(213,222,239, 0.2);
+    padding: 8px 0px 8px 0px;
+    margin: 10px 0px 10px 0px;
+}
+
+.verticalGraphText{
+    transform: rotate(180deg);
+    writing-mode: vertical-lr;
+    text-align: center;
+    margin: 0px;
+    padding: 0px 20px 0px 20px;
+    font-size: 20px;
+}
+
+/*-----------------------------------*/
+/*------------historypage------------*/
+/*
+.FromTo {
+    float:left;
+}
+
+.iconInInput {
+    position: absolute;
+}
+*/
+/*-----------------------------------*/
