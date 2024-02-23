@@ -12,6 +12,109 @@ document.querySelectorAll('.chart-nav-button').forEach(button => {
   });
 });
 
+function getChartData(data_type) {
+  if (data_type === 'risk') {
+    fetch('/risk_data')
+      // check if response is OK
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => Promise.reject(error));
+        }
+        return response.json();
+      })
+      // if OK
+      .then(data => {
+        new Chart(document.getElementById('chart-display'), {
+          type: 'line',
+          data: {
+            labels: data['time'],
+            datasets: [{
+              data: data['risk'],
+              borderWidth: 1,
+              fill: true,
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                position: 'left',
+                beginAtZero: true,
+                max: 2,
+                min: 0,
+                ticks: {
+                  stepSize: 1
+                }
+              },
+              y1: {
+                position: 'right',
+                beginAtZero: true,
+                max: 2,
+                min: 0,
+                ticks: {
+                  stepSize: 1
+                }
+              },
+              x: {
+                ticks: {
+                  maxTicksLimit: 25
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false,
+              }
+            }
+          }
+        });
+      })
+      // Error handling
+      .catch(error => {
+        showError(error.message);
+      });
+  }
+  else if (data_type === 'temp') {
+    fetch('/temp_data')
+      // check if response is OK
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => Promise.reject(error));
+        }
+        return response.json();
+      })
+      // if OK
+      .then(data => {
+        console.log(data);
+      })
+      // Error handling
+      .catch(error => {
+        showError(error.message);
+      });
+
+  }
+  else if (data_type === 'perc') {
+    fetch('/perc_data')
+      // check if response is OK
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => Promise.reject(error));
+        }
+        return response.json();
+      })
+      // if OK
+      .then(data => {
+        console.log(data);
+      })
+      // Error handling
+      .catch(error => {
+        showError(error.message);
+      });
+  }
+  else {
+    showError('Invalid data type');
+  }
+}
+
 /*----- dropdown -----*/
 
 document.getElementById('ham-menu').addEventListener('click', function (event) {

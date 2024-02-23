@@ -92,7 +92,7 @@
 :root {
     /*========== Header ==========*/
 
-    --header-primary-bg-color: #1f80e8;
+    --header-primary-bg-color: #0d73e0;
 
     /*----- Searchbar -----*/
     --search-bg-color: #ffffff;
@@ -108,7 +108,7 @@
 
     /*----- dropdown -----*/
     --dropdown-bg-color: #ffffff;
-    --dropdown-border-color: #1f80e8;
+    --dropdown-border-color: #0d73e0;
     --dropdown-icon-color: #3d3d3d;
     --dropdown-hover-color: #f4f4f4;
 

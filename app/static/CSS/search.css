@@ -173,6 +173,10 @@ header {
     width: 100px;
     color: #3d3d3d;
     font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    font-size: 16px;
+    min-height: 21px;
 }
 
 .dropdown-icon i {
@@ -187,6 +191,48 @@ header {
 }
 
 /*============== !SIDEBAR ==============*/
+
+/*------- !TAB NAV -------*/
+
+#tab-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 85%;
+    height: 30px;
+    margin-left: 10%;
+    margin-right: 5%;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+.tab {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-link {
+    color: #0d73e0;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: #0d73e0;
+}
+
+.fa-chevron-right {
+    color: #cbcbcb;
+    margin-top: 2px;
+    margin-left: 6px;
+    margin-right: 6px;
+    font-size: 13px;
+}
 
 /*------- !SEARCH BAR -------*/
 
@@ -207,7 +253,7 @@ header {
 .search-button {
     position: absolute;
     left: 15.7%;
-    top: 16.1%;
+    top: 20.4%;
     border: none;
     background: none;
     cursor: pointer;

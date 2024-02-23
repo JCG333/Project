@@ -70,28 +70,43 @@
     <div id="main-container">
         <!---- SIDEBAR ---->
         <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">{{turbineName}}</p>
+            </div>
+
+            <div id="turbine-info-container">
+                <div id="turbine-title">
+                    <p id="turbine-name">{{turbineName}}</p>
+                    <button class="pin-button {% if isPinned %}on{% else %}{% endif %}" data-turbineId="{{turbineId}}">
+                        {% if isPinned %}Pinned{% else %}Pin{% endif %}
+                    </button>
+                </div>
+
+                <p id="turbine-location"><i class="fas fa-map-marker-alt"></i>
+                    {{turbinePark}}, {{turbineRegion}}
+                </p>
+
+                <div id="turbine-now">
+                    <span id="info-item-temp"><i class="fas fa-thermometer-half"></i> 5&deg;C </span>
+                    <span id="info-item-perc"><i class="fas fa-cloud-rain"></i> 5 mm</span>
+                    <span id="info-item-risk"><i class="fas fa-exclamation-triangle"></i> 1.5</span>
+                </div>
+
+                <div id="data-time">Data last updated: 2022-03-14 13:26:40</div>
+                <!-- time for data will be displayed here -->
+
+            </div>
         </div>
         <!---- MAIN CONTENT ---->
         <div id="content-container">
             <div id="dashboard-container">
                 <div id="summary-container">
-                    <div id="turbine-info-container">
-                        <div id="turbine-title">
-                            <p id="turbine-name">{{turbineName}}</p>
-                            <button class="pin-button {% if isPinned %}on{% else %}{% endif %}"
-                                data-turbineId="{{turbineId}}">
-                                {% if isPinned %}Pinned{% else %}Pin{% endif %}
-                            </button>
-                        </div>
-
-                        <p id="turbine-location"><i class="fas fa-map-marker-alt"></i>
-                            {{turbinePark}},{{turbineRegion}}
-                        </p>
-
-                    </div>
 
                     <div id="camera-container">
-                        <img id="turbine-image" src="../static/images/turbineTEMPimgAI.png" alt="{{turbineName}}">
+                        <img class="turbine-image" src="../static/images/turbineTEMPimgAI.png" alt="{{turbineName}}">
+                        <img class="turbine-image" src="../static/images/turbineTEMPimg.png" alt="{{turbineName}}">
                     </div>
 
                 </div>
@@ -100,6 +115,7 @@
                         <button class="chart-nav-button" id="risk-button">Risk</button>
                         <button class="chart-nav-button" id="temperature-button">Temperature</button>
                         <button class="chart-nav-button" id="precipitation-button">Precipitation</button>
+                        <a href="/history/{{turbineId}}" class="nav-link" id="history-link">Show history</a>
                     </div>
                     <div id="chart-display">
                         <!-- Charts will be inserted here by JavaScript -->

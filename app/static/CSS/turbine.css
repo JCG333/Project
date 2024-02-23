@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
 @import 'colors.css';
 
 body {
@@ -95,15 +94,16 @@ header {
 #turbine-info-container {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 100%;
     height: 100%;
-    padding: 20px;
+    margin-top: 15%;
+    padding: 0px 30px 30px 30px;
 }
 
 #camera-container {
     display: flex;
     flex-direction: row;
-    width: 70%;
+    width: 100%;
     height: 100%;
     padding: 20px;
 }
@@ -184,6 +184,10 @@ header {
     width: 100px;
     color: #3d3d3d;
     font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    font-size: 16px;
+    min-height: 21px;
 }
 
 .dropdown-icon i {
@@ -197,7 +201,48 @@ header {
     background-color: var(--dropdown-hover-color);
 }
 
-/*============== !CONTENT ==============*/
+/*============== !SIDEBAR ==============*/
+
+/*------- !TAB NAVIGATION -------*/
+
+#tab-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 85%;
+    height: 30px;
+    margin-left: 10%;
+    margin-right: 5%;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+.tab {
+    margin-bottom: 0px;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-link {
+    color: #0d73e0;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: #0d73e0;
+}
+
+.fa-chevron-right {
+    color: #cbcbcb;
+    margin-top: 2px;
+    margin-left: 6px;
+    margin-right: 6px;
+    font-size: 13px;
+}
 
 /*------- !TURBINE SUMMARY -------*/
 #turbine-name {
@@ -207,14 +252,46 @@ header {
 }
 
 #turbine-title {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
+    border-bottom: 2px solid var(--sidebar-text-border-color);
+    margin-bottom: 15px;
 }
 
 #turbine-location {
-    font-size: 15px;
+    margin-left: 4px;
+    font-size: 13px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+#turbine-now {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px 0px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#info-item-temp {
+    margin-left: 5px;
+}
+
+#data-time {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f2f2f2;
+    color: #000000;
+    border: 0px solid #000000;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin-top: 40px;
+
 }
 
 /*------- !PIN BUTTON -------*/
@@ -229,8 +306,8 @@ header {
     border-radius: 5px;
     font-size: 1em;
     height: 30px;
-    margin-left: 40px;
-    margin-top: 5px;
+    margin-left: 80px;
+    margin-top: 3px;
 }
 
 .pin-button.on {
@@ -261,7 +338,9 @@ header {
 }
 
 
-/*------- !CHARTS -------*/
+/*============== !CONTENT ==============*/
+
+/*------- !CHART NAVIGATION -------*/
 
 #chart-navigation {
     display: flex;
@@ -286,7 +365,7 @@ header {
     left: 0;
     width: 100%;
     font-weight: bold;
-    border-bottom: 3px solid #1f80e8;
+    border-bottom: 3px solid #0d73e0;
 }
 
 .chart-nav-button:hover::after {
@@ -295,11 +374,20 @@ header {
     bottom: -3px;
     left: 0;
     width: 100%;
-    border-bottom: 3px solid #1f80e8;
+    border-bottom: 3px solid #0d73e0;
 }
 
-#turbine-image {
-    border: 1px solid #000000;
+#history-link {
+    margin-left: 68%;
+    padding: 10px;
+}
+
+/*------- !TURBINE IMAGES -------*/
+
+.turbine-image {
+    border: 0px solid #000000;
+    border-radius: 1%;
+    margin: 10px;
 }
 
 /*============== !ERROR MESSAGE ==============*/
