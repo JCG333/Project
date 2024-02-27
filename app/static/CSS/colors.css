@@ -92,7 +92,7 @@
 :root {
     /*========== Header ==========*/
 
-    --header-primary-bg-color: #0d73e0;
+    --header-primary-bg-color: #3C79F5;
 
     /*----- Searchbar -----*/
     --search-bg-color: #ffffff;
@@ -108,7 +108,7 @@
 
     /*----- dropdown -----*/
     --dropdown-bg-color: #ffffff;
-    --dropdown-border-color: #0d73e0;
+    --dropdown-border-color: #3C79F5;
     --dropdown-icon-color: #3d3d3d;
     --dropdown-hover-color: #f4f4f4;
 
@@ -139,7 +139,7 @@
     /*========== Main content ==========*/
 
     --list-bg-color: #ffffff;
-    --main-content-bg-color: #f2f2f2;
+    --main-content-bg-color: #F3F3F3;
     --list-text-color: #000000;
 
     /*----- Entries -----*/

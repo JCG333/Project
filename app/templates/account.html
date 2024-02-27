@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{user}}</title>
+    <title>Portal | Account</title>
     <!-- Link to the CSS file -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/account.css') }}">
     <!-- Link to the JavaScript file -->
@@ -14,84 +14,164 @@
 </head>
 
 <!--- =========== HEADER =========== -->
-<!--- >>>>>>> PRODUCT SPECIFIC ELEMENTS <<<<<<< -->
-
-<body>
-    <!------ ACCOUNT CREDENTIALS ------>
+<header>
     {% if user.language == 'eng' %}
-    <div class="container">
-        <div class="menu">
-            <a href="{{ url_for('search_page') }}" id="return-button">
-                <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
-            </a>
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
 
-            
-            <div id="name-container">
-                <h1>{{user.username}}</h1>
-            </div>
-            <div id="account-content">
-                <div id="parks">
-                    <h1>Parks: X amount of parks</h1>    
-                </div>
-                <div id="turbines">
-                    <h1>Turbines: You have X amount of turbines</h1>  
-                </div>
-            </div>
         </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
 
-        <div class="account-info">
-            <img class="background-image" src="{{ url_for('static', filename='images/background-account.jpg') }}" alt="background-image">
-            <div id="cred-container">
-                <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+            <span id="user-name">Logged in as: {{user.email}}</span>
 
-                    <h2>Change Password</h2>
-                    <input type="password" name="current_password" placeholder="Current password" required>
-                    <input type="password" name="new_password" placeholder="New password" required>
-                    <input type="submit" value="Change Password">
-                </form>
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Account</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Help & Support</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                        <span></span>
+                    </a>
+                </div>
             </div>
-            
         </div>
     </div>
     {% endif %}
     {% if user.language == 'swe' %}
-    <div class="container">
-        <div class="menu">
-            <a href="{{ url_for('search_page') }}" id="return-button">
-                <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
-            </a>
-            <div id="name-container">
-                <h1>{{user.username}}</h1>
-            </div>
-            <div id="account-content">
-                <div id="parks">
-                    <h1>Parker: Du har X antal parker</h1>    
-                </div>
-                <div id="turbines">
-                    <h1>Turbiner: Du har X antal turbiner</h1>  
-                </div>
-            </div>
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
         </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
 
-        <div class="account-info">
-            <img class="background-image" src="{{ url_for('static', filename='images/background-account.jpg') }}" alt="background-image">
-            <div id="cred-container">
-                <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+            <span id="user-name">Inloggad som: {{user.email}}</span>
 
-                    <h2>Ändra lösenord</h2>
-                    <input type="password" name="current_password" placeholder="Nuvarande lösenord" required>
-                    <input type="password" name="new_password" placeholder="Nytt lösenord" required>
-                    <input type="submit" value="Ändra lösenord">
-                </form>
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Konto</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Inställningar</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Hjälp & Assistans</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logga ut</p>
+                        <span></span>
+                    </a>
+                </div>
             </div>
-            
         </div>
     </div>
     {% endif %}
-    <!---- ERROR CONTAINER ---->
-    <div id="error-message">
-        <p> </p>
-    </div>
+</header>
+
+<body>
+    <div id="main-container">
+        {% if user.language == 'eng' %}
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">Account</p>
+            </div>
+        </div>
+        <!---- CONTENT ---->
+        <div id="content-container">
+
+            <!------ ACCOUNT BACKGROUND ------>
+            <div id="background-image">
+                <!------ ACCOUNT CREDENTIALS ------>
+
+                <div id="cred-container">
+                    <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                        <h2>Update credentials</h2>
+                        <input class="account-input" type="password" name="current_password"
+                            placeholder="Current password" required>
+                        <input class="account-input" type="password" name="new_password" placeholder="New password"
+                            required>
+                        <input class="button" type="submit" value="Update Password">
+                    </form>
+
+                </div>
+            </div>
+
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Something went wrong!</p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user.language == 'swe' %}
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Hem</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">Konto</p>
+            </div>
+        </div>
+        <!---- CONTENT ---->
+        <div id="content-container">
+
+            <!------ ACCOUNT BACKGROUND IMAGE ------>
+            <div id="background-image">
+                <!------ ACCOUNT CREDENTIALS ------>
+
+                <div id="cred-container">
+                    <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                        <h2>Uppdatera uppgifter</h2>
+                        <input class="account-input" type="password" name="current_password"
+                            placeholder="Aktuellt password" required>
+                        <input class="account-input" type="password" name="new_password" placeholder="Nytt password"
+                            required>
+                        <input class="button" type="submit" value="Uppdatera Password">
+                    </form>
+                </div>
+            </div>
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Något gick fel!</p>
+            </div>
+        </div>
+        {% endif %}
 </body>
 
 <!--- =========== FOOTER =========== -->

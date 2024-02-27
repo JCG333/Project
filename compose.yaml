@@ -8,7 +8,7 @@
 # 1. start application services: ´docker-compose up api db -d´
 # 2. run tests: ´docker-compose up api_test_runner´
 
-version: '3.9'
+version: 'latest'
 
 services:
 

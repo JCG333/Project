@@ -123,7 +123,7 @@ class Users(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(250), unique=True, nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     privilege = db.Column(db.Integer, nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=True)

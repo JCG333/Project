@@ -67,7 +67,7 @@ login_manager.login_view = "login"
 
 def load_users():
     if current_user.is_authenticated:
-        return current_user.username
+        return current_user.email
     else:
         return "Guest"
 
@@ -115,7 +115,7 @@ def create_tables():
             db.session.add(default_image2)
             db.session.commit()
             password = generate_password_hash('password')
-            default_user = Users(username = 'user1', password = password, privilege = 1, company_id = default_company.id)
+            default_user = Users(email = 'user1@gmail.com', password = password, privilege = 1, company_id = default_company.id)
             db.session.add(default_user)
             db.session.commit()
             default_pinned_turbine = PinnedTurbines(turbine_id = default_Turbine.id, user_id = 1)
@@ -375,9 +375,9 @@ def parks():
 '''
 
 '''----- Validate user -----'''
-def valid_login(username, password):
-    # Check if the username exists in the database
-    user = db.session.query(Users).filter_by(username=username).first()
+def valid_login(email, password):
+    # Check if the email exists in the database
+    user = db.session.query(Users).filter_by(email=email).first()
     if user is None:
         return False
     else:
@@ -407,16 +407,16 @@ def change_password():
 def home():
     error = None
     if request.method == "POST":
-        username = request.form.get("username")
+        email = request.form.get("email")
         password = request.form.get("password")
-        user = Users.query.filter_by(username=username).first()
+        user = Users.query.filter_by(email=email).first()
         print("============ TRYING TO LOGIN ============")
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("search_page"))
         else:
-            print(" ================ Wrong username or password  ================ ")
-            error = 'Invalid username or password'
+            print(" ================ Wrong email or password  ================ ")
+            error = 'Invalid email or password'
     return render_template("login.html", error=error)
 
 '''----- Logout route -----'''
@@ -429,10 +429,10 @@ def logout():
 @api.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
-        username = request.form.get("username")
+        email = request.form.get("email")
         password = request.form.get("password")
         hashed_password = generate_password_hash(password)
-        user = Users(username=username, password=hashed_password, privilege="0", company_id="1")
+        user = Users(email=email, password=hashed_password, privilege="0", company_id="1")
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("home"))

@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Search page</title>
+    <title>Portal | Home </title>
     <!-- Link to the CSS file -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/search.css') }}">
     <!-- Link to the JavaScript file -->
@@ -23,7 +23,7 @@
         <!---- RIGHT HEADER ---->
         <div id="right-header-container">
 
-            <span id="user-name">Logged in as: {{user.username}}</span>
+            <span id="user-name">Logged in as: {{user.email}}</span>
 
             <!---- DROPDOWN ---->
             <div class="dropdown">
@@ -131,7 +131,7 @@
                     <!---- RIGHT HEADER ---->
                     <div id="right-header-container">
 
-                        <span id="user-name">In loggad som: {{user.username}}</span>
+                        <span id="user-name">In loggad som: {{user.email}}</span>
 
                         <!---- DROPDOWN ---->
                         <div class="dropdown">

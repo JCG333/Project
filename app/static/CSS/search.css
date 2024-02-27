@@ -1,5 +1,5 @@
 /* Contributors: Justin Gavrell Fredrik Larsson*/
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import 'colors.css';
 /* Importing the colors */
 
@@ -8,7 +8,7 @@
 body {
     margin: 0px;
     padding: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
 }
 
@@ -211,14 +211,12 @@ header {
     margin-top: 0px;
     font-size: 15px;
     text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .nav-link {
     color: #0d73e0;
     font-size: 15px;
     text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
 }
 
@@ -295,7 +293,6 @@ header {
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 15%;
-    font-family: Arial, Helvetica, sans-serif;
     border-bottom: 2px solid var(--sidebar-text-border-color);
     padding-bottom: 10px;
     font-weight: bold;
@@ -344,7 +341,6 @@ header {
     margin-bottom: 20px;
     margin-left: 10%;
     margin-right: 10%;
-    font-family: Arial, Helvetica, sans-serif;
     border-bottom: 2px solid var(--sidebar-text-border-color);
     padding-bottom: 10px;
     font-weight: bold;
@@ -398,14 +394,13 @@ header {
     overflow-y: auto;
     background-color: var(--list-bg-color);
     color: var(--list-text-color);
-    font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
 
 }
 
 #turbine-list table {
     width: 100%;
-    border-spacing: 0 10px;
+    border-spacing: 0 18px;
     border-collapse: separate;
 }
 
