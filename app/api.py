@@ -54,7 +54,7 @@ api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 api.config["SECRET_KEY"] = urandom(20)  # TEST
 
 # import the db instance and the models
-from db.schema import db, Companies, Regions, Parks, Turbines, ImageUrl, PinnedTurbines, Users
+from db.schema import db, Companies, Regions, Parks, Turbines, ImageUrl, PinnedTurbines, Users, PinnedTurbines, WeatherData
 
 login_manager = LoginManager()
 login_manager.init_app(api)
@@ -85,50 +85,82 @@ def create_tables():
 
         try:
             # Add default entries
-            
-            default_company = Companies(company = 'Company1')
+            default_company = Companies(company='Company1')
             db.session.add(default_company)
             db.session.commit()
-            default_company2 = Companies(company = 'Company2')
+
+            default_company2 = Companies(company='Company2')
             db.session.add(default_company2)
             db.session.commit()
-            default_region = Regions(region = 'Region1', company_id = default_company.id)
+
+            default_region = Regions(region='Region1', company_id=default_company.id)
             db.session.add(default_region)
             db.session.commit()
-            default_park = Parks(park = 'Park1', region_id = default_region.id, company_id = default_company.id)
+
+            default_park = Parks(park='Park1', company_id=default_company.id, region_id=default_region.id, coordinates='0,0')
             db.session.add(default_park)
-            default_park2 = Parks(park = 'Park2', region_id = default_region.id, company_id = default_company.id)
+            db.session.commit()
+
+            default_park2 = Parks(park='Park2', company_id=default_company.id, region_id=default_region.id, coordinates='0,0')
             db.session.add(default_park2)
             db.session.commit()
-            default_Turbine = Turbines(turbine = 'Turbine1', company_id = default_company.id, region_id = default_region.id, park_id = default_park.id)
-            db.session.add(default_Turbine)
-            default_Turbine2 = Turbines(turbine = 'Turbine2', company_id = default_company.id, region_id = default_region.id, park_id = default_park2.id)
-            db.session.add(default_Turbine2)
+
+            default_turbine = Turbines(turbine='Turbine1', company_id=default_company.id, region_id=default_region.id, park_id=default_park.id)
+            db.session.add(default_turbine)
             db.session.commit()
+
+            default_turbine2 = Turbines(turbine='Turbine2', company_id=default_company.id, region_id=default_region.id, park_id=default_park2.id)
+            db.session.add(default_turbine2)
+            db.session.commit()
+
             for i in range(3, 20):
                 default_turbine = Turbines(turbine=f'Turbine{i}', company_id=default_company.id, region_id=default_region.id, park_id=default_park.id)
                 db.session.add(default_turbine)
                 db.session.commit()
-            default_image = ImageUrl(image_url = 'https://www.google.com', weather_data = 'Sunny', date_time = datetime.now(), turbine_id = default_Turbine.id)
+
+            default_weather_data = WeatherData(validtime='2022-01-01T00:00:00', date_hour='2022-01-01T00:00:00', request_coordinates='0,0', fetched_coordinates='0,0', msl=1013.0, t=20.0, vis=10.0, wd=180, ws=5.0, r=0, tstm=0, tcc_mean=0, lcc_mean=0, mcc_mean=0, hcc_mean=0, gust=5.0, pmin=1013.0, pmax=1013.0, spp=0, pcat=0, pmean=0.0, pmedian=0.0, Wsymb2=0, park_id=default_park.id)
+            db.session.add(default_weather_data)
+            db.session.commit()
+
+            default_weather_data2 = WeatherData(validtime='2022-01-02T00:00:00', date_hour='2022-01-02T00:00:00', request_coordinates='0,0', fetched_coordinates='0,0', msl=1014.0, t=21.0, vis=11.0, wd=181, ws=6.0, r=1, tstm=1, tcc_mean=1, lcc_mean=1, mcc_mean=1, hcc_mean=1, gust=6.0, pmin=1014.0, pmax=1014.0, spp=1, pcat=1, pmean=1.0, pmedian=1.0, Wsymb2=1, park_id=default_park.id)
+            db.session.add(default_weather_data2)
+            db.session.commit()
+
+            default_weather_data3 = WeatherData(validtime='2022-01-03T00:00:00', date_hour='2022-01-03T00:00:00', request_coordinates='0,0', fetched_coordinates='0,0', msl=1015.0, t=22.0, vis=12.0, wd=182, ws=7.0, r=2, tstm=2, tcc_mean=2, lcc_mean=2, mcc_mean=2, hcc_mean=2, gust=7.0, pmin=1015.0, pmax=1015.0, spp=2, pcat=2, pmean=2.0, pmedian=2.0, Wsymb2=2, park_id=default_park.id)
+            db.session.add(default_weather_data3)
+            db.session.commit()
+
+            default_weather_data4 = WeatherData(validtime='2022-01-04T00:00:00', date_hour='2022-01-04T00:00:00', request_coordinates='0,0', fetched_coordinates='0,0', msl=1016.0, t=23.0, vis=13.0, wd=183, ws=8.0, r=3, tstm=3, tcc_mean=3, lcc_mean=3, mcc_mean=3, hcc_mean=3, gust=8.0, pmin=1016.0, pmax=1016.0, spp=3, pcat=3, pmean=3.0, pmedian=3.0, Wsymb2=3, park_id=default_park.id)
+            db.session.add(default_weather_data4)
+            db.session.commit()
+
+            default_weather_data5 = WeatherData(validtime='2022-01-05T00:00:00', date_hour='2022-01-05T00:00:00', request_coordinates='0,0', fetched_coordinates='0,0', msl=1017.0, t=24.0, vis=14.0, wd=184, ws=9.0, r=4, tstm=4, tcc_mean=4, lcc_mean=4, mcc_mean=4, hcc_mean=4, gust=9.0, pmin=1017.0, pmax=1017.0, spp=4, pcat=4, pmean=4.0, pmedian=4.0, Wsymb2=4, park_id=default_park.id)
+            db.session.add(default_weather_data5)
+            db.session.commit()
+
+            default_image = ImageUrl(datetime=str(datetime.now()), date_hour=str(datetime.now().hour), camera1_url='https://www.google.com', camera2_url='https://www.Microsoft.com', turbine_id=default_turbine.id, weather_id=default_weather_data.id)
             db.session.add(default_image)
-            default_image2 = ImageUrl(image_url = 'https://www.Microsoft.com', weather_data = 'Cloudy', date_time = datetime.now(), turbine_id = default_Turbine2.id)
+            db.session.commit()
+
+            default_image2 = ImageUrl(datetime=str(datetime.now()), date_hour=str(datetime.now().hour), camera1_url='https://www.Microsoft.com', camera2_url='https://www.google.com', turbine_id=default_turbine2.id, weather_id=default_weather_data.id)
             db.session.add(default_image2)
             db.session.commit()
+
             password = generate_password_hash('password')
-            default_user = Users(email = 'user1@gmail.com', password = password, privilege = 1, company_id = default_company.id)
+            default_user = Users(email='user1@gmail.com', password=password, privilege=1, company_id=default_company.id)
             db.session.add(default_user)
             db.session.commit()
-            default_pinned_turbine = PinnedTurbines(turbine_id = default_Turbine.id, user_id = 1)
+
+            default_pinned_turbine = PinnedTurbines(turbine_id=default_turbine.id, user_id=1)
             db.session.add(default_pinned_turbine)
             db.session.commit()
+
             for i in range(2, 10):
                 default_pinned_turbine = PinnedTurbines(turbine_id=i, user_id=1)
                 db.session.add(default_pinned_turbine)
                 db.session.commit()
-
-            print('Default entries added successfully')
         except Exception as e:
-            print('Failed to add default entries, error: ', e)
+            print(f"Error occurred: {e}")
 
 create_tables() 
 
@@ -290,6 +322,18 @@ def unpin_turbine(turbine_id):
         return make_response(jsonify({'message': 'Turbine unpinned successfully'}), 200)
     except Exception as e:
         return make_response(jsonify({'message': 'error unpinning turbine', 'error': str(e)}), 500)
+    
+
+'''----- Get all weather data for turbine -----'''
+@api.route('/weather_data/<turbine_id>', methods=['GET'])
+def weather_data(turbine_id):
+    try:
+        turbine = Turbines.query.filter_by(id=turbine_id).first()
+        weather_data = WeatherData.query.filter_by(park_id=turbine.park_id).all()
+        return make_response(jsonify({'weather_data': [data.json() for data in weather_data]}), 200)
+    except Exception as e:
+        return make_response(jsonify({'message': 'error getting weather data', 'error': str(e)}), 500)
+
 
 '''
 ================== !LOCATIONS ==================
@@ -480,9 +524,10 @@ def turbine_page(turbineId):
     api.logger.info('Turbine ID: %s', turbine.id)
     region = Regions.query.get(turbine.region_id).region
     park = Parks.query.get(turbine.park_id).park
-    latest_image = ImageUrl.query.filter_by(turbine_id=turbineId).order_by(ImageUrl.date_time.desc()).first()
+    latest_image = ImageUrl.query.filter_by(turbine_id=turbineId).order_by(ImageUrl.datetime.desc()).first()
     isPinned = PinnedTurbines.query.filter_by(turbine_id=turbineId, user_id=current_user.id, company_id = current_user.company_id).first() is not None
-    return render_template('turbine.html', turbineId=turbine.id, turbineRegion=region, turbinePark=park, turbineName=turbine.turbine, isPinned = isPinned, turbineImage=latest_image, user=current_user)
+    weather_data = WeatherData.query.filter_by(park_id=turbine.park_id).order_by(WeatherData.validtime.desc()).first()
+    return render_template('turbine.html', turbineId=turbine.id, turbineRegion=region, turbinePark=park, turbineName=turbine.turbine, isPinned = isPinned, turbineImage=latest_image, user=current_user, weather_data=weather_data)
 
 '''----- Get settings page -----'''
 @api.route('/settings', methods=['GET'])

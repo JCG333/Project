@@ -6,15 +6,25 @@ document.querySelectorAll('.chart-nav-button').forEach(button => {
 
     // Add active class to clicked button
     this.classList.add('active');
-
-    // Display corresponding chart
+    console.log(document.getElementById('chart-display').dataset.turbineid);
+    getChartData(this.textContent, document.getElementById('chart-display').dataset.turbineid);
 
   });
 });
 
-function getChartData(data_type) {
-  if (data_type === 'risk') {
-    fetch('/risk_data')
+let chartInstance;
+
+function getChartData(data_type, turbine_id) {
+  const canvas = document.getElementById('chart-canvas');
+
+  // If a chart already exists on the canvas, destroy it
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+
+  if (data_type === 'Risk') {
+    fetch('/weather_data/' + turbine_id)
       // check if response is OK
       .then(response => {
         if (!response.ok) {
@@ -24,7 +34,7 @@ function getChartData(data_type) {
       })
       // if OK
       .then(data => {
-        new Chart(document.getElementById('chart-display'), {
+        chartInstance = new Chart(document.getElementById('chart-canvas'), {
           type: 'line',
           data: {
             labels: data['time'],
@@ -73,8 +83,8 @@ function getChartData(data_type) {
         showError(error.message);
       });
   }
-  else if (data_type === 'temp') {
-    fetch('/temp_data')
+  else if (data_type === 'Temperature') {
+    fetch('/weather_data/' + turbine_id)
       // check if response is OK
       .then(response => {
         if (!response.ok) {
@@ -84,7 +94,69 @@ function getChartData(data_type) {
       })
       // if OK
       .then(data => {
-        console.log(data);
+        // Extract temperature data and corresponding time points
+        const temperatures = data.weather_data.map(item => item.t);
+        const minData = Math.min(...temperatures) - 5;
+        const maxData = Math.max(...temperatures) + 5;
+        const timePoints = data.weather_data.map(item => {
+          const timePart = item.validtime.split('T')[1];
+          return timePart.slice(0, 5); // Return only the hours and minutes
+        });
+
+        chartInstance = new Chart(document.getElementById('chart-canvas'), {
+          type: 'line',
+          data: {
+            labels: timePoints,
+            datasets: [{
+              pointRadius: 3,
+              data: temperatures,
+              borderColor: 'rgba(60, 121, 245, 1)',
+              backgroundColor: 'rgba(60, 121, 245, 0.3)', // Add a background color to the line
+              fill: 'start', // Fill the area under the line
+              borderWidth: 1,
+              pointBorderColor: 'rgba(60, 121, 245, 1)',
+              pointBackgroundColor: 'rgba(60, 121, 245, 1)',
+              showlines: false,
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                position: 'left',
+                max: maxData,
+                min: minData,
+                ticks: {
+                  color: '#3d3e3f',
+                  stepSize: 5,
+                  autoSkip: true,
+                },
+                grid: {
+                  drawBorder: true, // Draw the border of the y-axis
+                  drawOnChartArea: false, // Do not draw grid lines on the chart area
+                  lineWidth: 2, // Make the y-axis line thicker
+                }
+              },
+              x: {
+                ticks: {
+                  color: '#3d3e3f',
+                  maxTicksLimit: 25,
+                  autoSkip: true,
+                },
+                grid: {
+                  drawBorder: true, // Draw the border of the x-axis
+                  drawOnChartArea: false, // Do not draw grid lines on the chart area
+                  lineWidth: 2, // Make the x-axis line thicker
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false,
+              }
+            }
+          }
+        });
       })
       // Error handling
       .catch(error => {
@@ -92,8 +164,8 @@ function getChartData(data_type) {
       });
 
   }
-  else if (data_type === 'perc') {
-    fetch('/perc_data')
+  else if (data_type === 'Precipitation') {
+    fetch('/weather_data/' + turbine_id)
       // check if response is OK
       .then(response => {
         if (!response.ok) {
@@ -103,7 +175,69 @@ function getChartData(data_type) {
       })
       // if OK
       .then(data => {
-        console.log(data);
+        // Extract temperature data and corresponding time points
+        const percipitations = data.weather_data.map(item => item.pmedian);
+        const minData = Math.min(...percipitations) - 2;
+        const maxData = Math.max(...percipitations) + 2;
+        const timePoints = data.weather_data.map(item => {
+          const timePart = item.validtime.split('T')[1];
+          return timePart.slice(0, 5); // Return only the hours and minutes
+        });
+
+        chartInstance = new Chart(document.getElementById('chart-canvas'), {
+          type: 'line',
+          data: {
+            labels: timePoints,
+            datasets: [{
+              pointRadius: 3,
+              data: percipitations,
+              borderColor: 'rgba(60, 121, 245, 1)',
+              backgroundColor: 'rgba(60, 121, 245, 0.3)', // Add a background color to the line
+              fill: 'start', // Fill the area under the line
+              borderWidth: 1,
+              pointBorderColor: 'rgba(60, 121, 245, 1)',
+              pointBackgroundColor: 'rgba(60, 121, 245, 1)',
+              showlines: false,
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                position: 'left',
+                beginAtZero: true,
+                min: minData, // Set the min of the y-axis based on the data
+                max: maxData, // Set the max of the y-axis based on the data
+                ticks: {
+                  color: '#3d3e3f',
+                  stepSize: 2,
+                  autoSkip: true,
+                },
+                grid: {
+                  drawBorder: true, // Draw the border of the y-axis
+                  drawOnChartArea: false, // Do not draw grid lines on the chart area
+                  lineWidth: 2, // Make the y-axis line thicker
+                }
+              },
+              x: {
+                ticks: {
+                  color: '#3d3e3f',
+                  maxTicksLimit: 25,
+                  autoSkip: true,
+                },
+                grid: {
+                  drawBorder: true, // Draw the border of the x-axis
+                  drawOnChartArea: false, // Do not draw grid lines on the chart area
+                  lineWidth: 2, // Make the x-axis line thicker
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false,
+              }
+            }
+          }
+        });
       })
       // Error handling
       .catch(error => {
@@ -202,6 +336,18 @@ document.querySelectorAll('.pin-button').forEach(function (button) {
       this.textContent = 'Pinned';
     }
   });
+});
+
+/*----- details dropdown -----*/
+document.getElementById('details-button').addEventListener('click', function (event) {
+  var dropdownContent = document.getElementById('dropdownContent');
+  if (dropdownContent.style.display !== "block") {
+    dropdownContent.style.display = "block";
+  } else {
+    dropdownContent.style.display = "none";
+  }
+  event.stopPropagation();
+
 });
 
 /*----- Window load -----*/

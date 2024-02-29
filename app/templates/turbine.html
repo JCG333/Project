@@ -89,13 +89,29 @@
                 </p>
 
                 <div id="turbine-now">
-                    <span id="info-item-temp"><i class="fas fa-thermometer-half"></i> 5&deg;C </span>
-                    <span id="info-item-perc"><i class="fas fa-cloud-rain"></i> 5 mm</span>
+                    <span id="info-item-temp"><i class="fas fa-thermometer-half"></i> {% if weather_data.t
+                        %}{{weather_data.t}} &deg;C{% else %}N/A{% endif %}</span>
+                    <span id="info-item-perc"><i class="fas fa-cloud-rain"></i> {% if weather_data.pmedian
+                        %}{{weather_data.pmedian}} mm{% else %}N/A{% endif %}</span>
                     <span id="info-item-risk"><i class="fas fa-exclamation-triangle"></i> 1.5</span>
+                    <span id="info-item-wind"><i class="fas fa-wind"></i> {% if weather_data.gust
+                        %}{{weather_data.gust}} m/s{% else %}N/A{% endif %}</span>
                 </div>
 
-                <div id="data-time">Data last updated: 2022-03-14 13:26:40</div>
-                <!-- time for data will be displayed here -->
+                <div id="data-time">Data last updated: {% if weather_data.validtime
+                    %}{{weather_data.validtime}}{% else %}N/A{% endif %}</div>
+
+                <div id="Details">
+                    <div class="details-dropdown">
+                        <button id="details-button" class="details-dropbtn">Details</button>
+                        <div id="dropdownContent" class="details-dropdown-content">
+                            <a href="#" id="temp-detail-item"><i class="fas fa-thermometer-half"></i> : Temperature</a>
+                            <a href="#"><i class="fas fa-cloud-rain"></i> : Precipitation (median)</a>
+                            <a href="#"><i class="fas fa-exclamation-triangle"></i> : Risk Level</a>
+                            <a href="#"><i class="fas fa-wind"></i> : Gust</a>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -117,7 +133,8 @@
                         <button class="chart-nav-button" id="precipitation-button">Precipitation</button>
                         <a href="/history/{{turbineId}}" class="nav-link" id="history-link">Show history</a>
                     </div>
-                    <div id="chart-display">
+                    <div id="chart-display" data-turbineId="{{turbineId}}">
+                        <canvas id="chart-canvas"></canvas>
                         <!-- Charts will be inserted here by JavaScript -->
                     </div>
                 </div>

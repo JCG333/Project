@@ -48,6 +48,19 @@ services:
       - postgres_data:/var/lib/postgresql/data
   # ================================
 
+  smhi:
+    container_name: smhi
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    environment:
+      - DB_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+      - api
+
   # <========= Test runner service =========>
   api_test_runner:
     container_name: api_test_runner
