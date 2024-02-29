@@ -1,11 +1,13 @@
 import requests
 import json
+import os 
+from os import environ, urandom
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/userdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 
 from db.schema import db, Parks, WeatherData
 
