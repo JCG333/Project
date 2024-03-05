@@ -36,7 +36,7 @@ local_test_path = os.getcwd()
 path = '/home/upload/ftp/data/raw_data/2023'
 event_handler = MyHandler()
 observer = Observer()
-observer.schedule(event_handler, path=local_test_path, recursive=True)
+observer.schedule(event_handler, path=path, recursive=True)
 observer.start()
 # print("Listener:", path)
 
