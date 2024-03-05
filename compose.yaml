@@ -52,7 +52,7 @@ services:
     container_name: smhi
     build:
       context: ./app
-      dockerfile: Dockerfile
+      dockerfile: smhi/Dockerfile
     volumes:
       - ./app:/app
     environment:

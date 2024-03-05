@@ -97,11 +97,11 @@ def create_tables():
             db.session.add(default_region)
             db.session.commit()
 
-            default_park = Parks(park='Park1', company_id=default_company.id, region_id=default_region.id, coordinates='0,0')
+            default_park = Parks(park='Park1', company_id=default_company.id, region_id=default_region.id, coordinates='63.408902,16.168218')
             db.session.add(default_park)
             db.session.commit()
 
-            default_park2 = Parks(park='Park2', company_id=default_company.id, region_id=default_region.id, coordinates='0,0')
+            default_park2 = Parks(park='Park2', company_id=default_company.id, region_id=default_region.id, coordinates='63.408902,16.168218')
             db.session.add(default_park2)
             db.session.commit()
 

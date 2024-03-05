@@ -13,8 +13,11 @@ ADD . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Print the contents of the active directory
+RUN ls
+
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
 # Run smhi_data_fetch.py when the container launches
-CMD ["python", "smhi/smhi_data_fetch.py"]
+CMD ["python", "smhi/listener_files_and_weather.py"]

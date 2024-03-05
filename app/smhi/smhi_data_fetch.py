@@ -15,6 +15,7 @@ from db.schema import db, Parks, WeatherData
 # Reads the values from the json format and returns a dict with the values in order of appearance
 def get_weather_data():
     with app.app_context():
+        db.init_app(app)
         # Gets the coordinates for all the parks in schema.Parks table
         park_info = db.session.query(Parks.id, Parks.coordinates).all()
         for info in park_info:
@@ -27,41 +28,46 @@ def get_weather_data():
                            '/pmp3g/version/2/geotype/point/lon/'+lon+'/lat/'+lat+'/data.json')
 
             response = requests.get(request_url)
-            # print('Response status: --> ' + str(response.status_code) + ' <-- code 200 means OK!')
-            response_json = json.loads(response.text)
-
-            fetched_coordinates = (str(response_json['geometry']['coordinates'][0][1]) + ','
+            if response.status_code != 200:
+                print(f"Request to {request_url} failed with status code: {response.status_code}")
+            else:
+                try:
+                    response_json = response.json()
+                    fetched_coordinates = (str(response_json['geometry']['coordinates'][0][1]) + ','
                                    + str(response_json['geometry']['coordinates'][0][0]))
+                    # Because of the way SMHI approves forecasts, two hours must be fetched and compared after update of approved time
+                    # forecast_data_1 contains the forecast for this hour (validtime format is yyyy-mm-ddThh:mm:ssZ)
+                    forecast_data_1 = {
+                        'validtime': str(response_json['timeSeries'][0]['validTime']),
+                        'request_coordinates': request_coordinates,
+                        'fetched_coordinates': fetched_coordinates,
+                    }
 
-            # Because of the way SMHI approves forecasts, two hours must be fetched and compared after update of approved time
-            # forecast_data_1 contains the forecast for this hour (validtime format is yyyy-mm-ddThh:mm:ssZ)
-            forecast_data_1 = {
-                'validtime': str(response_json['timeSeries'][0]['validTime']),
-                'request_coordinates': request_coordinates,
-                'fetched_coordinates': fetched_coordinates,
-            }
+                    # forecast_data_2 contains data for the next hour
+                    forecast_data_2 = {
+                        'validtime': str(response_json['timeSeries'][1]['validTime']),
+                        'request_coordinates': request_coordinates,
+                        'fetched_coordinates': fetched_coordinates,
+                    }
 
-            # forecast_data_2 contains data for the next hour
-            forecast_data_2 = {
-                'validtime': str(response_json['timeSeries'][1]['validTime']),
-                'request_coordinates': request_coordinates,
-                'fetched_coordinates': fetched_coordinates,
-            }
+                    # These loops add the name of the type of weather data and its corresponding value into a dict
+                    i = 0
+                    while i < len(response_json['timeSeries'][0]['parameters']):
+                        forecast_data_1[response_json['timeSeries'][0]['parameters'][i]['name']] = (
+                            response_json)['timeSeries'][0]['parameters'][i]['values'][0]
+                        i += 1
 
-            # These loops add the name of the type of weather data and its corresponding value into a dict
-            i = 0
-            while i < len(response_json['timeSeries'][0]['parameters']):
-                forecast_data_1[response_json['timeSeries'][0]['parameters'][i]['name']] = (
-                    response_json)['timeSeries'][0]['parameters'][i]['values'][0]
-                i += 1
+                    i = 0
+                    while i < len(response_json['timeSeries'][0]['parameters']):
+                        forecast_data_2[response_json['timeSeries'][1]['parameters'][i]['name']] = (
+                            response_json)['timeSeries'][1]['parameters'][i]['values'][0]
+                        i += 1
 
-            i = 0
-            while i < len(response_json['timeSeries'][0]['parameters']):
-                forecast_data_2[response_json['timeSeries'][1]['parameters'][i]['name']] = (
-                    response_json)['timeSeries'][1]['parameters'][i]['values'][0]
-                i += 1
+                    add_weather_data(forecast_data_1, forecast_data_2, response_json, park_id)
+                except json.JSONDecodeError:
+                    print(f"Failed to decode JSON from response: {response.text}")
 
-            add_weather_data(forecast_data_1, forecast_data_2, response_json, park_id)
+            
 
 
 def update_forecast_one(forecast_data_1, park_id):
