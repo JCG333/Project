@@ -134,6 +134,7 @@ header {
     margin-right: 5%;
     margin-top: 10px;
     min-height: 30px;
+    color: var(--sidebar-primary-text-color);
 }
 
 .tab {
