@@ -10,6 +10,7 @@ body {
     padding: 0px;
     font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 header {
@@ -18,7 +19,7 @@ header {
 
 #main-container {
     display: flex;
-    height: 93.7vh;
+    height: 95vh;
     width: 100vw;
     flex-direction: row;
     background-color: var(--main-content-bg-color);
@@ -29,7 +30,7 @@ header {
     flex-direction: column;
     width: 20%;
     height: 100%;
-    max-height: 93.7vh;
+    max-height: 95vh;
     background-color: var(--sidebar-primary-bg-color);
     color: var(--sidebar-primary-text-color);
     border-right: 0.5px solid var(--main-content-bg-color);
@@ -217,7 +218,8 @@ header {
     top: 15%;
     left: 32%;
     height: 60vh;
-    background-color: #ffffff;
+    background-color: var(--dropdown-hover-color);
+    color: #000;
     border-radius: 10px;
     padding: 40px;
 }
@@ -269,7 +271,7 @@ header {
     text-align: center;
     margin-bottom: 30px;
     margin-top: 0px;
-    color: #3d3e3f;
+    color: var(--cred-container-color);
 }
 
 .button {

@@ -8,23 +8,111 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/help-support.css') }}">
     <!-- Link to the JavaScript file -->
     <script src="{{ url_for('static', filename='JS/help-support.js') }}" defer></script>
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- other devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Help and Support</title>
 </head>
-
-<body>
-    {% if user.language == 'eng' %}
-    <header>
-        <a href="/search_page" class="hover-effect">
-            <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="return-arrow" id="header-image">
-        </a>
-        <h1>Help and Support</h1>
+    <header class="{{ user.theme }}-mode">
+        {% if user.language == 'eng' %}
+        <!---- HEADER ---->
+        <div id="header-container">
+            <!---- LEFT HEADER ---->
+            <div id="left-header-container">
+    
+            </div>
+            <!---- RIGHT HEADER ---->
+            <div id="right-header-container">
+    
+                <span id="user-name">Logged in as: {{user.email}}</span>
+    
+                <!---- DROPDOWN ---->
+                <div class="dropdown">
+                    <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="/account" class="dropdown-icon">
+                            <i class="fas fa-user-circle"></i>
+                            <p>Account</p>
+                            <span></span>
+                        </a>
+                        <a href="/settings" class="dropdown-icon">
+                            <i class="fas fa-cog"></i>
+                            <p>Settings</p>
+                            <span></span>
+                        </a>
+                        <a href="/help-support" class="dropdown-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <p>Help & Support</p>
+                            <span></span>
+                        </a>
+                        <a href="/logout" class="dropdown-icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                            <span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if user.language == 'swe' %}
+        <!---- HEADER ---->
+        <div id="header-container">
+            <!---- LEFT HEADER ---->
+            <div id="left-header-container">
+    
+            </div>
+            <!---- RIGHT HEADER ---->
+            <div id="right-header-container">
+    
+                <span id="user-name">Inloggad som: {{user.email}}</span>
+    
+                <!---- DROPDOWN ---->
+                <div class="dropdown">
+                    <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="/account" class="dropdown-icon">
+                            <i class="fas fa-user-circle"></i>
+                            <p>Konto</p>
+                            <span></span>
+                        </a>
+                        <a href="/settings" class="dropdown-icon">
+                            <i class="fas fa-cog"></i>
+                            <p>Inställningar</p>
+                            <span></span>
+                        </a>
+                        <a href="/help-support" class="dropdown-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <p>Hjälp & Assistans</p>
+                            <span></span>
+                        </a>
+                        <a href="/logout" class="dropdown-icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logga ut</p>
+                            <span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </header>
 
-    <nav>
-        <a href="#faqs" onclick="toggleSection('faqs')">FAQs</a>
-        <a href="#troubleshooting" onclick="toggleSection('troubleshooting')">Troubleshooting</a>
-        <a href="#contact" onclick="toggleSection('contact')">Contact</a>
-    </nav>
+<body class="{{ user.theme }}-mode">
+    {% if user.language == 'eng' %}
+    <div id="sidebar-container">
+        <div id="tab-nav">
+            <a href="/search_page" class="nav-link">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <p class="tab">Help & Support</p>
+        </div>
+        <div class="links-container">
+            <a href="#faqs" class="nav-link2" onclick="toggleSection('faqs')">FAQs</a>
+            <a href="#troubleshooting" class="nav-link2" onclick="toggleSection('troubleshooting')">Troubleshooting</a>
+            <a href="#contact" class="nav-link2" onclick="toggleSection('contact')">Contact</a>
+        </div>
+    </div>
 
     <section id="faqs" class="content-section">
         <h2>Frequently Asked Questions (FAQs)</h2>
@@ -86,22 +174,22 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 Vad nu vårat företag heter?. All rights reserved.</p>
+        <p>&copy; 2024 PileusAB. All rights reserved.</p>
     </footer>
     {% endif %}
     {% if user.language == 'swe' %}
-    <header>
-        <a href="/search_page" class="hover-effect">
-            <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="return-arrow" id="header-image">
-        </a>
-        <h1>Hjälp och Stöd</h1>
-    </header>
-
-    <nav>
-        <a href="#faqs" onclick="toggleSection('faqs')">FAQs</a>
-        <a href="#troubleshooting" onclick="toggleSection('troubleshooting')">Felsökning</a>
-        <a href="#contact" onclick="toggleSection('contact')">Kontakt</a>
-    </nav>
+    <div id="sidebar-container">
+        <div id="tab-nav">
+            <a href="/search_page" class="nav-link">Hem</a>
+            <i class="fas fa-chevron-right"></i>
+            <p class="tab">Hjälp & Support</p>
+        </div>
+        <div class="links-container">
+            <a href="#faqs" class="nav-link2" onclick="toggleSection('faqs')">FAQs</a>
+            <a href="#troubleshooting" class="nav-link2" onclick="toggleSection('troubleshooting')">Felsökningsguide</a>
+            <a href="#contact" class="nav-link2" onclick="toggleSection('contact')">Kontakt</a>
+        </div>
+    </div>
 
     <section id="faqs" class="content-section">
         <h2>Vanliga frågor(FAQs)</h2>
@@ -162,7 +250,7 @@
         <p id="placeholder-text">Välj en sektion för att visa dess innehåll</p>
     </section>
     <footer>
-        <p>&copy; 2024 Vad nu vårat företag heter?. All rights reserved.</p>
+        <p>&copy; 2024 PileusAB. Kopiering förbjuden.</p>
     </footer>
     {% endif %}
 

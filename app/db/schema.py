@@ -97,6 +97,7 @@ class Users(UserMixin, db.Model):
     privilege = db.Column(db.Integer, nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey(Companies.id), nullable=True)
     language = db.Column(db.String(20), nullable=False, default='eng')
+    theme = db.Column(db.String(20), nullable=False, default='light')
 
     PinnedTurbines = db.relationship('PinnedTurbines', lazy=True)
 

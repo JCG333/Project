@@ -5,15 +5,127 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='JS/settings.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/settings.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Settings</title>
 </head>
-<body>
-    <a href="{{ url_for('search_page') }}" id="return-button">
-        <img src="{{ url_for('static', filename='images/return-arrow.png') }}" alt="Return">
-    </a>
-    <div class="lang-buttons">
-        <button onclick="changeLanguage('eng')">English</button>
-        <button onclick="changeLanguage('swe')">Swedish</button>
+
+<header class="{{ user.theme }}-mode">
+    {% if user.language == 'eng' %}
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Logged in as: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Account</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Help & Support</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+    {% endif %}
+    {% if user.language == 'swe' %}
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Inloggad som: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Konto</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Inställningar</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Hjälp & Assistans</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logga ut</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</header>
+
+<body class="{{ user.theme }}-mode">
+    {%if user.language == 'eng' %}
+        <div id="tab-nav">
+            <a href="/search_page" class="nav-link">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <p class="tab">Settings</p>
+        </div>
+        <div class="lang-buttons">
+            <button onclick="changeLanguage('eng')">English</button>
+            <button onclick="changeLanguage('swe')">Swedish</button>
+        </div>
+    {% endif %}
+    {%if user.language == 'swe' %}
+    <div id="tab-nav">
+        <a href="/search_page" class="nav-link">Hem</a>
+        <i class="fas fa-chevron-right"></i>
+        <p class="tab">Inställningar</p>
+    </div>
+    <div class="lang-buttons">
+        <button onclick="changeLanguage('eng')">Engelska</button>
+        <button onclick="changeLanguage('swe')">Svenska</button>
+    </div>
+{% endif %}
+    {% if user.theme == 'light' %}
+    <div class="lang-buttons">
+        <button onclick="changeTheme('dark'); updateTheme()"><i class="fas fa-moon"></i> Dark theme</button>
+    </div>
+    {% elif user.theme == 'dark' %}
+    <div class="lang-buttons">
+        <button onclick="changeTheme('light'); updateTheme()"><i class="fas fa-sun"></i> Light theme</button>
+    </div>
+    {% endif %}
+    
 </body>
 </html>
