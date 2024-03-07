@@ -23,7 +23,9 @@
 
 </head>
 
-<header>
+
+{% if user.language == 'eng' %}
+<header class="{{ user.theme }}-mode">
     <!---- HEADER ---->
     <div id="header-container">
         <!---- LEFT HEADER ---->
@@ -65,7 +67,7 @@
     </div>
 </header>
 
-<body>
+<body class="{{ user.theme }}-mode">
     <!---- MAIN ---->
     <div id="main-container">
         <!---- SIDEBAR ---->
@@ -150,6 +152,136 @@
         </div>
 
 </body>
+{% endif %}
+
+{% if user.language == 'swe' %}
+<header class="{{ user.theme }}-mode">
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Inloggad som: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Konto</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Inställningar</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Hjälp & Assistans</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logga ut</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body class="{{ user.theme }}-mode">
+    <!---- HUVUD ---->
+    <div id="main-container">
+        <!---- SIDOFÄLT ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Hem</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">{{turbineName}}</p>
+            </div>
+
+            <div id="turbine-info-container">
+                <div id="turbine-title">
+                    <p id="turbine-name">{{turbineName}}</p>
+                    <button class="pin-button {% if isPinned %}on{% else %}{% endif %}" data-turbineId="{{turbineId}}">
+                        {% if isPinned %}Fastnålad{% else %}Fäst{% endif %}
+                    </button>
+                </div>
+
+                <p id="turbine-location"><i class="fas fa-map-marker-alt"></i>
+                    {{turbinePark}}, {{turbineRegion}}
+                </p>
+
+                <div id="turbine-now">
+                    <span id="info-item-temp"><i class="fas fa-thermometer-half"></i> {% if weather_data.t
+                        %}{{weather_data.t}} &deg;C {%elif weather_data.t == 0 %} 0 &deg;C{% else %}N/A{% endif
+                        %}</span>
+                    <span id="info-item-perc"><i class="fas fa-cloud-rain"></i> {% if weather_data.pmedian
+                        %}{{weather_data.pmedian}} mm {%elif weather_data.pmedian == 0 %} 0 mm{% else %}N/A{%
+                        endif %}</span>
+                    <span id="info-item-risk"><i class="fas fa-exclamation-triangle"></i> 1.5</span>
+                    <span id="info-item-wind"><i class="fas fa-wind"></i> {% if weather_data.gust
+                        %}{{weather_data.gust}} m/s {%elif weather_data.gust == 0 %} 0 &deg;C {% else %}N/A{% endif
+                        %}</span>
+                </div>
+
+                <div id="data-time">Data senast uppdaterad: {% if weather_data.validtime
+                    %}{{weather_data.validtime}}{% else %}N/A{% endif %}</div>
+
+                <div id="Details">
+                    <div class="details-dropdown">
+                        <button id="details-button" class="details-dropbtn">Detaljer</button>
+                        <div id="dropdownContent" class="details-dropdown-content">
+                            <a href="#" id="temp-detail-item"><i class="fas fa-thermometer-half"></i> : Temperatur</a>
+                            <a href="#"><i class="fas fa-cloud-rain"></i> : Nederbörd (median)</a>
+                            <a href="#"><i class="fas fa-exclamation-triangle"></i> : Risknivå</a>
+                            <a href="#"><i class="fas fa-wind"></i> : Kastvind</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!---- HUVUDINNEHÅLL ---->
+        <div id="content-container">
+            <div id="dashboard-container">
+                <div id="summary-container">
+
+                    <div id="camera-container">
+                        <img class="turbine-image" src="/images/{{turbineImage.camera2_url}}" alt="{{turbineName}}">
+                        <img class="turbine-image" src="/images/{{turbineImage.camera1_url}}" alt="{{turbineName}}">
+                    </div>
+
+                </div>
+                <div id="chart-container">
+                    <div id="chart-navigation">
+                        <button class="chart-nav-button" id="risk-button">Risk</button>
+                        <button class="chart-nav-button" id="temperature-button">Temperatur</button>
+                        <button class="chart-nav-button" id="precipitation-button">Nederbörd</button>
+                        <a href="/history/{{turbineId}}" class="nav-link" id="history-link">Visa historik</a>
+                    </div>
+                    <div id="chart-display" data-turbineId="{{turbineId}}">
+                        <canvas id="chart-canvas"></canvas>
+                        <!-- Diagram kommer att infogas här av JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <!---- FELBEHÅLLARE ---->
+            <div id="error-message" class="error-message">
+                <p>Fel: Något gick fel!</p>
+            </div>
+
+        </div>
+
+</body>
+{% endif %}
 <!--
 <body>
 

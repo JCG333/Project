@@ -443,7 +443,19 @@ def valid_login(email, password):
     else:
         return check_password_hash(user.password, password)
 
-
+'''----- Change theme -----'''
+@api.route('/change_theme', methods=['POST'])
+def change_theme():
+    theme = request.form.get('theme')
+    user = Users.query.get(current_user.id)
+    old_theme = user.theme
+    user.theme = theme
+    db.session.commit()
+    if old_theme != theme:
+        return jsonify({'status': 'success', 'message': 'Theme changed'})
+    else:
+        return jsonify({'status': 'success', 'message': 'Theme not changed'})
+    
 '''----- Change password -----'''
 
 
@@ -583,13 +595,11 @@ def turbine_page(turbineId):
 @api.route('/settings', methods=['GET'])
 @login_required
 def settings_page():
-    user = load_users()
+    user = Users.query.get(current_user.id)
     return render_template('settings.html', user=user)
 
 
 '''----- Get help and support page -----'''
-
-
 @api.route('/help-support', methods=['GET'])
 @login_required
 def help_support():

@@ -1,4 +1,5 @@
-:root {
+.dark-mode {
+    /*========== OLD-COLORS ==========*/
     /*----- Layout colors -----*/
     --primary-color: #5b7083;
     --secondary-color: #69859b;
@@ -12,82 +13,89 @@
     --secondary-select-color: #1c282b;
     /*----- Search colors -----*/
     --search-focus-color: #243439;
-}
+    /*========== OLD-COLORS-END ==========*/
+    
 
-[data-theme="dark"] {
     /*========== Header ==========*/
-
-    --header-primary-bg-color: #ffffff;
-
+   
+    --header-primary-bg-color: #2c2c2c;
+   
     /*----- Searchbar -----*/
-    --search-bg-color: #f5f5f5;
-    --search-placeholder-color: #cbcbcb;
-    --search-focus-color: #e4e4e4;
-    --search-button-color: #5b7083;
-    --search-text-color: #3d3e3f;
-
+    --search-bg-color: #333333;
+    --search-placeholder-color: #bbbbbb;
+    --search-focus-color: #555555;
+    --search-button-color: #a4b0be;
+    --search-text-color: #ffffff;
+   
     /*----- Hamburger menu -----*/
-    --hamburger-menu-color: #5b7083;
-    --hamburger-hover-color: #526474;
-
+    --hamburger-menu-color: #a4b0be;
+    --hamburger-hover-color: #8899a6;
+   
     /*----- dropdown -----*/
-    --dropdown-bg-color: #ffffff;
-    --dropdown-border-color: #69859b;
-    --dropdown-icon-color: #3d3d3d;
-    --dropdown-hover-color: #f4f4f4;
-
+    --dropdown-bg-color: #969696;
+    --dropdown-border-color: #4a5661;
+    --dropdown-icon-color: #ffffff;
+    --dropdown-hover-color: #333333;
+   
     /*----- username -----*/
-    --username-color: #5b7083;
+    --username-color: #a4b0be;
+   
+    /*========== Cred ==========*/
+    --cred-container-color: #a4b0be;
 
+    /*========== content-container ==========*/
+    --content-container-text-color: #ffffff;
+    
+    /*========== placeholder ==========*/
+    --placeholder-color: #a0a0a0;
     /*========== Sidebar ==========*/
-
-    --sidebar-primary-bg-color: #ffffff;
-    --sidebar-primary-text-color: #5b7083;
-    --sidebar-text-border-color: #c0d7dc;
-
+   
+    --sidebar-primary-bg-color: #333333;
+    --sidebar-primary-text-color: #a4b0be;
+    --sidebar-text-border-color: #556677;
+   
     /*----- Filters -----*/
-
-    --filter-bg-color: #c0d7dc;
-    --filter-text-color: #5b7083;
-    --filter-hover-color: #b8ced3;
-
+   
+    --filter-bg-color: #556677;
+    --filter-text-color: #a4b0be;
+    --filter-hover-color: #445566;
+   
     /*----- Pinned -----*/
-
-    --pinned-bg-color: #ffffff;
-    --pinned-entry-bg-color: #c0d7dc;
-    --pinned-hover-color: #b8ced3;
-
+   
+    --pinned-bg-color: #333333;
+    --pinned-entry-bg-color: #556677;
+    --pinned-hover-color: #445566;
+   
     /*========== Main content ==========*/
-
-    --list-bg-color: #ffffff;
-    --main-content-bg-color: #f2f2f2;
-    --list-text-color: #000000;
-
+   
+    --list-bg-color: #333333;
+    --main-content-bg-color: #222222;
+    --list-text-color: #ffffff;
+   
     /*----- Entries -----*/
-    --list-header-bg-color: #ffffff;
-    --list-entry-bg-color: #f2f2f2;
-    --list-entry-hover-color: #e9e9e9;
-
-
+    --list-header-bg-color: #333333;
+    --list-entry-bg-color: #222222;
+    --list-entry-hover-color: #111111;
+   
     /*----- Pinned button -----*/
-    --pinned-button-hover-color: #115ec3;
-    --pinned-buttun-hover-border-color: #115ec3;
+    --pinned-button-hover-color: #0077cc;
+    --pinned-buttun-hover-border-color: #0077ccc7;
     --pinned-button-text-color: #ffffff;
-    --pinnedOn-button-text-color: #c3c3c3;
-
+    --pinnedOn-button-text-color: #cccccc;
+   
     /*----- On -----*/
-    --pinnedOn-button-bg-color: #f2f2f2;
-    --pinnedOn-button-border-color: #c3c3c3;
-
+    --pinnedOn-button-bg-color: #222222;
+    --pinnedOn-button-border-color: #cccccc;
+   
     /*----- Off -----*/
-    --pinned-button-bg-color: #2783fc;
-    --pinned-button-border-color: #2783fc;
-
+    --pinned-button-bg-color: #0077cc;
+    --pinned-button-border-color: #0077cc;
+   
     /*========== Misc ==========*/
-
+   
     /*----- Error message -----*/
-    --error-bg-color: #d23030;
-}
+    --error-bg-color: #ff3333;
+   }
 
 :root {
     /*========== Header ==========*/
@@ -111,12 +119,18 @@
     --dropdown-border-color: #3C79F5;
     --dropdown-icon-color: #3d3d3d;
     --dropdown-hover-color: #f4f4f4;
-
+    
     /*----- username -----*/
     --username-color: #f5f5f5;
+    
+    /*========== Cred ==========*/
+    --cred-container-color: #a4b0be;
 
+    /*========== content-container ==========*/
+    --content-container-text-color: #3d3e3f;
+    /*========== placeholder ==========*/
+    --placeholder-color: #f0f0f0;
     /*========== Sidebar ==========*/
-
     --sidebar-primary-bg-color: #ffffff;
     --sidebar-primary-text-color: #3d3e3f;
     --sidebar-text-border-color: #d8d8d8;
@@ -170,7 +184,3 @@
 
 }
 
-[data-theme="dark"] {
-    --background-color: black;
-    --text-color: white;
-}
