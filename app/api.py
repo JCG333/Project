@@ -600,10 +600,10 @@ def internal_error(exception):
     api.logger.error(exception)
     return "An internal server error occurred.", 500
 
-
-try:
-    # Your existing code to start the Flask application
-    logging.info('Starting application...')
-    api.run(host='0.0.0.0', port=4000)
-except Exception as e:
-    logging.exception('Failed to start application')
+if __name__ == '__main__':
+    try:
+        # Your existing code to start the Flask application
+        logging.info('Starting application...')
+        api.run(host='0.0.0.0', port=4000)
+    except Exception as e:
+        logging.exception('Failed to start application')
