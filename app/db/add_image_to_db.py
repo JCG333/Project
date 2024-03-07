@@ -45,6 +45,7 @@ def add_data(image_url):
     park, turbine, camera, date = parse_url(image_url)
     logging.info('park: %s, turbine: %s, camera: %s, date: %s', park, turbine, camera, date)
     date_time, date_hour = extract_datetime(date)
+    logging.info('date_time: %s, date_hour: %s', date_time, date_hour)
     # print('add_data function:', data, raw_data, park, turbine, camera, date_time, date_hour)
     with api.app_context():
         # Check if turbine, park and URL exists
