@@ -52,15 +52,17 @@ logging.basicConfig(level=logging.INFO)
 # define an app instance
 def create_app():
     api = Flask(__name__)
+    api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
+    api.config["SECRET_KEY"] = urandom(20)
     db.init_app(api)
     return api
 
 api = create_app()
-api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
+
 
 
 # get the db url from the environment variable
-# api.config["SECRET_KEY"] = urandom(20)  # TEST
+  # TEST
 # import the db instance and the models
 
 login_manager = LoginManager()
@@ -531,6 +533,7 @@ def change_language():
 
 @api.route('/images/<path:filename>')
 def serve_image(filename):
+    logging.info('Serving image: %s', filename)
     return send_from_directory('/images', filename)
 
 
@@ -568,6 +571,7 @@ def turbine_page(turbineId):
     isPinned = PinnedTurbines.query.filter_by(turbine_id=turbineId, user_id=current_user.id,
                                               company_id=current_user.company_id).first() is not None
     weather_data = WeatherData.query.filter_by(park_id=turbine.park_id).order_by(WeatherData.validtime.desc()).first()
+    logging.info('!!!!!!>>>>>>>>Weather data: %s', weather_data)
     return render_template('turbine.html', turbineId=turbine.id, turbineRegion=region, turbinePark=park,
                            turbineName=turbine.turbine, isPinned=isPinned, turbineImage=latest_image, user=current_user,
                            weather_data=weather_data)
@@ -598,10 +602,10 @@ def internal_error(exception):
     api.logger.error(exception)
     return "An internal server error occurred.", 500
 
-
-try:
-    # Your existing code to start the Flask application
-    logging.info('Starting application...')
-    api.run(host='0.0.0.0', port=4000)
-except Exception as e:
-    logging.exception('Failed to start application')
+if __name__ == '__main__':
+    try:
+        # Your existing code to start the Flask application
+        logging.info('Starting application...')
+        api.run(host='0.0.0.0', port=4000)
+    except Exception as e:
+        logging.exception('Failed to start application')

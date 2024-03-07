@@ -46,7 +46,7 @@ observer.start()
 scheduler = BackgroundScheduler()
 
 # Schedule the job to run every hour
-scheduler.add_job(check_for_update, 'cron', id='update_job', minute=5)
+scheduler.add_job(check_for_update, 'cron', id='update_job', hour='*')
 
 # Start the scheduler
 scheduler.start()
