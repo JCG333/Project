@@ -1,0 +1,82 @@
+# Instructions for running the application
+# ======== Basic app startup ========
+# 1. start application services: ´docker-compose up api db -d´
+
+# ======== Running API test locally ========
+# (Note: application services have to be running before running the tests)
+#
+# 1. start application services: ´docker-compose up api db -d´
+# 2. run tests: ´docker-compose up api_test_runner´
+
+version: 'latest'
+
+services:
+
+  # <======== Application services ========>
+
+  # ======== API container ========
+  api:
+    container_name: api_v2
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: justingav/d0020e:latest
+    environment:
+      - DB_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app
+      - /home/upload/ftp/data/raw_data:/images
+    ports:
+      # ports being listened on
+      - "4000:4000"
+  # ================================
+
+  # ====== Database container ======
+  db:
+    container_name: db_v2
+    image: postgres:latest
+    #volumes:
+    #  - /home/upload/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  # ================================
+
+  smhi:
+    container_name: smhi
+    build:
+      context: ./app
+      dockerfile: smhi/Dockerfile
+    volumes:
+      - ./app:/app
+      - /home/upload/ftp/data/raw_data:/images
+    environment:
+      - DB_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+      - api
+
+  # <========= Test runner service =========>
+  api_test_runner:
+    container_name: api_test_runner_v2
+    build:
+      context: ./api_test_runner
+      dockerfile: Dockerfile
+    volumes:
+      - ./api_test_runner:/api_test_runner
+    depends_on:
+      - db
+      - api
+    # run tests on startup
+    command: [ "python", "-m", "unittest", "api_test" ]
+  # ================================
+
+volumes:
+  postgres_data: {}

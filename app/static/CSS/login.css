@@ -1,0 +1,181 @@
+@import 'colors.css';
+/* Importing the colors */
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 110%;
+}
+
+.icon-image {
+    border-radius: 90%;
+    width: 125px;
+    height: 125px;
+}
+
+.login-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.login-form {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    min-width: 20%;
+
+}
+
+.inputs-login {
+    margin-right: -50px;
+}
+
+form {
+    width: 100%;
+
+
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+input {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+button {
+    display: flex;
+    font-weight: bold;
+    background-color: #fa813a;
+    color: #000000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-content: center;
+    width: 85.5%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: large;
+}
+
+
+
+.background-image {
+    flex: 3;
+    background-size: cover;
+    background-position: center;
+}
+
+body,
+html {
+    overflow: hidden;
+}
+
+#password-text,
+#email-text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #8b8b8b;
+    font-size: large;
+}
+
+#password,
+#email {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+}
+
+.register-container a,
+.register-form-container a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-right: 15%;
+}
+
+.register-container a,
+.register-form-container a {
+    color: #8b8b8b;
+}
+
+
+#forgot-password-section {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Add other styles as needed */
+}
+
+.forgot-password-form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 114%;
+
+}
+
+.forget-password-title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+
+.inputs-forgot-password {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.login-button,
+.forgot-password-button {
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover,
+.forgot-password-button:hover {
+    background-color: #fa6a21;
+}
+
+#exit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/*============== !ERROR MESSAGE ==============*/
+
+.error-message {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--error-bg-color);
+    color: white;
+    padding: 5px;
+    height: 5%;
+    text-align: center;
+    z-index: 9999;
+}

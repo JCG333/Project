@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Link to Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!--icons-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <!--Charts-->
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/turbine.css') }}">
+    <!-- Link to the JavaScript file -->
+    <script src="../static/JS/turbine.js" defer></script>
+    <!-- Link to Font Awesome library(for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <title>Portal | Turbines</title>
+
+</head>
+
+<header>
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Logged in as: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Account</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Help & Support</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+    <!---- MAIN ---->
+    <div id="main-container">
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">{{turbineName}}</p>
+            </div>
+
+            <div id="turbine-info-container">
+                <div id="turbine-title">
+                    <p id="turbine-name">{{turbineName}}</p>
+                    <button class="pin-button {% if isPinned %}on{% else %}{% endif %}" data-turbineId="{{turbineId}}">
+                        {% if isPinned %}Pinned{% else %}Pin{% endif %}
+                    </button>
+                </div>
+
+                <p id="turbine-location"><i class="fas fa-map-marker-alt"></i>
+                    {{turbinePark}}, {{turbineRegion}}
+                </p>
+
+                <div id="turbine-now">
+                    <span id="info-item-temp"><i class="fas fa-thermometer-half"></i> {% if weather_data.t
+                        %}{{weather_data.t}} &deg;C {%elif weather_data.t == 0 %} 0 &deg;C{% else %}N/A{% endif
+                        %}</span>
+                    <span id="info-item-perc"><i class="fas fa-cloud-rain"></i> {% if weather_data.pmedian
+                        %}{{weather_data.pmedian}} mm {%elif weather_data.pmedian == 0 %} 0 mm{% else %}N/A{%
+                        endif %}</span>
+                    <span id="info-item-risk"><i class="fas fa-exclamation-triangle"></i> 1.5</span>
+                    <span id="info-item-wind"><i class="fas fa-wind"></i> {% if weather_data.gust
+                        %}{{weather_data.gust}} m/s {%elif weather_data.gust == 0 %} 0 &deg;C {% else %}N/A{% endif
+                        %}</span>
+                </div>
+
+                <div id="data-time">Data last updated: {% if weather_data.validtime
+                    %}{{weather_data.validtime}}{% else %}N/A{% endif %}</div>
+
+                <div id="Details">
+                    <div class="details-dropdown">
+                        <button id="details-button" class="details-dropbtn">Details</button>
+                        <div id="dropdownContent" class="details-dropdown-content">
+                            <a href="#" id="temp-detail-item"><i class="fas fa-thermometer-half"></i> : Temperature</a>
+                            <a href="#"><i class="fas fa-cloud-rain"></i> : Precipitation (median)</a>
+                            <a href="#"><i class="fas fa-exclamation-triangle"></i> : Risk Level</a>
+                            <a href="#"><i class="fas fa-wind"></i> : Gust</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!---- MAIN CONTENT ---->
+        <div id="content-container">
+            <div id="dashboard-container">
+                <div id="summary-container">
+
+                    <div id="camera-container">
+                        <img class="turbine-image" src="/images/{{turbineImage.camera2_url}}" alt="{{turbineName}}">
+                        <img class="turbine-image" src="/images/{{turbineImage.camera1_url}}" alt="{{turbineName}}">
+                    </div>
+
+                </div>
+                <div id="chart-container">
+                    <div id="chart-navigation">
+                        <button class="chart-nav-button" id="risk-button">Risk</button>
+                        <button class="chart-nav-button" id="temperature-button">Temperature</button>
+                        <button class="chart-nav-button" id="precipitation-button">Precipitation</button>
+                        <a href="/history/{{turbineId}}" class="nav-link" id="history-link">Show history</a>
+                    </div>
+                    <div id="chart-display" data-turbineId="{{turbineId}}">
+                        <canvas id="chart-canvas"></canvas>
+                        <!-- Charts will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Something went wrong!</p>
+            </div>
+
+        </div>
+
+</body>
+<!--
+<body>
+
+    <div class="collapse" id="navbarToggleExternalContent">
+        <div style="background-color: #d5deef; padding: 10px 0px 10px 0px;">
+            <a class="nav-link" href="historyPage.html">
+                <div class="navItemContainer">
+                    <div class="float-end">
+                        <p class="float-end">Search page</p>
+                    </div>
+                    <br>
+                </div>
+            </a>
+            <a class="nav-link" href="historyPage.html">
+                <div class="navItemContainer">
+                    <div class="float-end">
+                        <p class="float-end">Log Out</p>
+                    </div>
+                    <br>
+                </div>
+            </a>
+        </div>
+    </div>
+    <nav class="navbar navbar-dark float-end" style="padding: 20px 50px 20px 50px;">
+        <div class="container-fluid" style="padding: 0px;">
+            <button class="navbar-toggler basicButton" style="padding: 0px;" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list" style="font-size: 40px;"></i>
+            </button>
+        </div>
+    </nav>
+    <nav class="navbar" style="padding: 20px 50px 20px 50px; height: 90px;">
+        <a class="nav-link" href="/">
+            <div class="basicButton float-start iconButton">
+                <i class="bi bi-arrow-return-left iconINbutton"></i>
+            </div>
+        </a>
+    </nav>
+
+    <div class="bodyBorder bodyBorderLine">
+        <a class="nav-link" href="historyPage.html">
+            <div class="basicButton float-end iconButton" style="margin-right: 50px;">
+                <i class="bi bi-clock-history iconINbutton"></i>
+            </div>
+        </a>
+        <div class="centerDiv">
+            <div class="basicBox">
+                <img class="turbIMG" src="../static/images/turbineTEMPimg.png" alt="Wind Turbine image">
+                <img class="turbIMG" src="../static/images/turbineTEMPimgAI.png" alt="Wind Turbine image">
+                <h4 style="margin: 0px; margin-top: 10px;"><span id="TurbineName"></span>; <span
+                        id="TurbinePark"></span>, <span id="TurbineRegion"></span>. <span style="float: right;"
+                        id="TurbineTime"></span></h4>
+            </div>
+        </div>
+        <div class="centerDiv">
+            <div class="triangleDown"></div>
+        </div>
+
+
+        <div class="d-flex justify-content-center graphArea">
+            <div class="align-self-center" style="width: 80px;">
+                <div class="verticalGraphText">Risk</div>
+            </div>
+            <div class="align-self-center flex-grow-1">
+                <canvas id="riskChart" style="width:100%;height:200px;"></canvas>
+            </div>
+            <div class="align-self-center" style="width: 80px;"></div>
+        </div>
+
+        <div class="d-flex justify-content-center graphArea">
+            <div class="align-self-center" style="width: 80px;">
+                <div class="verticalGraphText">Temperature</div>
+            </div>
+            <div class="align-self-center flex-grow-1">
+                <canvas id="tempChart" style="width:100%;height:200px;"></canvas>
+            </div>
+            <div class="align-self-center" style="width: 80px;"></div>
+        </div>
+
+        <div class="d-flex justify-content-center graphArea">
+            <div class="align-self-center" style="width: 80px;">
+                <div class="verticalGraphText">Downpour</div>
+            </div>
+            <div class="align-self-center flex-grow-1">
+                <canvas id="downChart" style="width:100%;height:200px;"></canvas>
+            </div>
+            <div class="align-self-center" style="width: 80px;"></div>
+        </div>
+    </div>
+
+</body>
+<script>getTurbInfo(); rChart(); tChart(); dChart();</script>
+-->
+
+</html>

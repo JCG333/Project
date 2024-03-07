@@ -1,0 +1,23 @@
+
+.lang-buttons {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px; /* Adjust as needed */
+}
+
+/* =========  return button =========  */     
+#return-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#return-button img {
+    width: 50px; 
+    height: 50px; 
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+#return-button img:hover {
+    transform: scale(1.1); /* Scale the image up to 110% */
+}

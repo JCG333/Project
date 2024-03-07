@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Portal | Account</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/account.css') }}">
+    <!-- Link to the JavaScript file -->
+    <script src="{{ url_for('static', filename='JS/account.js') }}" defer></script>
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- other devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<!--- =========== HEADER =========== -->
+<header>
+    {% if user.language == 'eng' %}
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Logged in as: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Account</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Help & Support</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if user.language == 'swe' %}
+    <!---- HEADER ---->
+    <div id="header-container">
+        <!---- LEFT HEADER ---->
+        <div id="left-header-container">
+
+        </div>
+        <!---- RIGHT HEADER ---->
+        <div id="right-header-container">
+
+            <span id="user-name">Inloggad som: {{user.email}}</span>
+
+            <!---- DROPDOWN ---->
+            <div class="dropdown">
+                <button class="dropbtn" id="ham-menu"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/account" class="dropdown-icon">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Konto</p>
+                        <span></span>
+                    </a>
+                    <a href="/settings" class="dropdown-icon">
+                        <i class="fas fa-cog"></i>
+                        <p>Inställningar</p>
+                        <span></span>
+                    </a>
+                    <a href="/help-support" class="dropdown-icon">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Hjälp & Assistans</p>
+                        <span></span>
+                    </a>
+                    <a href="/logout" class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logga ut</p>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</header>
+
+<body>
+    <div id="main-container">
+        {% if user.language == 'eng' %}
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">Account</p>
+            </div>
+        </div>
+        <!---- CONTENT ---->
+        <div id="content-container">
+
+            <!------ ACCOUNT BACKGROUND ------>
+            <div id="background-image">
+                <!------ ACCOUNT CREDENTIALS ------>
+
+                <div id="cred-container">
+                    <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                        <h2>Update credentials</h2>
+                        <input class="account-input" type="password" name="current_password"
+                            placeholder="Current password" required>
+                        <input class="account-input" type="password" name="new_password" placeholder="New password"
+                            required>
+                        <input class="button" type="submit" value="Update Password">
+                    </form>
+
+                </div>
+            </div>
+
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Something went wrong!</p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user.language == 'swe' %}
+        <!---- SIDEBAR ---->
+        <div id="sidebar-container">
+            <div id="tab-nav">
+                <a href="/search_page" class="nav-link">Hem</a>
+                <i class="fas fa-chevron-right"></i>
+                <p class="tab">Konto</p>
+            </div>
+        </div>
+        <!---- CONTENT ---->
+        <div id="content-container">
+
+            <!------ ACCOUNT BACKGROUND IMAGE ------>
+            <div id="background-image">
+                <!------ ACCOUNT CREDENTIALS ------>
+
+                <div id="cred-container">
+                    <form id="account-container" method="POST" action="{{ url_for('change_password') }}">
+
+                        <h2>Uppdatera uppgifter</h2>
+                        <input class="account-input" type="password" name="current_password"
+                            placeholder="Aktuellt password" required>
+                        <input class="account-input" type="password" name="new_password" placeholder="Nytt password"
+                            required>
+                        <input class="button" type="submit" value="Uppdatera Password">
+                    </form>
+                </div>
+            </div>
+            <!---- ERROR CONTAINER ---->
+            <div id="error-message" class="error-message">
+                <p>Error: Något gick fel!</p>
+            </div>
+        </div>
+        {% endif %}
+</body>
+
+<!--- =========== FOOTER =========== -->
+
+</html>

@@ -20,12 +20,20 @@ jobs:
         
       # Build the docker image
       - name: Build Docker images
-        run: docker-compose build
+        run: docker-compose up --build -d api db
+
+      # Health check to make sure the application is ready to accept requests
+      - name: Wait for application to be ready
+        run: |
+          until curl --silent --fail http://localhost:4000/health; do
+            echo 'Waiting for application to be ready...'
+            sleep 5
+          done
 
       # Run the python test script in an isolated docker container
       - name: Run API tests
-        run: docker-compose run --rm api-test-runner python api-tests.py
+        run: docker-compose up api_test_runner
 
-      # Make sure all tests passed, if not, throw error.
+      # Checkes that results of tests passed, if not, throw error.
       - name: Check test results
         run: if [ $? -ne 0 ]; then exit 1; fi
