@@ -19,8 +19,8 @@ def extract_datetime(img_url):
     if match:
         logging.info('HEJ!!!!!')
         # Extract the matched datetime string
-        # Ensure to extract the last 17 characters
-        datetime_str = match.group().replace('-', '').replace('_', '')
+        datetime_str = match.group()[len(match.group()) - 17:]# Ensure to extract the last 17 characters
+        datetime_str = datetime_str.replace('-', '').replace('_', '')
         # Format the datetime string as ('YYYY-MM-DDTHH:MM:SSZ')
         format_datetime = ('20'+datetime_str[0:2]+'-'+datetime_str[2:4]+'-'+datetime_str[4:6]+'T'+datetime_str[6:8]
                            +':'+datetime_str[8:10]+':'+datetime_str[10:12]+'Z')
