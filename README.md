@@ -5,6 +5,8 @@ A database needs to be set up. Additionally, an API from SMHI must be implemente
 
 # Install and Startup
 
+It would be wise to install miniconda or a similar package manager and configure it to run with your prefered IDE.
+
 1. Open the terminal of your choice. (either for your local machine or server instance)
 
 
