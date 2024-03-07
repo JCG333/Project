@@ -52,15 +52,17 @@ logging.basicConfig(level=logging.INFO)
 # define an app instance
 def create_app():
     api = Flask(__name__)
+    api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
+    api.config["SECRET_KEY"] = urandom(20)
     db.init_app(api)
     return api
 
 api = create_app()
-api.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
+
 
 
 # get the db url from the environment variable
-# api.config["SECRET_KEY"] = urandom(20)  # TEST
+  # TEST
 # import the db instance and the models
 
 login_manager = LoginManager()

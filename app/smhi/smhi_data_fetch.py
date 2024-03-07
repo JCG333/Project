@@ -8,7 +8,7 @@ from api import create_app
 
 from db.schema import db, Parks, WeatherData
 
-create_app()
+api = create_app()
 # Reads the values from the json format and returns a dict with the values in order of appearance
 def get_weather_data():
     with api.app_context():
