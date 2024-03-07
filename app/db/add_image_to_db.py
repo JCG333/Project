@@ -49,6 +49,7 @@ def add_data(image_url):
     with api.app_context():
         # Check if turbine, park and URL exists
         turbine_exists = db.session.query(Turbines.id).filter_by(turbine=turbine).first() is not None
+        logging.info('turbine exists: %s', turbine_exists)
         url_exists = db.session.query(ImageUrl.id).filter(
             (ImageUrl.camera1_url == image_url) | (ImageUrl.camera2_url == image_url)).first() is not None
         park_exists = db.session.query(Parks.id).filter(Parks.park == park).first() is not None
@@ -58,6 +59,7 @@ def add_data(image_url):
             park_exists = db.session.query(Parks.id).filter(Parks.park == park).first()
             weather_exists = db.session.query(WeatherData.id).filter(WeatherData.date_hour == date_hour,
                                                                  WeatherData.park_id == park_exists[0]).first() is not None
+            logging.info('weather exists: %s', weather_exists)
             if turbine_exists and weather_exists:
                 logging.info('YAY! TURBINE EXISTS!!!!!!!!')
                 # Fetch turbine and weather id belonging to image
@@ -82,4 +84,4 @@ def add_data(image_url):
                         db.session.add(image)
                         db.session.commit()
             else:
-                print('Something went wrong, make sure turbine or weather you\'re trying to query exists in database.')
+                logging.info('Turbine or weather data does not exist')
