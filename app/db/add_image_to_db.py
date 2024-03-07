@@ -16,8 +16,8 @@ def extract_datetime(img_url):
 
     # Search for the pattern in the URL
     match = re.search(pattern, img_url)
-
     if match:
+        logging.info('HEJ!!!!!')
         # Extract the matched datetime string
         # Ensure to extract the last 17 characters
         datetime_str = match.group().replace('-', '').replace('_', '')
@@ -29,6 +29,7 @@ def extract_datetime(img_url):
         # print(format_datetime, date_hour)
         return format_datetime, date_hour
     else:
+        logging.info('no match found!!!!')
         return None  # Return None if no match is founnd
 
 def parse_url(info):
@@ -42,8 +43,8 @@ def parse_url(info):
 def add_data(image_url):
 
     park, turbine, camera, date = parse_url(image_url)
-    date_time, date_hour = extract_datetime(date)
     logging.info('park: %s, turbine: %s, camera: %s, date: %s', park, turbine, camera, date)
+    date_time, date_hour = extract_datetime(date)
     # print('add_data function:', data, raw_data, park, turbine, camera, date_time, date_hour)
     with api.app_context():
         # Check if turbine, park and URL exists
