@@ -4,11 +4,10 @@ import os
 from os import environ, urandom
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from api import create_app
+from api import api
 
 from db.schema import db, Parks, WeatherData
 
-api = create_app()
 # Reads the values from the json format and returns a dict with the values in order of appearance
 def get_weather_data():
     with api.app_context():

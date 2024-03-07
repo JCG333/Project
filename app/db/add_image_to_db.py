@@ -6,11 +6,9 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-from api import create_app
+from api import api
 
 from db.schema import db, Turbines, ImageUrl, WeatherData, Parks
-
-api = create_app()
 
 def extract_datetime(img_url):
     # Defines a regular expression pattern to match the desired datetime format
