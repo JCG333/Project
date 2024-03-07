@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Set the PYTHONPATH environment variable
 ENV PYTHONPATH /app
+ENV IMAGE_URL /home/upload/ftp/data/raw_data/2023
 
 # Add the current directory contents into the container at /app
 ADD . /app

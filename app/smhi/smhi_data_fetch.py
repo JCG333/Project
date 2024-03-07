@@ -1,21 +1,17 @@
 import requests
 import json
-import os 
+import os
 from os import environ, urandom
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
+from api import create_app
 
 from db.schema import db, Parks, WeatherData
 
-
+create_app()
 # Reads the values from the json format and returns a dict with the values in order of appearance
 def get_weather_data():
-    with app.app_context():
-        db.init_app(app)
+    with api.app_context():
         # Gets the coordinates for all the parks in schema.Parks table
         park_info = db.session.query(Parks.id, Parks.coordinates).all()
         for info in park_info:
@@ -72,7 +68,7 @@ def get_weather_data():
 
 def update_forecast_one(forecast_data_1, park_id):
     # Updates most recent hour from SMHI's weather data if it exists in database
-    with app.app_context():
+    with api.app_context():
         db.session.query(WeatherData).filter(
             WeatherData.park_id == park_id, WeatherData.validtime == forecast_data_1['validtime']).update(forecast_data_1)
         db.session.commit()
@@ -80,7 +76,7 @@ def update_forecast_one(forecast_data_1, park_id):
 
 def add_forecast_one(forecast_data_1, park_id):
     # print('Forecast 1: Adding weather data for ' + str(forecast_data_1['validtime']) + ' at park_id '+str(park_id))
-    with app.app_context():
+    with api.app_context():
 
         weather_info = WeatherData(
             validtime=forecast_data_1['validtime'],
@@ -116,7 +112,7 @@ def add_forecast_one(forecast_data_1, park_id):
 
 def add_forecast_two(forecast_data_2, park_id):
     # print('Forecast 2: Adding weather data for ' + str(forecast_data_2['validtime']) + ' at park id '+str(park_id))
-    with app.app_context():
+    with api.app_context():
 
         weather_info = WeatherData(
             validtime=forecast_data_2['validtime'],
@@ -152,7 +148,7 @@ def add_forecast_two(forecast_data_2, park_id):
 
 def add_weather_data(forecast_data_1, forecast_data_2, response_json, park_id):
     print('adding weather data')
-    with app.app_context():
+    with api.app_context():
 
         query_result_1 = db.session.query(WeatherData).filter_by(
             validtime=response_json['timeSeries'][0]['validTime'], park_id=park_id).first() is not None

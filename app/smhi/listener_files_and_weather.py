@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from time import sleep
 from smhi_data_fetch import get_weather_data
 import os
+import logging
 # from datetime import datetime
 
 # --------- info ----------#
@@ -12,13 +13,14 @@ import os
 # It runs in the background in its separate threads.
 # ------- end info --------#
 
+#logging.basicConfig(level=logging.INFO)
 
 #Event Handler that checks if a file is added. Then it shall parse the filename and add it to the db.
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
-            # print("File added", event.src_path)
-            add_image_to_db.add_data(event.src_path[17:])
+            logging.info("File added %s", event.src_path)
+            add_image_to_db.add_data(event.src_path)
 
 
     def on_deleted(self, event):
@@ -33,7 +35,7 @@ def check_for_update():
 
 local_test_path = os.getcwd()
 # Observing path to FTP
-path = '/home/upload/ftp/data/raw_data/2023'
+path = '/images'
 event_handler = MyHandler()
 observer = Observer()
 observer.schedule(event_handler, path=path, recursive=True)
@@ -44,7 +46,7 @@ observer.start()
 scheduler = BackgroundScheduler()
 
 # Schedule the job to run every hour
-scheduler.add_job(check_for_update, 'cron', id='update_job', hour='*', minute=11)
+scheduler.add_job(check_for_update, 'cron', id='update_job', minute=5)
 
 # Start the scheduler
 scheduler.start()

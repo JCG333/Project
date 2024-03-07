@@ -16,7 +16,7 @@ services:
 
   # ======== API container ========
   api:
-    container_name: api
+    container_name: api_v2
     build:
       context: ./app
       dockerfile: Dockerfile
@@ -27,6 +27,7 @@ services:
       - db
     volumes:
       - ./app:/app
+      - /home/upload/ftp/data/raw_data:/images
     ports:
       # ports being listened on
       - "4000:4000"
@@ -34,7 +35,7 @@ services:
 
   # ====== Database container ======
   db:
-    container_name: db
+    container_name: db_v2
     image: postgres:latest
     #volumes:
     #  - /home/upload/data:/var/lib/postgresql/data
@@ -55,6 +56,7 @@ services:
       dockerfile: smhi/Dockerfile
     volumes:
       - ./app:/app
+      - /home/upload/ftp/data/raw_data:/images
     environment:
       - DB_URL=postgresql://postgres:postgres@db:5432/postgres
     depends_on:
@@ -63,7 +65,7 @@ services:
 
   # <========= Test runner service =========>
   api_test_runner:
-    container_name: api_test_runner
+    container_name: api_test_runner_v2
     build:
       context: ./api_test_runner
       dockerfile: Dockerfile
