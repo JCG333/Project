@@ -57,6 +57,7 @@ The portal will (unless instructed otherwise) be exposed to port 4000. (this can
 - Search button on search page could be re-designed to work better in more dynamically with different window sizes.
 - Language changes should apply to turbine list entries.
 
+_Note: The branch light/dark mode contains fixes for the visual and feature improvments for the webpage and the languge changes for the turbinelist. There was not enough time to merge it with the main and make sure that all features worked   
 # Tech stack
 _Note: minor packages can be found in requirements.txt_
 
