@@ -6,6 +6,8 @@ from time import sleep
 from smhi_data_fetch import get_weather_data
 import os
 import logging
+
+
 # from datetime import datetime
 
 # --------- info ----------#
@@ -13,15 +15,16 @@ import logging
 # It runs in the background in its separate threads.
 # ------- end info --------#
 
-#logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
-#Event Handler that checks if a file is added. Then it shall parse the filename and add it to the db.
+# Event Handler that checks if a file is added. Then it shall parse the filename and add it to the db.
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
             logging.info("File added %s", event.src_path)
-            add_image_to_db.add_data(event.src_path)
-
+            if "tmp" not in event.src_path:  # Lägg inte till bilder som håller på att laddas ner. Kan egentligen
+                # göra detta till en try-sats
+                add_image_to_db.add_data(event.src_path)
 
     def on_deleted(self, event):
         print("File deleted")  # Behövs det upptäckas ifall filer tas bort? Isåfall skall de tas bort från db?
